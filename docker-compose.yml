@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  app:
+    image: front_end_social_cotriguacu:latest
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 8888:8888
+    networks:
+      - tip-cotrigucu
+    command: ['npm', 'run', 'dev']
+
+networks:
+  tip-cotrigucu:
+    driver: bridge

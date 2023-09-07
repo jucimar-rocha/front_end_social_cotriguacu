@@ -1,0 +1,4 @@
+*.css
+*.png
+*.svg
+src/components/Charts/*.vue
