@@ -1,25 +1,30 @@
 <template>
   <v-app>
-    <v-row justify="center" align="center" style="height: 50vh;">
+    <v-row class="mt-16" justify="center"  style="height: 100vh; align: center">
       <v-col>
-        <v-card class="mx-auto px-6 pt-5 pb-8" max-width="344" style="background-color: rgb(235, 231, 234);">
-      <v-img
-        :width="50"
-        class="mx-auto my-0"
-        src="../../../assets/logo.png"
-        style="background-color: rgb(45, 48, 48); border-radius: 50px;"
-      ></v-img>
-      <h2 class="text-center my-4">Login TIP</h2>
+        <v-card class="mx-auto px-6 pt-5 pb-8 my-custom-card" max-width="344"  style="background-color: #ECEFF1;">
+          
+          <v-row class="mt-5" justify="space-around">
+            <v-avatar size="80" color="#0e77a8" class="my-styles-avatar">
+                <v-img
+                  :width="100" 
+                  src="../../../assets/logo.png"                  
+                ></v-img>
+            </v-avatar>
+          </v-row>
+       
+        <h2 class="text-center my-4">Login</h2>
       <v-form
         v-model="form"
         @submit.prevent="onSubmit"
       >
         <v-text-field
           v-model="usuario"
+          placeholder="Entre com CPF ou usuario"
           :readonly="loading"
           :rules="[required]"
           class="mb-2"
-          clearable
+          
           label="Usuário"
         ></v-text-field>
 
@@ -27,9 +32,11 @@
           v-model="senha"
           :readonly="loading"
           :rules="[required]"
-          clearable
+          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :type="visible ? 'text' : 'password'"
+         
           label="Senha"
-          :type="'password'"
+          @click:append-inner="visible = !visible"
           placeholder="Entre com sua senha"
         ></v-text-field>
 
@@ -40,7 +47,7 @@
           :loading="loading"
           @click="login"
           block
-          color="success"
+          color="#1565C0"
           size="large"
           type="submit"
           variant="elevated"
@@ -78,7 +85,8 @@ export default {
         senha: '',
         alertaValidacao: false,
         mensagem: '',
-        loginOK: false
+        loginOK: false,
+        visible: false,
     }),
     methods: {
       login() {
@@ -105,8 +113,7 @@ export default {
                           contexto.alertaValidacao = true;
                       }
                   }, 
-                  (error) => {
-                      console.log(error.response.data.mensagem);
+                  (error) => {                      
                       contexto.mensagem = error.response.data.mensagem;
                       contexto.alertaValidacao = true;
                       return;
@@ -125,3 +132,12 @@ export default {
 }
 
 </script>
+<style>
+.my-custom-card {
+    border-radius: 10px; /* Seu valor personalizado aqui */
+}
+.my-styles-avatar {
+  box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
+}
+
+</style>

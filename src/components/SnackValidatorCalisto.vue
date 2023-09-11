@@ -5,7 +5,7 @@
       color="rgba(0, 0, 0, 0.0)"
       class="pa-0"
       variant="outlined"
-      vertical
+      
     >
       <v-alert
         :type="type"

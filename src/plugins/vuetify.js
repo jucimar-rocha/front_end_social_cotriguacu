@@ -12,7 +12,7 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 
 const jupterCustomStyle = {
-  dark: false,
+  dark: true,
   colors: { 
     primary: '#68913F',
     'primary-darken-1': '#48711F',
