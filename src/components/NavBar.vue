@@ -1,7 +1,18 @@
 <template>
  <app-bar @update="changeDrawer"/>
-  <v-navigation-drawer v-model="drawer"  flat color="rgba(166, 178, 205, 0.2)">
+  <v-navigation-drawer
+  v-model="drawer"  
+  flat 
+ color="blue-grey-lighten-5" elevation="1">
     <v-divider></v-divider>
+      <v-list>
+        <v-list-item
+          class="mt-n2"         
+          style="background-color: rgb(210, 216, 218);"
+          prepend-avatar="../assets/tuti.jpg"
+          title="Jucimar.Rocha">
+        </v-list-item>
+      </v-list>
       <v-list>
         <v-list-item>
           <v-text-field             

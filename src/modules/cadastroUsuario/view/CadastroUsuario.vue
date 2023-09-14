@@ -82,8 +82,7 @@
                     ></v-text-field>
                   </v-col>
               </v-row>
-              <v-btn
-                :disabled="!form"
+              <v-btn                
                 :loading="loading"
                 @click="novoUsuario"
                 block

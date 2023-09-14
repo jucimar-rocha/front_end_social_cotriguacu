@@ -1,22 +1,27 @@
 <template>
-   <v-app-bar class="flex-grow-0" flat color="rgba(166, 178, 205, 0.2)">
+   <v-app-bar class="flex-grow-0" flat color="#FFFFFF" elevation="1">
 
-    <v-app-bar-nav-icon @click="toogleBarraLateral"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon color="primary" @click="toogleBarraLateral"></v-app-bar-nav-icon>
 
       <v-app-bar-title>Media Social</v-app-bar-title>
 
       <v-spacer></v-spacer>
+    
+      <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn class="v-btn--icon" color="primary" icon="mdi-logout" v-bind="props"></v-btn>
+            </template>
 
-       <v-btn icon @click="logout">
-          <v-icon>mdi-logout</v-icon>
-        </v-btn> 
+            <v-list>
+              <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+              >               
+                <v-btn color="" @click="logout">Sair</v-btn>
+              </v-list-item>
+            </v-list>
+          </v-menu>
 
-        <v-avatar class="mr-5">
-            <v-img src="../assets/tuti.jpg">
-
-            </v-img>
-        </v-avatar>
-          
     </v-app-bar>
 </template>
 
@@ -25,7 +30,10 @@ import { useAuthStore } from '../modules/login/store';
 
 export default {
     data: () => ({ 
-            drawer: true 
+            drawer: true ,
+            items: [
+        { title: 'Sair' }
+      ],
         }),
         methods: {
             toogleBarraLateral() {

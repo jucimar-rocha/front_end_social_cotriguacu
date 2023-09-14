@@ -1,11 +1,10 @@
 <template>
   <v-app id="inspire">
-    <!-- Only show the login view when not authenticated -->
+    
     <div v-show="!isAuthenticated">
       <router-view />
     </div>
-
-    <!-- Only show the main content and navigation bar when authenticated -->
+   
     <div v-show="isAuthenticated">
       <nav-bar />
       <v-main>
@@ -14,8 +13,6 @@
     </div>
   </v-app>
 </template>
-
-
 
 <script >
  import NavBar from './components/NavBar.vue';
@@ -59,5 +56,11 @@ export default {
   background-color: #dedede;
   border-radius: 10px;
   border: 2px solid #ffffff;
+}
+body {
+  margin: 0;
+  font-family: 'TitilliumWeb',
+  sans-serif;
+  box-sizing: border-box;
 }
 </style>

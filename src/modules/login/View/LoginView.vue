@@ -45,8 +45,7 @@
           </div>
         <br>
 
-        <v-btn
-          :disabled="!form"
+        <v-btn         
           :loading="loading"
           @click="login"
           block
