@@ -24,7 +24,7 @@
           :readonly="loading"
           :rules="[required]"
           class="mb-2"
-          
+          autocomplete="off"
           label="Usuário"
         ></v-text-field>
 
@@ -34,12 +34,15 @@
           :rules="[required]"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
-         
+          autocomplete="off"
           label="Senha"
           @click:append-inner="visible = !visible"
           placeholder="Entre com sua senha"
         ></v-text-field>
 
+          <div class="d-flex flex-row-reverse mt-n5">
+            <a @mouseover="handleMouseOver" href="">Esqueceu sua senha?</a>
+          </div>
         <br>
 
         <v-btn
@@ -51,10 +54,21 @@
           size="large"
           type="submit"
           variant="elevated"
+          prepend-icon="mdi-exit-to-app"
         >
-          Acessar
+          ENTRAR
         </v-btn>
         
+        <br>
+
+        <v-btn 
+          href="/cadastroUsuario"
+          variant="outlined"
+          size="large"
+          block
+          prepend-icon="mdi-account-multiple-plus">
+          Não tenho conta
+        </v-btn>
       </v-form>
 
       <SnackValidatorCalisto 
@@ -127,7 +141,11 @@ export default {
       },
       onSubmit() {
           console.log('submit clicked');
-      }
+      },     
+      handleMouseOver() {     
+        this.$refs.myLink.style.color="red";
+        
+      }     
     }
 }
 
@@ -139,5 +157,9 @@ export default {
 .my-styles-avatar {
   box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
 }
-
+a {
+  text-decoration: none;
+  color: #3560d4;
+  font-size: 15px;
+}
 </style>
