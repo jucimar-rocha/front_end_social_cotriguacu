@@ -40,8 +40,10 @@
           placeholder="Entre com sua senha"
         ></v-text-field>
 
-
-            <a href="/redefinirSenha">Esqueceu sua senha?</a>
+          <div class="mt-n2 d-flex justify-end">
+            <a class="hover_a" href="/redefinirSenha">Esqueceu sua senha?</a>
+          </div>
+            
          
         <br>
 
@@ -142,7 +144,7 @@ export default {
 }
 
 </script>
-<style>
+<style scoped>
 .my-custom-card {
     border-radius: 10px; /* Seu valor personalizado aqui */
 }
@@ -153,5 +155,11 @@ a {
   text-decoration: none;
   color: #3560d4;
   font-size: 15px;
+}
+.hover_a:hover{
+  color: rgb(3, 3, 3);
+}
+.v-layout{
+  background-color: #5d6768;
 }
 </style>

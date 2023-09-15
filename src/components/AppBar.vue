@@ -30,20 +30,20 @@ import { useAuthStore } from '../modules/login/store';
 
 export default {
     data: () => ({ 
-            drawer: true ,
-            items: [
-        { title: 'Sair' }
-      ],
-        }),
-        methods: {
-            toogleBarraLateral() {
-                this.drawer = !this.drawer;
-                this.$emit('update', this.drawer);
-            },
-            logout() {
-                var authStore = useAuthStore();
-                authStore.logout();
-            }
-        }        
+     drawer: true ,
+     items: [
+             { title: 'Sair' }
+            ],
+     }),
+     methods: {
+         toogleBarraLateral() {
+             this.drawer = !this.drawer;
+             this.$emit('update', this.drawer);
+         },
+         logout() {
+             var authStore = useAuthStore();
+             authStore.logout();
+         }
+     }        
 }
 </script>

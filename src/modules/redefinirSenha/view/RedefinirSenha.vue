@@ -1,4 +1,5 @@
 <template>
+<v-app> 
   <v-container>
     <v-row class="mt-16" justify="center"  style="height: 50vh; align: center">
       <v-col>
@@ -11,7 +12,7 @@
                 ></v-img>
             </v-avatar>
           </v-row>
-            <h2 class="text-center my-4">Resetar Senha</h2>       
+            <h2 class="text-center my-4">Redefinir Senha</h2>       
 
           <v-form  v-model="form"
                    @submit.prevent validate-on="blur">           
@@ -45,7 +46,7 @@
                 size="large"
                 type="submit"
                 variant="elevated"
-                prepend-icon="mdi-account-multiple-plus"
+                prepend-icon="mdi-account-convert"
               >
               Redefinir
               </v-btn>
@@ -63,6 +64,7 @@
       </v-col>
     </v-row>
   </v-container>
+</v-app> 
 </template>
 
 <script>
@@ -71,6 +73,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .v-layout{
+   background-color: #5d6768;
+  }
+  .my-styles-avatar {
+  box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
+}
 </style>

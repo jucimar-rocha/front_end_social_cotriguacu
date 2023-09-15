@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/modules/login/store';
 
 export default class HttpRequest {   
-   URL_BASE = 'https://localhost:8000/api';
+   URL_BASE = 'https://localhost:7084/api';
 
     get(url, parametros, retorno, retornoErro, retornoFinally) {
       this.request(url, axios.get, parametros, retorno, retornoErro, retornoFinally)
