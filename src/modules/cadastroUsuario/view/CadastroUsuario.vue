@@ -14,7 +14,7 @@
             <h2 class="text-center my-4">Cadastrar novo usuário</h2>       
 
           <v-form  v-model="form"
-                   @submit.prevent="onSubmit">
+                   @submit.prevent validate-on="blur">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field                  
@@ -74,10 +74,10 @@
                       v-model="senha"
                       :readonly="loading"
                       :rules="[required]"
-                      :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                      :type="visible ? 'text' : 'password'"
+                      :append-inner-icon="visibleConf ? 'mdi-eye-off' : 'mdi-eye'"
+                      :type="visibleConf ? 'text' : 'password'"
                       label="Confirmar Senha"
-                      @click:append-inner="visible = !visible"
+                      @click:append-inner="visibleConf = !visibleConf"
                       placeholder="Confirme sua senha"
                     ></v-text-field>
                   </v-col>
@@ -112,7 +112,12 @@
 
 <script>
 export default {
-
+  data: () => ({        
+        alertaValidacao: false,
+        mensagem: '',       
+        visible: false,
+        visibleConf: true
+    }),
 }
 </script>
 

@@ -40,9 +40,9 @@
           placeholder="Entre com sua senha"
         ></v-text-field>
 
-          <div class="d-flex flex-row-reverse mt-n5">
-            <a @mouseover="handleMouseOver" href="">Esqueceu sua senha?</a>
-          </div>
+
+            <a href="/redefinirSenha">Esqueceu sua senha?</a>
+         
         <br>
 
         <v-btn         
@@ -137,14 +137,7 @@ export default {
           this.usuario = '';
           authStore.logout();
           router.push('/login');
-      },
-      onSubmit() {
-          console.log('submit clicked');
-      },     
-      handleMouseOver() {     
-        this.$refs.myLink.style.color="red";
-        
-      }     
+      }
     }
 }
 
