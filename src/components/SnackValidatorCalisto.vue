@@ -3,13 +3,13 @@
       :timeout="timeout"
       location="top"
       color="rgba(0, 0, 0, 0.0)"
-      class="pa-0"
-      variant="outlined"
+      class="pa-0" 
+      variant="outlined"     
       
     >
       <v-alert
         :type="type"
-        :title="titulo"
+        :title="titulo"       
         prominent
       >
         {{ mensagem }}
@@ -22,7 +22,7 @@
         props: {
             type: {
               type: String,
-              default: 'error'
+              default: 'warning'
             },  
             titulo: {
                 type: String,
@@ -35,10 +35,12 @@
             timeout: {
                 type: Number,
                 default: 2500
-            }
-        },
+            
+            },
         data: () => ({
             
-        })
+        }),
+       
+      },
     }
 </script>

@@ -14,24 +14,22 @@
             </v-row>
               <h2 class="text-center my-4">Cadastrar novo usuário</h2>       
 
-            <v-form  v-model="form"
-                    @submit.prevent validate-on="blur">
+            <v-form  ref="form" @submit.prevent validate-on="blur">
               <v-row>
                 <v-col cols="12" md="6">
-                  <v-text-field                  
-                    v-model="cpf"
-                    placeholder="Digite seu CPF"
-                    :readonly="loading"
-                    :rules="[required]"
-                    label="CPF"
-                  ></v-text-field>
+                  <CpfCnpjFieldVue                 
+                    v-model="usuario.cpf"
+                    placeholder="Digite seu CPF"                   
+                    :rules="[rules.obrigatorio]"                   
+                    maxlength="12"
+                  ></CpfCnpjFieldVue>
                 </v-col>             
                 <v-col cols="12" md="6">
                   <v-text-field                
-                    v-model="matricula"
+                    v-model="usuario.matricula"
                     placeholder="Digite sua matricula"
-                    :readonly="loading"
-                    :rules="[required]"
+                   
+                    :rules="[rules.obrigatorio]"
                     label="Matricula"
                   ></v-text-field>   
                 </v-col>             
@@ -39,20 +37,20 @@
               <v-row>
                   <v-col cols="12" md="6">
                     <v-text-field                  
-                      v-model="celular"
+                      v-model="usuario.celular"
                       placeholder="Digite seu Celular"
-                      :readonly="loading"
-                      :rules="[required]"
+                     
+                      :rules="[rules.obrigatorio]"
                       label="Celular"
                     ></v-text-field>
                   </v-col>             
                   <v-col cols="12" md="6">
                     <v-text-field
                     type="email"                
-                      v-model="email"
+                      v-model="usuario.email"
                       placeholder="Digite sua Email"
-                      :readonly="loading"
-                      :rules="[required]"
+                     
+                      :rules="[rules.obrigatorio]"
                       label="Email"
                     ></v-text-field>   
                   </v-col>             
@@ -60,9 +58,9 @@
               <v-row>
                     <v-col cols="12" md="6">
                       <v-text-field
-                        v-model="senha"
-                        :readonly="loading"
-                        :rules="[required]"
+                        v-model="usuario.senha"
+                       
+                        :rules="[rules.obrigatorio]"
                         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visible ? 'text' : 'password'"
                         label="Senha"
@@ -72,9 +70,9 @@
                     </v-col>
                     <v-col cols="12" md="6">
                       <v-text-field
-                        v-model="senha"
-                        :readonly="loading"
-                        :rules="[required]"
+                        v-model="usuario.senha"
+                       
+                        :rules="[rules.obrigatorio]"
                         :append-inner-icon="visibleConf ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visibleConf ? 'text' : 'password'"
                         label="Confirmar Senha"
@@ -83,9 +81,9 @@
                       ></v-text-field>
                     </v-col>
                 </v-row>
-                <v-btn                
-                  :loading="loading"
-                  @click="novoUsuario"
+                <v-btn
+                  class="mt-2"
+                  @click="salvarNovoUsuario"
                   block
                   color="#1565C0"
                   size="large"
@@ -105,21 +103,84 @@
                   Voltar para Login
                 </v-btn>
             </v-form>
+            <SnackValidatorCalisto 
+              v-model="alertaValidacao"  
+              titulo="Validação de Cadastro" 
+              :mensagem="mensagem"
+              :type="type"/>
+              
           </v-card>
         </v-col>
       </v-row>
     </v-container>
+    <LoadingDialog :dialog="loadingDialog" />
   </v-app>
 </template>
 
 <script>
+import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
+import LoadingDialog from '@/components/LoadingDialog.vue'
+import CpfCnpjFieldVue from '@/components/CpfCnpjField.vue'
+import requestHelper from '@/helpers/request'
+
 export default {
+  components: {
+    CpfCnpjFieldVue,
+    LoadingDialog,
+    SnackValidatorCalisto
+    
+  },
   data: () => ({        
-        alertaValidacao: false,
-        mensagem: '',       
+        alertaValidacao: false, 
+        mensagem: '',  
+        type: '',        
         visible: false,
-        visibleConf: true
+        visibleConf: true,
+        enviando: false,
+        loadingDialog: false,
+        usuario:{},
+        rules: {
+            obrigatorio: v => !!v || 'Esse campo é obrigatório.'            
+        },
+        
     }),
+    methods:{
+      async salvarNovoUsuario() {   
+        
+        const { valid } = await this.$refs.form.validate();
+        if(!valid) return;       
+        
+        else{         
+          this.loadingDialog = true;
+          var contexto = this;
+          const request = new requestHelper(); 
+          request.post('/Usuario/CadastrarUsuario/', {
+             id: this.usuario.id || 0,
+             email: this.usuario.email,
+             senha: this.usuario.senha,
+             cpf: this.usuario.cpf,
+             matricula: this.usuario.matricula,
+             celular: this.usuario.celular
+           }, 
+           (response) =>{                                          
+             if (response.status === 200){
+                contexto.type = "success";
+                contexto.mensagem = "Usuário cadastrado com sucesso.";
+                contexto.alertaValidacao = true; 
+
+                contexto.usuario = {};
+             }
+           },
+           (error) => {                      
+            contexto.type = "error";
+             contexto.mensagem = error.response.data.mensagem;
+             contexto.alertaValidacao = true;          
+           });      
+        }
+        this.loadingDialog = false;
+      }
+    }
+
 }
 </script>
 

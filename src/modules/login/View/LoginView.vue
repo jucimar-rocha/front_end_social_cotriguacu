@@ -121,7 +121,7 @@ export default {
                           const authStore = useAuthStore();
                           authStore.autenticarUsuario(contexto.usuario, contexto.senha);
                           contexto.senha = '';
-                          router.push('/');
+                          router.push('/postUsuario');
                       }
                       else {
                           contexto.mensagem = "Falha na autenticação. Tente novamente.";
@@ -133,7 +133,7 @@ export default {
                       contexto.alertaValidacao = true;
                       return;
                   });
-      },
+        },
       logout() {
           const authStore = useAuthStore();
           this.usuario = '';

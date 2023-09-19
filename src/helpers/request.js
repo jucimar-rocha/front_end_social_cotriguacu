@@ -29,8 +29,8 @@ export default class HttpRequest {
       methodHttpFunction(this.URL_BASE + url, parametros, headerConfig)
       .then(retorno)
       .catch(function (error) {
-        if(retornoErro && typeof retornoErro == 'function') retornoErro(error);
-        console.error(error);
+        if(retornoErro && typeof retornoErro == 'function') retornoErro(error);     
+        
       })
       .finally(retornoFinally);
     }

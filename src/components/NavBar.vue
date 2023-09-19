@@ -84,15 +84,11 @@ export default {
         username: '',
         textoFiltro: '',
         main: [
-            ['mdi-view-dashboard', 'Vagas Abertas', '/'],
-            ['mdi-home-account', 'Pessoa', '/pessoa'],           
-            ['mdi-account', 'Usuário', '/usuario']
+            
 
         ],       
         parametros: [
-          ['', 'Vagas', '/tipoContato'],
-          ['', 'Acesso Paginas', '/tipoOcorrencia'],
-          ['', 'Eventos', '/tipoDocumento'],
+         
          
         ]
       }),

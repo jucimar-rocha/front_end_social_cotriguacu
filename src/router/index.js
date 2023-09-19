@@ -3,6 +3,7 @@ import { useAuthStore } from '../modules/login/store';
 import LoginRouter from '@/modules/login/routes'
 import CadastroUsuarioRouter from '@/modules/cadastroUsuario/routes';
 import RedefinirSenhaRouter from '@/modules/redefinirSenha/routes';
+import PostUsuarioRouter from '@/modules/postUsuario/routes';
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +11,8 @@ export const router = createRouter({
   routes:[
     ...LoginRouter,
     ...CadastroUsuarioRouter,
-    ...RedefinirSenhaRouter
+    ...RedefinirSenhaRouter,
+    ...PostUsuarioRouter
 
   ]
 });
