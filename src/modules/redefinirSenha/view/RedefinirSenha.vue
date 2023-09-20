@@ -14,33 +14,32 @@
           </v-row>
             <h2 class="text-center my-4">Redefinir Senha</h2>       
 
-          <v-form  v-model="form"
-                   @submit.prevent validate-on="blur">           
+          <v-form ref="form" @submit.prevent validate-on="blur">           
             
                 <v-col>
                 <v-text-field                  
-                  v-model="cpf"
+                  v-model="usuario.cpf"
                   placeholder="Digite seu CPF"
-                  :readonly="loading"
-                  :rules="[required]"
+                  :rules="[rules.obrigatorio, rules.validarCpf]"
                   label="CPF"
+                  v-mask="'###.###.###-##'"
+                  maxlength="14"  
                 ></v-text-field>
               </v-col>            
                 <v-col>
                   <v-text-field
-                  type="email"                
-                    v-model="email"
-                    placeholder="Digite sua Email"
-                    :readonly="loading"
-                    :rules="[required]"
+                    type="email"                
+                    v-model="usuario.email"
+                    placeholder="Digite seu Email"                     
+                    :rules="[rules.obrigatorio, rules.email]"
                     label="Email"
+                    maxlength="50"
+                    auto-uppercase="off"
                   ></v-text-field>   
-                </v-col>             
-           
+                </v-col> 
 
-              <v-btn                
-                :loading="loading"
-                @click="novoUsuario"
+              <v-btn 
+                @click="redefinirSenha"
                 block
                 color="#1565C0"
                 size="large"
@@ -60,16 +59,80 @@
                 Voltar para Login
               </v-btn>
           </v-form>
+          <SnackValidatorCalisto 
+              v-model="alertaValidacao"  
+              titulo="Redefinição de senha" 
+              :mensagem="mensagem"
+              :type="type"
+           />
         </v-card>
       </v-col>
     </v-row>
   </v-container>
+  <LoadingDialog :dialog="loadingDialog" />
 </v-app> 
 </template>
 
 <script>
-export default {
+import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
+import LoadingDialog from '@/components/LoadingDialog.vue'
+import requestHelper from '@/helpers/request'
+import { validarCpf, removerMascaras } from '/validacao-global'
 
+export default {
+  components: {    
+    LoadingDialog,
+    SnackValidatorCalisto, 
+  },
+  data: () => ({        
+        alertaValidacao: false, 
+        mensagem: '',  
+        type: '',        
+        visible: false,
+        visibleConf: true,
+        enviando: false,
+        loadingDialog: false,        
+        usuario:{},
+        rules: {
+            obrigatorio: v => !!v || 'Esse campo é obrigatório.',
+            email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Email inválido',
+            validarCpf: v => validarCpf(v) || 'CPF inválido'  
+        },
+    }),
+    methods: {
+      async redefinirSenha(){
+        const { valid } = await this.$refs.form.validate();
+        if(!valid) return;
+
+        else{
+          this.usuario.cpf = removerMascaras(this.usuario.cpf);
+
+          this.loadingDialog = true;
+          var contexto = this;
+          const request = new requestHelper(); 
+
+          request.post('/usuario/RedefinirSenha/',{
+            cpf: this.usuario.cpf,
+            email: this.usuario.email,
+          },
+          (response) =>{
+            if (response.status === 200){
+                contexto.type = "success";
+                contexto.mensagem = "Senha redefinida, verifique seu email.";
+                contexto.alertaValidacao = true; 
+
+                contexto.usuario = {};
+             }
+          },
+          (error) => {                      
+            contexto.type = "error";
+             contexto.mensagem = error.response.data.mensagem;
+             contexto.alertaValidacao = true;          
+           });   
+        }
+        this.loadingDialog = false;
+      }
+    },
 }
 </script>
 

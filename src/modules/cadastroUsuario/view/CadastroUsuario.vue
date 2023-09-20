@@ -131,8 +131,6 @@ export default {
   components: {    
     LoadingDialog,
     SnackValidatorCalisto, 
- 
-    
   },
   data: () => ({        
         alertaValidacao: false, 

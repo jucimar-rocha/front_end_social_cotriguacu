@@ -19,25 +19,18 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const store = useAuthStore();
-
-  // Verificar se a rota é a de cadastro de usuário
+  
   if (to.name === 'CadastroUsuario') {
-    // Permitir o acesso sem autenticação
     next();
   } else if (to.name === 'RedefinirSenha') {
-    // Verificar se o usuário está autenticado ou não
     if (!store.isAuthenticate()) {
-      // Permitir o acesso à rota 'RedefinirSenha' se o usuário estiver autenticado
       next();
     } else {
-      // Redirecionar para a rota de login se não estiver autenticado
       next({ name: 'Login' });
     }
   } else if (to.name !== 'Login' && !store.isAuthenticate()) {
-    // Redirecionar para a rota de login se não estiver autenticado
     next({ name: 'Login' });
   } else {
-    // Continuar para a próxima rota se autenticado
     next();
   }
 });
