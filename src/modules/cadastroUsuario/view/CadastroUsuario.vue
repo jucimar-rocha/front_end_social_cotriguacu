@@ -17,20 +17,24 @@
             <v-form  ref="form" @submit.prevent validate-on="blur">
               <v-row>
                 <v-col cols="12" md="6">
-                  <CpfCnpjFieldVue                 
+                  <v-text-field                   
                     v-model="usuario.cpf"
-                    placeholder="Digite seu CPF"                   
-                    :rules="[rules.obrigatorio]"                   
-                    maxlength="12"
-                  ></CpfCnpjFieldVue>
+                    placeholder="Digite seu CPF"
+                    :rules="[rules.obrigatorio, rules.validarCpf]"
+                    label="CPF"
+                    v-mask="'###.###.###-##'"
+                    maxlength="14"  
+                  ></v-text-field>
                 </v-col>             
                 <v-col cols="12" md="6">
-                  <v-text-field                
+                  <v-text-field   
+                    type="number"  
+                    min="0"           
                     v-model="usuario.matricula"
-                    placeholder="Digite sua matricula"
-                   
+                    placeholder="Digite sua matricula"                   
                     :rules="[rules.obrigatorio]"
                     label="Matricula"
+                    maxlength="6"                  
                   ></v-text-field>   
                 </v-col>             
               </v-row>
@@ -38,28 +42,29 @@
                   <v-col cols="12" md="6">
                     <v-text-field                  
                       v-model="usuario.celular"
-                      placeholder="Digite seu Celular"
-                     
+                      placeholder="Digite seu Celular"                
                       :rules="[rules.obrigatorio]"
                       label="Celular"
+                      v-mask="'(##) #####-####'"
+                      maxlength="15"
                     ></v-text-field>
                   </v-col>             
                   <v-col cols="12" md="6">
                     <v-text-field
-                    type="email"                
+                      type="email"                
                       v-model="usuario.email"
-                      placeholder="Digite sua Email"
-                     
-                      :rules="[rules.obrigatorio]"
+                      placeholder="Digite seu Email"                     
+                      :rules="[rules.obrigatorio, rules.email]"
                       label="Email"
+                      maxlength="50"
+                      auto-uppercase="off"
                     ></v-text-field>   
                   </v-col>             
               </v-row>
               <v-row>
                     <v-col cols="12" md="6">
                       <v-text-field
-                        v-model="usuario.senha"
-                       
+                        v-model="usuario.senha"                       
                         :rules="[rules.obrigatorio]"
                         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visible ? 'text' : 'password'"
@@ -70,8 +75,7 @@
                     </v-col>
                     <v-col cols="12" md="6">
                       <v-text-field
-                        v-model="usuario.senha"
-                       
+                        v-model="usuario.contraSenha"                       
                         :rules="[rules.obrigatorio]"
                         :append-inner-icon="visibleConf ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visibleConf ? 'text' : 'password'"
@@ -120,14 +124,14 @@
 <script>
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import LoadingDialog from '@/components/LoadingDialog.vue'
-import CpfCnpjFieldVue from '@/components/CpfCnpjField.vue'
 import requestHelper from '@/helpers/request'
+import { validarCpf, removerMascaras } from '/validacao-global'
 
-export default {
-  components: {
-    CpfCnpjFieldVue,
+export default {  
+  components: {    
     LoadingDialog,
-    SnackValidatorCalisto
+    SnackValidatorCalisto, 
+ 
     
   },
   data: () => ({        
@@ -137,11 +141,14 @@ export default {
         visible: false,
         visibleConf: true,
         enviando: false,
-        loadingDialog: false,
+        loadingDialog: false,        
         usuario:{},
         rules: {
-            obrigatorio: v => !!v || 'Esse campo é obrigatório.'            
+            obrigatorio: v => !!v || 'Esse campo é obrigatório.',
+            email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Email inválido',
+            validarCpf: v => validarCpf(v) || 'CPF inválido'  
         },
+       
         
     }),
     methods:{
@@ -150,7 +157,11 @@ export default {
         const { valid } = await this.$refs.form.validate();
         if(!valid) return;       
         
-        else{         
+        else{        
+          this.usuario.cpf = removerMascaras(this.usuario.cpf);
+          this.usuario.matricula = removerMascaras(this.usuario.matricula);
+          this.usuario.celular = removerMascaras(this.usuario.celular); 
+          
           this.loadingDialog = true;
           var contexto = this;
           const request = new requestHelper(); 

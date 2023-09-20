@@ -23,9 +23,6 @@
     background-color: #919191;
 }
 
-.case-sensitive input { text-transform: none; }
-input { text-transform: uppercase; }
-
 .bh-table-responsive {
     height: 100% !important;
     overflow: hidden;

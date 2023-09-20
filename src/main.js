@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import VueMask from '@devindex/vue-mask';
 
 import { registerPlugins } from '@/plugins'
 
@@ -15,5 +16,7 @@ app.use(pinia)
 
 app.use(router)
 registerPlugins(app)
+
+app.use(VueMask);
 
 app.mount('#app')

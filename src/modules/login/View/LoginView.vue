@@ -105,7 +105,7 @@ export default {
     }),
     methods: {
       login() {
-          this.validarLoginSenha (this.usuario.toUpperCase(), this.senha);
+          this.validarLoginSenha (this.usuario, this.senha);
       },
       validarLoginSenha (usuario, senha) {
           var contexto = this;

@@ -9,6 +9,7 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@devindex/vue-mask": "^2.0.3",
     "@mdi/font": "7.0.96",
     "axios": "^1.5.0",
     "core-js": "^3.29.0",
