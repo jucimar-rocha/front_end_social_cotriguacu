@@ -108,6 +108,8 @@ export default {
           this.validarLoginSenha (this.usuario, this.senha);
       },
       async validarLoginSenha(usuario, senha) {
+
+        
         try {
           const request = new requestHelper();
           const response = await request.post("/Usuario/ValidarLoginSenha/", {
@@ -116,7 +118,7 @@ export default {
           });
 
           if (response) {
-            console.log(response.data);
+            
             const { usuario, token } = response.data; // Acesse response.data para obter os dados
             const authStore = useAuthStore();
             authStore.autenticarUsuario(usuario, token); // Passa o usuário e o token para a ação

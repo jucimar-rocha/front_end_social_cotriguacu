@@ -1,9 +1,9 @@
 <template>
   <v-app>
   <v-container>
-      <v-row  class="mt-16" justify="center" >
+      <v-row  class="mt-sm-16" justify="center" >
         <v-col>
-          <v-card class="mx-auto px-6 pt-5 pb-8 my-custom-card" max-width="644"  style="background-color: #ECEFF1;">      
+          <v-card class="mx-auto px-6 pt-5 pb-8" max-width="644"  style="background-color: #ECEFF1;">      
             <v-row class="mt-5" justify="space-around">
               <v-avatar size="80" color="#0e77a8" class="my-styles-avatar">
                   <v-img
@@ -161,32 +161,32 @@ export default {
           this.usuario.celular = removerMascaras(this.usuario.celular); 
           
           this.loadingDialog = true;
-          var contexto = this;
-          const request = new requestHelper(); 
-          request.post('/Usuario/CadastrarUsuario/', {
+
+          try{
+            const request = new requestHelper(); 
+            const response = await request.post('/Usuario/CadastrarUsuario/', {
              id: this.usuario.id || 0,
              email: this.usuario.email,
              senha: this.usuario.senha,
              cpf: this.usuario.cpf,
              matricula: this.usuario.matricula,
              celular: this.usuario.celular
-           }, 
-           (response) =>{                                          
-             if (response.status === 200){
-                contexto.type = "success";
-                contexto.mensagem = "Usuário cadastrado com sucesso.";
-                contexto.alertaValidacao = true; 
+            });
 
-                contexto.usuario = {};
+            if(response) {             
+              this.type = "success";
+              this.mensagem = "Usuário cadastrado com sucesso.";
+              this.alertaValidacao = true; 
+              this.usuario = {};
              }
-           },
-           (error) => {                      
-            contexto.type = "error";
-             contexto.mensagem = error.response.data.mensagem;
-             contexto.alertaValidacao = true;          
-           });      
-        }
-        this.loadingDialog = false;
+                       
+          } catch (error) {
+          this.type = "error";
+          this.mensagem = error.response.data.mensagem;
+          this.alertaValidacao = true;
+          }
+          this.loadingDialog = false;
+        }       
       }
     }
 

@@ -106,33 +106,30 @@ export default {
 
         else{
           this.usuario.cpf = removerMascaras(this.usuario.cpf);
-
           this.loadingDialog = true;
-          var contexto = this;
-          const request = new requestHelper(); 
-
-          request.post('/usuario/RedefinirSenha/',{
+        
+          try{
+            const request = new requestHelper(); 
+            const response = await request.post('/usuario/RedefinirSenha/',{
             cpf: this.usuario.cpf,
             email: this.usuario.email,
-          },
-          (response) =>{
-            if (response.status === 200){
-                contexto.type = "success";
-                contexto.mensagem = "Senha redefinida, verifique seu email.";
-                contexto.alertaValidacao = true; 
+          });
 
-                contexto.usuario = {};
-             }
-          },
-          (error) => {                      
-            contexto.type = "error";
-             contexto.mensagem = error.response.data.mensagem;
-             contexto.alertaValidacao = true;          
-           });   
-        }
-        this.loadingDialog = false;
+            if(response) {           
+              this.type = "success";
+              this.mensagem = "Senha redefinida, verifique seu email.";
+              this.alertaValidacao = true;
+              this.usuario = {};
+            }
+          } catch (error) {
+            this.type = "error";
+            this.mensagem = error.response.data.mensagem;
+            this.alertaValidacao = true;  
+          }
+          this.loadingDialog = false;
       }
-    },
+    }
+  }
 }
 </script>
 
