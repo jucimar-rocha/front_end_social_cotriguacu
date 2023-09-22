@@ -4,6 +4,7 @@ import LoginRouter from '@/modules/login/routes'
 import CadastroUsuarioRouter from '@/modules/cadastroUsuario/routes';
 import RedefinirSenhaRouter from '@/modules/redefinirSenha/routes';
 import PostUsuarioRouter from '@/modules/postUsuario/routes';
+import LinkRedefinicaoSenhaRouter from '@/modules/linkRedefinicaoSenha/routes';
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +13,8 @@ export const router = createRouter({
     ...LoginRouter,
     ...CadastroUsuarioRouter,
     ...RedefinirSenhaRouter,
-    ...PostUsuarioRouter
+    ...PostUsuarioRouter,
+    ...LinkRedefinicaoSenhaRouter
 
   ]
 });
@@ -21,6 +23,8 @@ router.beforeEach(async (to, from, next) => {
   const store = useAuthStore();
   
   if (to.name === 'CadastroUsuario') {
+    next();
+  } else if (to.name === 'LinkRedefinicaoSenha') { // Primeira letra em maiúscula
     next();
   } else if (to.name === 'RedefinirSenha') {
     if (!store.isAuthenticate()) {
