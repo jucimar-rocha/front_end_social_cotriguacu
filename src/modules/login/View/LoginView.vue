@@ -14,63 +14,57 @@
           </v-row>
        
         <h2 class="text-center my-4">Login</h2>
-      <v-form
-        v-model="form"
-        @submit.prevent="onSubmit"
-      >
-        <v-text-field
-          v-model="usuario"
-          placeholder="Entre com CPF ou usuario"
-          :readonly="loading"
-          :rules="[required]"
-          class="mb-2"
-          autocomplete="off"
-          label="Usuário"
-        ></v-text-field>
-
-        <v-text-field
-          v-model="senha"
-          :readonly="loading"
-          :rules="[required]"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          autocomplete="off"
-          label="Senha"
-          @click:append-inner="visible = !visible"
-          placeholder="Entre com sua senha"
-        ></v-text-field>
-
-          <div class="mt-n2 d-flex justify-end">
-            <a class="hover_a" href="/redefinirSenha">Esqueceu sua senha?</a>
-          </div>
-            
+        <v-form  ref="form" @submit.prevent validate-on="blur">
+          <v-text-field                   
+            v-model="usuario.cpf"
+            placeholder="Digite seu CPF"
+            :rules="[rules.obrigatorio, rules.validarCpf]"
+            label="CPF"
+            v-mask="'###.###.###-##'"
+            maxlength="14" 
+          ></v-text-field>
          
-        <br>
+          <v-text-field 
+            class="mt-2"         
+            v-model="usuario.senha"           
+            :rules="[rules.obrigatorio]"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"           
+            label="Senha"
+            @click:append-inner="visible = !visible"
+            placeholder="Digite sua senha"
+          ></v-text-field>
 
-        <v-btn         
-          :loading="loading"
-          @click="login"
-          block
-          color="#1565C0"
-          size="large"
-          type="submit"
-          variant="elevated"
-          prepend-icon="mdi-exit-to-app"
-        >
-          ENTRAR
-        </v-btn>
-        
-        <br>
+            <div class="mt-n1 d-flex justify-end">
+              <a class="hover_a" href="/redefinirSenha">Esqueceu sua senha?</a>
+            </div>
+              
+          
+          <br>
 
-        <v-btn 
-          href="/cadastroUsuario"
-          variant="outlined"
-          size="large"
-          block
-          prepend-icon="mdi-account-multiple-plus">
-          Não tenho conta
-        </v-btn>
-      </v-form>
+          <v-btn  
+            @click="validarLoginSenha"
+            block
+            color="#1565C0"
+            size="large"
+            type="submit"
+            variant="elevated"
+            prepend-icon="mdi-exit-to-app"
+          >
+            ENTRAR
+          </v-btn>
+          
+          <br>
+
+          <v-btn 
+            href="/cadastroUsuario"
+            variant="outlined"
+            size="large"
+            block
+            prepend-icon="mdi-account-multiple-plus">
+            Não tenho conta
+          </v-btn>
+        </v-form>
 
       <SnackValidatorCalisto 
         v-model="alertaValidacao"  
@@ -80,6 +74,7 @@
       </v-card>
       </v-col>
     </v-row>
+    <LoadingDialog :dialog="loadingDialog" />
   </v-app>
 </template>
 
@@ -87,7 +82,7 @@
 
 import { useAuthStore } from '../store';
 import { router } from '@/router' 
-
+import { validarCpf, removerMascaras } from '/validacao-global'
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import requestHelper from '@/helpers/request'
 
@@ -95,26 +90,29 @@ export default {
     components: {
       SnackValidatorCalisto
     },
-    data: () => ({
-        usuario: '',
-        senha: '',
+    data: () => ({      
         alertaValidacao: false,
         mensagem: '',
         loginOK: false,
         visible: false,
+        usuario:{},
+        rules: {
+            obrigatorio: v => !!v || 'Esse campo é obrigatório.',           
+            validarCpf: v => validarCpf(v) || 'CPF inválido'  
+        },
     }),
-    methods: {
-      login() {
-          this.validarLoginSenha (this.usuario, this.senha);
-      },
-      async validarLoginSenha(usuario, senha) {
+    methods: {      
+      async validarLoginSenha() {
 
-        
+        const { valid } = await this.$refs.form.validate();
+        if(!valid) return;       
+
         try {
+          this.usuario.cpf = removerMascaras(this.usuario.cpf);
           const request = new requestHelper();
           const response = await request.post("/Usuario/ValidarLoginSenha/", {
-            Login: usuario,
-            Senha: senha
+            cpf: this.usuario.cpf,
+            senha: this.usuario.senha,
           });
 
           if (response) {

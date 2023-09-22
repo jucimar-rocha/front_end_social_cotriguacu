@@ -17,7 +17,7 @@
                 v-for="(item, i) in items"
                 :key="i"
               >               
-                <v-btn color="" @click="logout">Sair</v-btn>
+                <v-btn class="btn_sair" color="" @click="logout">Sair</v-btn>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -47,3 +47,9 @@ export default {
      }        
 }
 </script>
+<style scoped>
+.btn_sair:hover{
+  background-color: rgb(97, 131, 83);
+  border-radius: 10px;
+}
+</style>
