@@ -107,33 +107,33 @@ export default {
       login() {
           this.validarLoginSenha (this.usuario, this.senha);
       },
-      validarLoginSenha (usuario, senha) {
-          var contexto = this;
+      async validarLoginSenha(usuario, senha) {
+        try {
           const request = new requestHelper();
-          request.post("/Usuario/ValidarLoginSenha/", 
-                  {
-                    Login: usuario,
-                    Senha: senha
-                  },
-                  (response) => {
-                      contexto.loginOK = response;
-                      if (contexto.loginOK) {
-                          const authStore = useAuthStore();
-                          authStore.autenticarUsuario(contexto.usuario, contexto.senha);
-                          contexto.senha = '';
-                          router.push('/postUsuario');
-                      }
-                      else {
-                          contexto.mensagem = "Falha na autenticação. Tente novamente.";
-                          contexto.alertaValidacao = true;
-                      }
-                  }, 
-                  (error) => {                      
-                      contexto.mensagem = error.response.data.mensagem;
-                      contexto.alertaValidacao = true;
-                      return;
-                  });
-        },
+          const response = await request.post("/Usuario/ValidarLoginSenha/", {
+            Login: usuario,
+            Senha: senha
+          });
+
+          if (response) {
+            console.log(response.data);
+            const { usuario, token } = response.data; // Acesse response.data para obter os dados
+            const authStore = useAuthStore();
+            authStore.autenticarUsuario(usuario, token); // Passa o usuário e o token para a ação
+            this.senha = '';
+            router.push('/postUsuario');
+
+          } else {
+
+            this.mensagem = "Falha na autenticação. Tente novamente.";
+            this.alertaValidacao = true;
+          }          
+        } catch (error) {
+          this.mensagem = error.response.data.mensagem;
+          this.alertaValidacao = true;
+        }
+      },
+
       logout() {
           const authStore = useAuthStore();
           this.usuario = '';

@@ -13,12 +13,12 @@ export const useAuthStore = defineStore('autenticacao', {
       getToken: (state) => state.token,
     },
     actions: {
-      async autenticarUsuario(usuario, senha) {
-        this.token = 'tokenSuccess123456789' + senha;
+      async autenticarUsuario(usuario, token) {
+        this.token = token;
         this.user = usuario;
         
         sessionStorage.setItem('user', usuario);
-        sessionStorage.setItem('token', this.token);
+        sessionStorage.setItem('token', token);
       },
       logout() {
         this.token = '';

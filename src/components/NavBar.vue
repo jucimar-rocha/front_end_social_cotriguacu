@@ -10,7 +10,7 @@
           class="mt-n2"         
           style="background-color: rgb(210, 216, 218);"
           prepend-avatar="../assets/tuti.jpg"
-          title="Jucimar.Rocha">
+          :title="getUsername()">
         </v-list-item>
       </v-list>
       <v-list>
