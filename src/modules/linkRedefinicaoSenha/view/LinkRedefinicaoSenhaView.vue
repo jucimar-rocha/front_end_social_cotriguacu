@@ -98,7 +98,9 @@
                   this.mensagem = "Senha atualizada, você sera redirecionado a tela do login.";
                   this.alertaValidacao = true;
                   this.usuario = {};
-                  router.push("/login");
+                  setTimeout(() => {
+                    router.push("/login");
+                  }, 5000);
                 }
               } catch (error) {
                 this.type = "error";
