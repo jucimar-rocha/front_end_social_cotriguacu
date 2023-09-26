@@ -157,8 +157,11 @@
       .my-styles-avatar {
       box-shadow: 0px 0px 3px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaa7, -8px -8px 15px #fff
       }
-      .requisitos-senha {      
-        margin: 2px;
+      .requisitos-senha {     
+        position: absolute;
+        top: -0px; 
+        width: 85%;
+        margin: 8px 2px 2px 2px;       
         font-size: 14px;
         background-color: #dbdfe4;
         border-radius: 8px;

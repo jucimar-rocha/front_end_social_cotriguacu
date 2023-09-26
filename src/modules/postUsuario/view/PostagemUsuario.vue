@@ -1,6 +1,10 @@
 <template>
-  <v-btn @click="post_action"></v-btn>
-  <post-form v-show="mostrarPost"></post-form>
+ <div>
+    <v-btn @click="post_action">Abrir Modal</v-btn>
+    <v-dialog v-model="mostrarPost" max-width="100%">
+      <post-form />
+    </v-dialog>
+  </div>
     <v-card class="post-card ma-5 elevation-2" color="light-grey">
       <!-- Avatar e Nome do Usuário -->
       <v-card-title>
@@ -116,9 +120,10 @@ export default {
     toggleComentarios() {
       this.mostrarComentarios = !this.mostrarComentarios;
     },
-    post_action(){
+    post_action() {
       this.mostrarPost = !this.mostrarPost;
-    }
+    },
+    
   },
 }
 </script>
