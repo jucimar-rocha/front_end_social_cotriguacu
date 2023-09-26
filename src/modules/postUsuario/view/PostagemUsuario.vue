@@ -1,10 +1,5 @@
 <template>
- <div>
-    <v-btn @click="post_action">Abrir Modal</v-btn>
-    <v-dialog v-model="mostrarPost" max-width="100%">
-      <post-form />
-    </v-dialog>
-  </div>
+      <post-form/> 
     <v-card class="post-card ma-5 elevation-2" color="light-grey">
       <!-- Avatar e Nome do Usuário -->
       <v-card-title>
