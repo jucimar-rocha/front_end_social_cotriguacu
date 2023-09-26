@@ -36,7 +36,7 @@
                   @click="closeUploadDialog"></v-btn>
               </div>
               <v-card-text>
-                <v-file-input label="Adicone aqui!" variant="outlined" ref="file" v-model="files" accept="image/*,video/*"
+                <v-file-input label="Adicione aqui!" variant="outlined" ref="file" v-model="files" accept="image/*,video/*"
                   @change="onFileChange">
                 </v-file-input>
 
@@ -80,11 +80,7 @@ export default {
       isImage: false
     };
   },
-  watch: {
-    postText: function () {
-      this.loadMedia();
-    },
-  },
+  
   methods: {
     openUploadDialog() {
       this.uploadDialog = true;
@@ -99,6 +95,7 @@ export default {
       this.uploading = false;
       this.uploadProgress = 0;
       this.postText = '';
+      this.preloadedMedia = null;
     },
     onFileChange() {     
       if (this.files.length > 0) {
@@ -123,7 +120,7 @@ export default {
           });
 
           if (response.status === 200) {        
-            const uploadedUrl = response.data.fileUrl;
+            const uploadedUrl = response.data;
             this.uploading = false;
             this.closeUploadDialog();         
             const isImage = /\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(uploadedUrl);
