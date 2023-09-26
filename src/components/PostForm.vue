@@ -17,8 +17,8 @@
       
         <div>
           <textarea style="color: black;" v-model="postText" placeholder="No que você está pensando ?"></textarea>
-          <div v-if="preloadedMedia" class="preloaded-media">
-            <img v-if="isImage" :src="preloadedMedia" alt="Imagem pré-carregada" />
+          <div v-if="preloadedMedia" class="d-flex justify-center ma-3 preloaded-media">
+            <img  v-if="isImage" :src="preloadedMedia" alt="Imagem pré-carregada" />
             <video v-else :src="preloadedMedia" controls autoplay muted loop>
               Seu navegador não suporta a exibição de vídeos.
             </video>
@@ -52,7 +52,7 @@
               </v-card-actions>
             </v-card>
           </v-dialog>        
-          <v-btn @click="openUploadDialog">Adicionar Foto/Vídeo</v-btn>
+          <v-btn prepend-icon="mdi-group" @click="openUploadDialog">Adicionar Foto/Vídeo</v-btn>
         </div>
        
         <button class="publish-button" @click="createPost">
@@ -80,7 +80,7 @@ export default {
       isImage: false
     };
   },
-  
+ 
   methods: {
     openUploadDialog() {
       this.uploadDialog = true;
@@ -182,18 +182,23 @@ export default {
 <style scoped>
 .post-form {
   width: 50%;
+  max-height: 80vh; 
   align-content: center;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 @media (max-width: 600px) {
   .post-form {
     width: 100%;
   }
+  .preloaded-media img {
+   width: 100%; 
+}
 }
 
 .user-info {
@@ -252,14 +257,13 @@ textarea {
 .publish-button:hover {
   background-color: #1465c0;  
 }
-.preloaded-media {
-  margin-top: 10px;
-}
 .preloaded-media img {
-  max-width: 100%;
-  max-height: 300px;
+  max-width: 50%;
+  max-height: 50%;
+  overflow: hidden;
 }
 .preloaded-media video {
   max-width: 100%;
+  height: auto;
 }
 </style>
