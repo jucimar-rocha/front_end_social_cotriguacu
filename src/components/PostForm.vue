@@ -14,18 +14,18 @@
           <span class="user-name ma-2 xs12 sm6" :title="getUsername()">{{ getUsername() }}</span>
           <v-btn class="ml-auto" variant="text" icon="mdi-close-circle-outline" @click="closeDialog"></v-btn>
         </div>
-      
+
         <div>
-          <textarea style="color: black;" v-model="postText" placeholder="No que você está pensando ?"></textarea>
+          <QuillEditor theme="snow" v-model:content="postText" content-type="text"/>
           <div v-if="preloadedMedia" class="d-flex justify-center ma-3 preloaded-media">
-            <img  v-if="isImage" :src="preloadedMedia" alt="Imagem pré-carregada" />
-            <video v-else :src="preloadedMedia" controls autoplay muted loop>
+            <img v-if="isImage" :src="preloadedMedia" alt="Imagem pré-carregada" />
+            <video v-else :src="preloadedMedia" controls muted loop>
               Seu navegador não suporta a exibição de vídeos.
             </video>
           </div>
         </div>
 
-        <div class="action-buttons">         
+        <div class="action-buttons">
           <v-dialog v-model="uploadDialog" max-width="600px" persistent>
             <v-card style=" box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
               <div class="d-flex justify-space-between">
@@ -36,8 +36,8 @@
                   @click="closeUploadDialog"></v-btn>
               </div>
               <v-card-text>
-                <v-file-input label="Adicione aqui!" variant="outlined" ref="file" v-model="files" accept="image/*,video/*"
-                  @change="onFileChange">
+                <v-file-input label="Adicione aqui!" variant="outlined" ref="file" v-model="files"
+                  accept="image/*,video/*" @change="onFileChange">
                 </v-file-input>
 
                 <v-progress-linear v-if="uploading" class="rounded-pill" v-model="uploadProgress" color="primary"
@@ -51,36 +51,51 @@
                 <v-btn prepend-icon="mdi-cloud-upload" variant="tonal" color="primary" @click="uploadImage">Upload</v-btn>
               </v-card-actions>
             </v-card>
-          </v-dialog>        
+          </v-dialog>
           <v-btn prepend-icon="mdi-group" @click="openUploadDialog">Adicionar Foto/Vídeo</v-btn>
         </div>
-       
-        <button class="publish-button" @click="createPost">
+
+        <button class="publish-button" @click="publicarPost">
           Publicar
         </button>
       </div>
+      <SnackValidatorCalisto 
+              v-model="alertaValidacao"  
+              titulo="Validação Publicação" 
+              :mensagem="mensagem"
+              :type="type"/>
     </div>
+    <LoadingDialog :dialog="loadingDialog" />
   </v-dialog>
 </template>
 
 <script>
 import { useAuthStore } from '@/modules/login/store';
+import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
+import LoadingDialog from '@/components/LoadingDialog.vue'
+import requestHelper from '@/helpers/request'
 import axios from 'axios';
 
 export default {
+  components: {    
+    LoadingDialog,
+    SnackValidatorCalisto, 
+  },
   data() {
-    return {
-      postText: "",
+    return {      
+      alertaValidacao: false, 
       dialog: false,
       uploadDialog: false,
       files: [],
       uploading: false,
       uploadProgress: 0,
       preloadedMedia: '',
-      isImage: false
+      isImage: false,
+      postText: "",
+      loadingDialog: false,  
     };
   },
- 
+
   methods: {
     openUploadDialog() {
       this.uploadDialog = true;
@@ -97,10 +112,47 @@ export default {
       this.postText = '';
       this.preloadedMedia = null;
     },
-    onFileChange() {     
+    onFileChange() {
       if (this.files.length > 0) {
-        this.file = this.files[0];  
+        this.file = this.files[0];
       }
+    },
+    async publicarPost(){
+      this.loadingDialog = true;
+      try {
+        const request = new requestHelper(); 
+        let postData = {
+          id: this.id || 0,
+          idUsuario: this.idUsuario || 0,
+          mensagem: this.postText,
+          senha: this.senha,
+          urlImagem: '', // Inicialmente definido como vazio
+          urlVideo: ''   // Inicialmente definido como vazio
+        };
+
+        if (this.isImage) {
+          postData.urlImagem = this.preloadedMedia; // Define a URL da imagem se for uma imagem
+        } else {
+          postData.urlVideo = this.preloadedMedia; // Define a URL do vídeo se for um vídeo
+        }
+
+        const response = await request.post('/Publicacoes/PublicarPost/', postData);
+
+            if(response) {             
+              this.type = "success";
+              this.mensagem = "Publicação realizada com sucesso";
+              this.alertaValidacao = true;             
+             }
+             this.loadingDialog = false;
+      } catch (error) {
+        this.type = "error";
+        this.mensagem = error.response.data.mensagem;
+        this.alertaValidacao = true;
+      }
+      setTimeout(() => {
+        this.closeDialog();
+      }, 5000);
+      
     },
     async uploadImage() {
       if (this.file) {
@@ -119,20 +171,21 @@ export default {
             }
           });
 
-          if (response.status === 200) {        
+          if (response.status === 200) {
             const uploadedUrl = response.data;
             this.uploading = false;
-            this.closeUploadDialog();         
+            this.closeUploadDialog();
             const isImage = /\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(uploadedUrl);
-           
+
             this.preloadedMedia = uploadedUrl;
             this.isImage = isImage;
-          } else {         
+          } else {
             console.error('Erro no upload:', response.status, response.statusText);
           }
         } catch (error) {
           console.error('Erro na solicitação:', error.message);
         }
+        this.loadingDialog = false;
       }
     },
     getToken() {
@@ -156,25 +209,24 @@ export default {
         return store.user.toUpperCase();
       }
     },
-    cancelUpload() {   
+    cancelUpload() {
       this.closeDialog();
     },
-    loadMedia() {    
+    loadMedia() {
       this.preloadedMedia = '';
       this.isImage = false;
       const urls = this.extractUrls(this.postText);
 
-      if (urls.length > 0) {
-        // Suponha que a primeira URL seja a imagem ou vídeo principal
+      if (urls.length > 0) {       
         this.preloadedMedia = urls[0];
         this.isImage = this.preloadedMedia.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
       }
     },
-    extractUrls(text) {
-      // Esta função utiliza uma expressão regular para extrair URLs do texto
+    extractUrls(text) {   
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       return text.match(urlRegex) || [];
     },
+    
   },
 };
 </script>
@@ -182,7 +234,7 @@ export default {
 <style scoped>
 .post-form {
   width: 50%;
-  max-height: 80vh; 
+  max-height: 80vh;
   align-content: center;
   background-color: white;
   border: 1px solid #ddd;
@@ -196,9 +248,10 @@ export default {
   .post-form {
     width: 100%;
   }
+
   .preloaded-media img {
-   width: 100%; 
-}
+    width: 100%;
+  }
 }
 
 .user-info {
@@ -206,6 +259,7 @@ export default {
   align-items: center;
   margin-bottom: 16px;
 }
+
 .user-avatar {
   width: 40px;
   height: 40px;
@@ -228,25 +282,29 @@ textarea {
   margin-bottom: 16px;
   font-size: 16px;
 }
+
 .action-buttons {
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
 }
+
 .action-button {
-  background-color: #f5f6f7; 
+  background-color: #f5f6f7;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
-  color: #333;  
+  color: #333;
   cursor: pointer;
 }
+
 .action-button i {
   margin-right: 8px;
 }
+
 .publish-button {
-  background-color: #1877f2; 
+  background-color: #1877f2;
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -254,14 +312,17 @@ textarea {
   color: white;
   cursor: pointer;
 }
+
 .publish-button:hover {
-  background-color: #1465c0;  
+  background-color: #1465c0;
 }
+
 .preloaded-media img {
   max-width: 50%;
   max-height: 50%;
   overflow: hidden;
 }
+
 .preloaded-media video {
   max-width: 100%;
   height: auto;
