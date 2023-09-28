@@ -16,7 +16,7 @@
         </div>
 
         <div>
-          <QuillEditor theme="snow" v-model:content="postText" content-type="text"/>
+          <QuillEditor placeholder="Adicione a mensagem da publicação!" theme="snow" v-model:content="postText" content-type="text"/>
           <div v-if="preloadedMedia" class="d-flex justify-center ma-3 preloaded-media">
             <img v-if="isImage" :src="preloadedMedia" alt="Imagem pré-carregada" />
             <video v-else :src="preloadedMedia" controls muted loop>
@@ -111,6 +111,7 @@ export default {
       this.uploadProgress = 0;
       this.postText = '';
       this.preloadedMedia = null;
+      this.alertaValidacao = false;
     },
     onFileChange() {
       if (this.files.length > 0) {
@@ -118,6 +119,7 @@ export default {
       }
     },
     async publicarPost(){
+      
       this.loadingDialog = true;
       try {
         const request = new requestHelper(); 
@@ -126,14 +128,14 @@ export default {
           idUsuario: this.idUsuario || 0,
           mensagem: this.postText,
           senha: this.senha,
-          urlImagem: '', // Inicialmente definido como vazio
-          urlVideo: ''   // Inicialmente definido como vazio
+          urlImagem: '',
+          urlVideo: '' 
         };
 
         if (this.isImage) {
-          postData.urlImagem = this.preloadedMedia; // Define a URL da imagem se for uma imagem
+          postData.urlImagem = this.preloadedMedia;
         } else {
-          postData.urlVideo = this.preloadedMedia; // Define a URL do vídeo se for um vídeo
+          postData.urlVideo = this.preloadedMedia;
         }
 
         const response = await request.post('/Publicacoes/PublicarPost/', postData);
@@ -143,16 +145,17 @@ export default {
               this.mensagem = "Publicação realizada com sucesso";
               this.alertaValidacao = true;             
              }
-             this.loadingDialog = false;
+             
       } catch (error) {
         this.type = "error";
         this.mensagem = error.response.data.mensagem;
         this.alertaValidacao = true;
       }
-      setTimeout(() => {
-        this.closeDialog();
-      }, 5000);
-      
+
+      await new Promise(resolve => setTimeout(resolve, 5000));
+
+      this.closeDialog();
+      this.loadingDialog = false;
     },
     async uploadImage() {
       if (this.file) {
