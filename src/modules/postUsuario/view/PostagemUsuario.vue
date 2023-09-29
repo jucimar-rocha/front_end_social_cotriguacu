@@ -1,15 +1,10 @@
 <template>
       <post-form/> 
     <v-card class="post-card ma-5 elevation-2" color="light-grey">
-      <!-- Avatar e Nome do Usuário -->
-      <v-card-title>
-        <v-avatar class="ma-2 xs12 sm6">
-          <v-img src="/src/assets/tuti.jpg">
-           
-          </v-img>
-        </v-avatar>
-        <span class="user-name ma-2 xs12 sm6">JUCIMAR.ROCHA</span>
-      </v-card-title>
+      <div class="ml-n3">
+        <avatar-usuario :openModal="false"/>
+      </div>
+      
   
       <!-- Foto ou Vídeo -->
       <v-card-media class="post-media">
@@ -69,11 +64,13 @@
 <script>
 import ComentarioPost from '@/components/ComentarioPost.vue';
 import PostForm from '@/components/PostForm.vue';
+import AvatarUsuario from '@/components/AvatarUsuario.vue';
 
 export default {
   components: {
     ComentarioPost,
-    PostForm
+    PostForm,
+    AvatarUsuario
   },
   data() {
     return {

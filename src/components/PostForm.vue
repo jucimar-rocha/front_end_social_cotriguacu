@@ -8,10 +8,7 @@
     <div class="d-flex justify-center">
       <div class="post-form ma-5">
         <div class="d-flex align-center">
-          <v-avatar>
-            <v-img src="/src/assets/tuti.jpg"></v-img>
-          </v-avatar>
-          <span class="user-name ma-2 xs12 sm6" :title="getUsername()">{{ getUsername() }}</span>
+          <avatar-usuario :openModal="false"/>
           <v-btn class="ml-auto" variant="text" icon="mdi-close-circle-outline" @click="closeDialog"></v-btn>
         </div>
 
@@ -61,7 +58,7 @@
       </div>
       <SnackValidatorCalisto 
               v-model="alertaValidacao"  
-              titulo="Validação Publicação" 
+              titulo="Publicação" 
               :mensagem="mensagem"
               :type="type"/>
     </div>
@@ -75,11 +72,13 @@ import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import LoadingDialog from '@/components/LoadingDialog.vue'
 import requestHelper from '@/helpers/request'
 import axios from 'axios';
+import AvatarUsuario from './AvatarUsuario.vue';
 
 export default {
   components: {    
     LoadingDialog,
     SnackValidatorCalisto, 
+    AvatarUsuario
   },
   data() {
     return {      
