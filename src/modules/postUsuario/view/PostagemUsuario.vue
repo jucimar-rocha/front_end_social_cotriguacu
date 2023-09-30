@@ -23,24 +23,32 @@
         {{ postagem.mensagem }}
       </v-card-text>
     </v-card>
+    <div v-if="postagensMapeadas.length > 0"  class="d-flex justify-center post-pagination">
+      <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="3" size="14" rounded="circle"
+        prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina"></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import PostForm from '@/components/PostForm.vue';
 import { usePostUsuario } from '../store';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 export default {
   components: {
-    PostForm,
+    PostForm
   },
 
   setup() {
     const store = usePostUsuario();
+
+    const page = ref(1);
+    const postagensPorPagina = 10;
+
     const params = {
       numeroPagina: 1,
-      tamanhoPagina: 10,
+      tamanhoPagina: postagensPorPagina,
       campoOrdem: {
         campo: "Id",
         ordem: "Desc"
@@ -54,6 +62,7 @@ export default {
       ]
     };
     const buscarListaPublicacao = async () => {
+      params.numeroPagina = page.value;
       await store.buscarListaPublicacao(params);
     };
     const atualizarPagina = () => {
@@ -77,6 +86,8 @@ export default {
     );
 
     return {
+      page,
+      postagensPorPagina,
       postagensMapeadas,
       atualizarPagina
     };
@@ -90,6 +101,10 @@ export default {
 <style scoped>
 .post-video {
   width: 100%;
+}
+.post-pagination{
+  max-width: 60%;
+  padding: 16px;
 }
 
 .post-card {
@@ -128,6 +143,9 @@ img {
 
 @media (max-width: 600px) {
   .post-card {
+    max-width: 100%;
+  }
+  .post-pagination{
     max-width: 100%;
   }
 }

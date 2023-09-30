@@ -1,9 +1,14 @@
 <template>
   <v-dialog v-model="dialog" persistent>
     <template v-slot:activator="{ props }">
-      <v-btn color="primary" v-bind="props">
-        Nova Publicação
-      </v-btn>
+      <v-card class="templet-post ma-5 elevation-2" v-bind="props">
+        <div class="d-flex align-center">
+        <avatar-usuario :showUsername="false" :openModal="false" class="ml-n5 mt-1"/>
+            <span class="templete-span">
+              No que você esta pensando ?
+            </span>
+        </div>
+      </v-card>      
     </template>
     <div class="d-flex justify-center">
       <div class="post-form ma-5">
@@ -235,6 +240,12 @@ export default {
 </script>
 
 <style scoped>
+.templete-span{
+  background-color: rgb(219, 223, 223); 
+  padding: 10px; 
+  border-radius: 15px; 
+  width: 95%;  
+}
 .post-form {
   width: 50%;
   max-height: 80vh;
@@ -246,10 +257,25 @@ export default {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
 }
+.templet-post{
+  max-width: 60%;
+  max-height: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
 @media (max-width: 600px) {
   .post-form {
     width: 100%;
+  }
+  .templet-post{
+    max-width: 100%;
+  }
+  .templete-span{
+    width: 80%;
   }
 
   .preloaded-media img {

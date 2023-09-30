@@ -4,7 +4,7 @@
             <v-avatar>
                 <img class="avatar-img" :src="avatarUrl" alt="User Avatar" />
             </v-avatar>
-            <span class="ml-3" :title="getUsername()">{{ getUsername() }}</span>
+            <span class="ml-3" :title="showUsername ? getUsername() : ''" v-if="showUsername">{{ getUsername() }}</span>
             <v-dialog v-model="avatarDialog" max-width="400px" persistent>
                 <v-card style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
                     <div class="d-flex justify-space-between">
@@ -49,6 +49,10 @@ export default {
         openModal: {
             type: Boolean,
             default: false
+        },
+        showUsername: {
+            type: Boolean,
+            default: true,
         },
     },
 
