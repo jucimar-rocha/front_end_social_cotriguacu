@@ -1,163 +1,134 @@
 <template>
-      <post-form/> 
-    <v-card class="post-card ma-5 elevation-2" color="light-grey">
-      <div class="ml-n3">
-        <avatar-usuario :openModal="false"/>
+  <post-form @PostFormPostagemUsuario="atualizarPagina" />
+  <div class="post-list">
+    <v-card v-for="postagem in postagensMapeadas" :key="postagem.id" class="post-card ma-5 elevation-2"
+      color="light-grey">
+      <div class="mb-2">
+        <v-avatar>
+          <img :src="postagem.avatarUsuario" alt="User Avatar" />
+        </v-avatar>
+        <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>
       </div>
-      
-  
-      <!-- Foto ou Vídeo -->
       <v-card-media class="post-media">
-        <img src="/src/assets/jucimar.jpg" alt="Post">
+        <template v-if="postagem.urlVideo">
+          <video class="d-flex post-video" controls :src="postagem.urlVideo" muted loop alt="Post">
+            Seu navegador não suporta a reprodução de vídeos.
+          </video>
+        </template>
+        <template v-else-if="postagem.urlImagem">
+          <img :src="postagem.urlImagem" alt="Post" />
+        </template>
       </v-card-media>
-  
-      <!-- Texto ou Link -->
       <v-card-text class="ma-2" style="font-family: 'Arial', sans-serif; font-size: 16px;">
-        "A vida é como um livro em branco, pronto para ser preenchido com as nossas histórias,
-         sonhos e aventuras. Cada página virada é uma nova oportunidade de aprender,
-          crescer e se reinventar. Não deixe que o medo ou a incerteza impeçam você de escrever a sua história.
-           Viva cada momento com intensidade, abrace os desafios e celebre as pequenas alegrias.
-            O presente é um presente. ✨📖 #Vida #Aventura #Gratidão"
+        {{ postagem.mensagem }}
       </v-card-text>
-  
-      <!-- Ícones -->
-      <v-card-actions>
-      <v-btn variant="text" icon>
-        <v-icon color="red lighten-2">mdi-heart</v-icon>
-      </v-btn>
-      <span class="subheading me-1">10</span>
-
-      <v-btn variant="text" icon>
-        <v-icon color="blue lighten-2">mdi-thumb-up</v-icon>
-      </v-btn>
-      <span class="subheading me-1">25</span>
-
-      <v-btn
-        variant="text"
-        icon
-        @click="toggleComentarios"
-      >
-        <v-icon color="green lighten-2">mdi-comment</v-icon>
-      </v-btn>
-      <span class="subheading me-1">5</span>
-      
-    </v-card-actions>
-
-    <div v-if="mostrarComentarios">
-      <!-- Comentários -->
-      <ComentarioPost
-        v-for="(comentario, index) in comentarios"
-        :key="index"
-        :userAvatar="comentario.userAvatar"
-        :userName="comentario.userName"
-        :commentText="comentario.commentText"
-        :liked="comentario.liked"
-        :likes="comentario.likes"
-        :thumbedUp="comentario.thumbedUp"
-        :thumbsUp="comentario.thumbsUp"
-      />
-    </div>
-
     </v-card>
-  </template>
+  </div>
+</template>
 
 <script>
-import ComentarioPost from '@/components/ComentarioPost.vue';
 import PostForm from '@/components/PostForm.vue';
-import AvatarUsuario from '@/components/AvatarUsuario.vue';
+import { usePostUsuario } from '../store';
+import { computed, onMounted } from 'vue';
 
 export default {
   components: {
-    ComentarioPost,
     PostForm,
-    AvatarUsuario
   },
-  data() {
-    return {
-      mostrarPost: false,
-      mostrarComentarios: false,
-      comentarios: [
-  {
-    userAvatar: '/src/assets/jucimar.jpg',
-    userName: 'Alice Johnson',
-    commentText: 'Ótimo post!',
-    liked: false,
-    likes: 5,
-    thumbedUp: false,
-    thumbsUp: 2
-  },
-  {
-    userAvatar: '/src/assets/jucimar.jpg',
-    userName: 'Bob Smith',
-    commentText: 'Concordo totalmente!',
-    liked: true,
-    likes: 10,
-    thumbedUp: false,
-    thumbsUp: 3
-  },
-  {
-    userAvatar: '/src/assets/jucimar.jpg',
-    userName: 'Charlie Brown',
-    commentText: 'Que inspirador!',
-    liked: false,
-    likes: 7,
-    thumbedUp: true,
-    thumbsUp: 1
-  }
-]
 
+  setup() {
+    const store = usePostUsuario();
+    const params = {
+      numeroPagina: 1,
+      tamanhoPagina: 10,
+      campoOrdem: {
+        campo: "Id",
+        ordem: "Desc"
+      },
+      camposFiltro: [
+        {
+          campo: "",
+          query: "",
+          type: ""
+        }
+      ]
+    };
+    const buscarListaPublicacao = async () => {
+      await store.buscarListaPublicacao(params);
+    };
+    const atualizarPagina = () => {
+      buscarListaPublicacao();
+    };
+    onMounted(() => {
+      store.buscarListaPublicacao(params);
+    });
+
+    const postagensMapeadas = computed(() =>
+      store.postagemUsuario.map(item => ({
+        id: item.id,
+        usuario: item.usuario,
+        avatarUsuario: item.avatarUsuario,
+        nomeusuarioPost: item.nomeusuarioPost,
+        mensagem: item.mensagem,
+        urlImagem: item.urlImagem || null,
+        urlVideo: item.urlVideo || null,
+        dataCriacao: item.dataCriacao
+      }))
+    );
+
+    return {
+      postagensMapeadas,
+      atualizarPagina
     };
   },
   methods: {
-    toggleComentarios() {
-      this.mostrarComentarios = !this.mostrarComentarios;
-    },
-    post_action() {
-      this.mostrarPost = !this.mostrarPost;
-    },
-    
+
   },
-}
+};
 </script>
 
-<style>
+<style scoped>
+.post-video {
+  width: 100%;
+}
+
 .post-card {
   max-width: 60%;
   max-height: auto;
   background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-name {
   margin-left: 10px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 15px;
 }
-.user-name:hover{
+
+.user-name:hover {
   color: #4d4c4c;
 }
 
 .post-media {
   position: relative;
-  padding-top: 56.25%; /* Proporção de 16:9 para manter a imagem não esticada */
-  
+  padding-top: 56.25%;
+
 }
-img {    
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Mantém a proporção da imagem e preenche o espaço disponível */
-  }
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 @media (max-width: 600px) {
-  /* Estilos específicos para telas pequenas (até 600px de largura) */
   .post-card {
-    max-width: 100%; /* Usar toda a largura da tela */
-   
+    max-width: 100%;
   }
-  /* Outras classes e estilos específicos para telas pequenas */
 }
 </style>

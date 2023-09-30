@@ -117,9 +117,9 @@ export default {
 
           if (response) {
             
-            const { usuario, token } = response.data; // Acesse response.data para obter os dados
+            const { usuario, idUsuario, token } = response.data; 
             const authStore = useAuthStore();
-            authStore.autenticarUsuario(usuario, token); // Passa o usuário e o token para a ação
+            authStore.autenticarUsuario(usuario, idUsuario, token);
             this.senha = '';
             router.push('/postUsuario');
 

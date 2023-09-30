@@ -142,19 +142,20 @@ export default {
             if(response) {             
               this.type = "success";
               this.mensagem = "Publicação realizada com sucesso";
-              this.alertaValidacao = true;             
+              this.alertaValidacao = true; 
+              this.$emit('PostFormPostagemUsuario');            
              }
              
       } catch (error) {
         this.type = "error";
         this.mensagem = error.response.data.mensagem;
-        this.alertaValidacao = true;
+        this.alertaValidacao = true;        
       }
 
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
       this.closeDialog();
-      this.loadingDialog = false;
+      this.loadingDialog = false;      
     },
     async uploadImage() {
       if (this.file) {

@@ -2,8 +2,8 @@
     <div>
         <v-list-item class="mt-n2" @click="openAvatarDialog">
             <v-avatar>
-                <img :src="avatarUrl" alt="User Avatar" />
-            </v-avatar>        
+                <img class="avatar-img" :src="avatarUrl" alt="User Avatar" />
+            </v-avatar>
             <span class="ml-3" :title="getUsername()">{{ getUsername() }}</span>
             <v-dialog v-model="avatarDialog" max-width="400px" persistent>
                 <v-card style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
@@ -31,11 +31,7 @@
                 </v-card>
             </v-dialog>
         </v-list-item>
-        <SnackValidatorCalisto 
-              v-model="alertaValidacao"  
-              titulo="Avatar" 
-              :mensagem="mensagem"
-              :type="type"/>
+        <SnackValidatorCalisto v-model="alertaValidacao" titulo="Avatar" :mensagem="mensagem" :type="type" />
     </div>
 </template>
   
@@ -43,47 +39,45 @@
 import axios from 'axios';
 import { useAuthStore } from '@/modules/login/store';
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
-
+import requestHelper from '@/helpers/request'
 
 export default {
-    components:{
-        SnackValidatorCalisto, 
+    components: {
+        SnackValidatorCalisto,
     },
     props: {
-    openModal: {
-      type: Boolean,
-        default: false
+        openModal: {
+            type: Boolean,
+            default: false
         },
     },
+
     data: () => ({
-        alertaValidacao: false, 
+        alertaValidacao: false,
         avatarDialog: false,
         files: [],
         uploading: false,
         uploadProgress: 0,
         avatarUrl: null,
     }),
-    created() {
-        const store = useAuthStore();
-        this.avatarUrl = store.avatarUrl;
-
-        this.$watch(() => store.avatarUrl, (newAvatarUrl) => {
-            this.avatarUrl = newAvatarUrl;
-        });
+    mounted() {
+        const idUsuario = sessionStorage.getItem('idUsuario');
+        this.avaterUsuario(idUsuario);
     },
-    methods: {
-        isCurrentUser() {
-            const store = useAuthStore();
-            const loggedInUserId = store.getUserIdFromToken();
-            if (loggedInUserId && store.currentUser && loggedInUserId === store.currentUser.id) {
-                return true;
-            }
 
-            return false;
+    methods: {
+        async avaterUsuario(idUsuario) {
+            const request = new requestHelper();
+            var context = this;
+
+            request.get(`/Usuario/BuscarPorId${idUsuario}`,{},
+                function (response) {
+                    context.avatarUrl = response.data.pathAvatar
+                }
+            );
         },
         getUsername() {
             let store = useAuthStore();
-
             if (store) {
                 return store.user;
             }
@@ -96,7 +90,7 @@ export default {
         openAvatarDialog() {
             if (this.openModal) {
                 this.avatarDialog = true;
-      }
+            }
         },
         async saveAvatar() {
             if (this.file) {
@@ -117,24 +111,16 @@ export default {
                     });
 
                     if (response.status === 200) {
+                        this.avatarUrl = response.data;
                         this.type = "success";
                         this.mensagem = "Avatar atualizado com sucesso";
                         this.alertaValidacao = true;
-
-                        const uploadedUrl = response.data;
-                        this.uploading = false;
-
-                        const store = useAuthStore();
-
-                        sessionStorage.setItem('avatarUrl', uploadedUrl);
-                        store.updateAvatarUrl(uploadedUrl);
-
-
+                        this.uploading = false;                  
                     } else {
                         console.error('Erro no upload:', response.status, response.statusText);
                     }
 
-                } catch (error) {                   
+                } catch (error) {
                     this.type = "error";
                     this.mensagem = error.mensagem;
                     this.alertaValidacao = true;
@@ -142,7 +128,7 @@ export default {
                 this.avatarDialog = false;
             }
             await new Promise(resolve => setTimeout(resolve, 4000));
-            
+
             this.cancelAvatar();
         },
         getToken() {
@@ -167,4 +153,9 @@ export default {
     },
 };
 </script>
-  
+
+<style scoped>
+.avatar-img {
+    width: 100%;
+}
+</style>
