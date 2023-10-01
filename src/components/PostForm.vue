@@ -77,7 +77,7 @@ import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import LoadingDialog from '@/components/LoadingDialog.vue'
 import requestHelper from '@/helpers/request'
 import axios from 'axios';
-import AvatarUsuario from './AvatarUsuario.vue';
+import AvatarUsuario from '../modules/avatarUsuario/view/AvatarUsuario.vue';
 
 export default {
   components: {    

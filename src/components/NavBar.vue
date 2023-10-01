@@ -50,7 +50,7 @@
 
 <script>
 import AppBar from './AppBar.vue';
-import AvatarUsuario from './AvatarUsuario.vue';
+import AvatarUsuario from '../modules/avatarUsuario/view/AvatarUsuario.vue';
 
 export default {
   components: {

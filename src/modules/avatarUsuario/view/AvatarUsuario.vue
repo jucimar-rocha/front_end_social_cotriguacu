@@ -40,6 +40,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/modules/login/store';
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import requestHelper from '@/helpers/request'
+import {useAvatarStore} from '../store'
 
 export default {
     components: {
@@ -61,22 +62,26 @@ export default {
         avatarDialog: false,
         files: [],
         uploading: false,
-        uploadProgress: 0,
-        avatarUrl: null,
+        uploadProgress: 0        
     }),
     mounted() {
         const idUsuario = sessionStorage.getItem('idUsuario');
         this.avaterUsuario(idUsuario);
     },
-
+    computed:{
+        avatarUrl() {
+        const avatarStore = useAvatarStore();
+        return avatarStore.getAvatarUrl();
+        },
+    },
     methods: {
         async avaterUsuario(idUsuario) {
             const request = new requestHelper();
-            var context = this;
+            const avatarStore = useAvatarStore();
 
             request.get(`/Usuario/BuscarPorId${idUsuario}`,{},
                 function (response) {
-                    context.avatarUrl = response.data.pathAvatar
+                    avatarStore.setAvatarUrl(response.data.pathAvatar);
                 }
             );
         },
@@ -115,6 +120,8 @@ export default {
                     });
 
                     if (response.status === 200) {
+                        const avatarStore = useAvatarStore();
+                        avatarStore.setAvatarUrl(response.data);
                         this.avatarUrl = response.data;
                         this.type = "success";
                         this.mensagem = "Avatar atualizado com sucesso";
