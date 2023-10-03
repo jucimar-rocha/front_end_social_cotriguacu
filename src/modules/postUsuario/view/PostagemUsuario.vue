@@ -3,12 +3,18 @@
   <div class="post-list">
     <v-card v-for="postagem in postagensMapeadas" :key="postagem.id" class="post-card ma-5 elevation-2"
       color="light-grey">
-      <div class="mb-2">
+      <div class="d-flex ma-1 align-center">
         <v-avatar>
           <img :src="postagem.avatarUsuario" alt="User Avatar" />
         </v-avatar>
         <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>
-      </div>
+        <div class="ml-auto mt-n8">
+            <span style="font-size: 10px;" :title="postagem.dataCriacao">{{postagem.dataCriacao}}</span>
+          </div>
+      </div>      
+      <v-card-text class="ma-2" style="font-family: 'Arial', sans-serif; font-size: 16px;">
+        {{ postagem.mensagem }}
+      </v-card-text>  
       <v-card-media class="post-media">
         <template v-if="postagem.urlVideo">
           <video class="d-flex post-video" controls :src="postagem.urlVideo" muted loop alt="Post">
@@ -19,9 +25,7 @@
           <img :src="postagem.urlImagem" alt="Post" />
         </template>
       </v-card-media>
-      <v-card-text class="ma-2" style="font-family: 'Arial', sans-serif; font-size: 16px;">
-        {{ postagem.mensagem }}
-      </v-card-text>
+      <comentario-post :postId="postagem.id"/>
     </v-card>
     <div v-if="postagensMapeadas.length > 0"  class="d-flex justify-center post-pagination">
       <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="3" size="14" rounded="circle"
@@ -32,12 +36,14 @@
 
 <script>
 import PostForm from '@/components/PostForm.vue';
+import ComentarioPost from '@/modules/interacaoPublicacao/view/ComentarioPost.vue';
 import { usePostUsuario } from '../store';
 import { computed, onMounted, ref } from 'vue';
 
 export default {
   components: {
-    PostForm
+    PostForm,
+    ComentarioPost
   },
 
   setup() {

@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
+
 import requestHelper from '@/helpers/request';
 
 export const usePostUsuario = defineStore({
-  id: 'postagemUsuario', // Defina um ID para o store
+  id: 'postagemUsuario',
   state: () => ({
     postagemUsuario: [],
   }),
@@ -15,7 +16,7 @@ export const usePostUsuario = defineStore({
         return response;
       } catch (error) {
         console.error(error);
-        throw error; // Propague o erro para o chamador
+        throw error;
       }
     },
     definirListaPublicacao(lista) {
@@ -27,7 +28,7 @@ export const usePostUsuario = defineStore({
           mensagem: item.mensagem,
           urlImagem: item.urlImagem || null,
           urlVideo: item.urlVideo || null,
-          dataCriacao: item.dataCriacao,
+          dataCriacao: new Date(item.dataCriacao).toLocaleDateString()          
         }));
         console.log(this.postagemUsuario);
       },
