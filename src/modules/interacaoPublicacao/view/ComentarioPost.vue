@@ -1,19 +1,19 @@
 <template>
   <v-card elevation="0">
     <v-card-actions class="ml-n2">
-      <div class="love-hover">
+      <div class="love-hover" @click="adicionaInteracao(2)">
         <v-badge :content="totalLoves" color="grey-lighten-2">
-          <v-icon @click="toggleLove" color="red lighten-2">mdi-heart</v-icon>
+          <v-icon @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
         </v-badge>
       </div>
-      <div class="like-hover ml-2">
+      <div class="like-hover ml-2" @click="adicionaInteracao(1)">
         <v-badge :content="totalLikes" color="grey-lighten-2">
-          <v-icon @click="toggleLike" color="blue ">mdi-thumb-up</v-icon>
+          <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
       <div class=" coment-hover ml-2" @click="toggleComments">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
-          <v-icon color="teal-accent-4">mdi-comment</v-icon>
+          <v-icon >mdi-comment</v-icon>
         </v-badge>
       </div>
     </v-card-actions>
@@ -71,7 +71,7 @@ export default {
   props: {
     postId: Number,
 
-  }, 
+  },
   data() {
     return {
       dialog: false,
@@ -90,12 +90,14 @@ export default {
     const totalLoves = ref('');
     const totalLikes = ref('');
     const totalComentarios = ref('');
+    const usuarioCurtiu = ref(false);
+    const usuarioAmou = ref(false);
 
 
     const loadComments = async () => {
       await store.buscarInteracoes(props.postId);
 
-    };    
+    };
     const toggleComments = () => {
       showComments.value = !showComments.value;
 
@@ -105,13 +107,63 @@ export default {
         store.limparDados(props.postId);
       }
     };
-    const totalInteracoes = async () =>{
+    const totalInteracoes = async () => {
       const response = await store.buscaTotalInteracoes(props.postId);
       if (response.data) {
-          totalLoves.value = response.data.totalLove;
-          totalLikes.value = response.data.totalLike;
-          totalComentarios.value = response.data.totalComentario;
+        totalLoves.value = response.data.totalLove;
+        totalLikes.value = response.data.totalLike;
+        totalComentarios.value = response.data.totalComentario;
+        usuarioCurtiu.value = response.data.usuarioLogadoLike;
+        usuarioAmou.value = response.data.usuarioLogadoLove;
+      }
+    };
+    const adicionaInteracao = async (id) => {
+
+      if (id === 1) {
+        if (usuarioCurtiu.value === true) {
+          usuarioCurtiu.value = false;
+          totalLikes.value = totalLikes.value === 0 ? 0 : totalLikes.value - 1;
         }
+        else {
+          usuarioCurtiu.value = true;
+          if (totalLikes.value === 0) {
+            totalLikes.value = totalLikes.value + 1;
+          }
+          else{
+            totalLikes.value = totalLikes.value + 1
+          }
+        }
+      }
+
+      if (id === 2) {
+        if (usuarioAmou.value === true) {
+          usuarioAmou.value = false;
+          totalLoves.value = totalLoves.value === 0 ? 0 : totalLoves.value - 1;
+        }
+        else {
+          usuarioAmou.value = true;
+          if (totalLoves.value === 0) {
+            totalLoves.value = totalLoves.value + 1;
+          }
+          else{
+            totalLoves.value = totalLoves.value + 1
+          }
+
+        }
+      }
+
+      const idUsuarioStr = localStorage.getItem("idUsuario");
+      const idUsuario = parseInt(idUsuarioStr);
+
+      const parametros = {
+        idPublicacao: props.postId,
+        idUsuario: idUsuario,
+        idInteracao: id
+      }
+
+      const response = await store.adicionaInteracao(parametros);
+      console.log(response);
+
     };
     const criarNovoComentario = async () => {
       try {
@@ -131,7 +183,7 @@ export default {
           if (quillEditor) {
             quillEditor.innerHTML = '';
           }
-          totalComentarios.value = totalComentarios.value +1;
+          totalComentarios.value = totalComentarios.value + 1;
           postComentario.value = '';
           type.value = "success";
           mensagem.value = "Comentário adicionado com sucesso!.";
@@ -170,7 +222,7 @@ export default {
     }
 
     onMounted(async () => {
-      await totalInteracoes(); 
+      await totalInteracoes();
     });
 
     return {
@@ -186,7 +238,10 @@ export default {
       totalInteracoes,
       totalLoves,
       totalLikes,
-      totalComentarios
+      totalComentarios,
+      adicionaInteracao,
+      usuarioCurtiu,
+      usuarioAmou
     };
   },
 }

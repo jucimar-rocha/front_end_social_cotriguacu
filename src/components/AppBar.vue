@@ -3,7 +3,7 @@
 
     <v-app-bar-nav-icon color="primary" @click="toogleBarraLateral"></v-app-bar-nav-icon>
 
-      <v-app-bar-title>Media Social</v-app-bar-title>
+      <v-app-bar-title class="title-appbar">Media Social</v-app-bar-title>
 
       <v-spacer></v-spacer>
       <v-btn class="text-none" stacked>
@@ -56,5 +56,11 @@ export default {
 .btn_sair:hover{
   background-color: rgb(97, 131, 83);
   border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .title-appbar{
+    display: none;
+  }
 }
 </style>

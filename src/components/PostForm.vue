@@ -12,9 +12,9 @@
     </template>
     <div class="d-flex justify-center">
       <div class="post-form ma-5">
-        <div class="d-flex align-center">
+        <div class="d-flex">
           <avatar-usuario :openModal="false"/>
-          <v-btn class="ml-auto" variant="text" icon="mdi-close-circle-outline" @click="closeDialog"></v-btn>
+          <v-btn class="ml-auto mt-n5 mr-n4" variant="text" icon="mdi-close-circle-outline" @click="closeDialog"></v-btn>
         </div>
 
         <div>

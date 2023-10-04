@@ -7,9 +7,9 @@
             <span class="ml-3" :title="showUsername ? getUsername() : ''" v-if="showUsername">{{ getUsername() }}</span>
             <v-dialog v-model="avatarDialog" max-width="400px" persistent>
                 <v-card style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
-                    <div class="d-flex justify-space-between">
+                    <div class="d-flex">
                         <v-card-title>Adicionar Avatar</v-card-title>
-                        <v-btn class="ma-2 pa-2" variant="text" icon="mdi-close-circle-outline"
+                        <v-btn class="ml-auto" variant="text" icon="mdi-close-circle-outline"
                             @click="cancelAvatar"></v-btn>
                     </div>
                     <v-card-text>

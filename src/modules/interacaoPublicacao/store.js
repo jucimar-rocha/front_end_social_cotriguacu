@@ -33,6 +33,13 @@ export const useInteracaoPublicacaoStore = defineStore('interacaoPublicacao', {
         });
        
     },
+    async adicionaInteracao(interacoes){
+      const request = new requestHelper();
+        const response = await request.post('/Curtidas/AdicionarInteracao', interacoes);
+        if (response.status === 200) {
+          return response;
+        }      
+    },
     criaInteracaoPublicacao(id, lista) {
       this.interacao[id] = lista.map(item => ({
         id: item.id,
