@@ -65,7 +65,7 @@ export default {
         uploadProgress: 0        
     }),
     mounted() {
-        const idUsuario = sessionStorage.getItem('idUsuario');
+        const idUsuario = localStorage.getItem('idUsuario');
         this.avaterUsuario(idUsuario);
     },
     computed:{

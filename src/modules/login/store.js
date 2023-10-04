@@ -5,12 +5,12 @@ import { router } from '../../router/index'
 export const useAuthStore = defineStore('autenticacao', {
   state: () => {
     return {
-      user: sessionStorage.getItem('user'),
-      token: sessionStorage.getItem('token'),
+      user: localStorage.getItem('user'),
+      token: localStorage.getItem('token'),
     };
   },
   getters: {
-    getUser: sessionStorage.getItem('user'),
+    getUser: localStorage.getItem('user'),
     getToken: (state) => state.token,
   },
   actions: {
@@ -19,16 +19,16 @@ export const useAuthStore = defineStore('autenticacao', {
       this.user = usuario;
       this.idUsuario = idUsuario;
 
-      sessionStorage.setItem('idUsuario', idUsuario);
-      sessionStorage.setItem('user', usuario);
-      sessionStorage.setItem('token', token);
+      localStorage.setItem('idUsuario', idUsuario);
+      localStorage.setItem('user', usuario);
+      localStorage.setItem('token', token);
 
     },
     logout() {
       this.token = '';
-      sessionStorage.removeItem('idUsuario');
-      sessionStorage.removeItem('user');
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('idUsuario');
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
       this.resetState();
       router.push('login');
     },

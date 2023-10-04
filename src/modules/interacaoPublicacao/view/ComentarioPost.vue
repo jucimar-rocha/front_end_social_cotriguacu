@@ -2,12 +2,12 @@
   <v-card elevation="0">
     <v-card-actions class="ml-n2">
       <div class="love-hover">
-        <v-badge content="2" color="grey-lighten-2">
+        <v-badge :content="totalLoves" color="grey-lighten-2">
           <v-icon @click="toggleLove" color="red lighten-2">mdi-heart</v-icon>
         </v-badge>
       </div>
       <div class="like-hover ml-2">
-        <v-badge content="2" color="grey-lighten-2">
+        <v-badge :content="totalLikes" color="grey-lighten-2">
           <v-icon @click="toggleLike" color="blue ">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
@@ -20,6 +20,19 @@
 
     <transition name="fade">
       <v-card-text v-if="showComments" style="padding:0;">
+        <div class="publicar-comentario">
+          <div class="ml-n4">
+            <avatar-usuario :openModal="false" />
+          </div>
+          <QuillEditor placeholder="Adicione seu comentario!" theme="snow" v-model:content="postComentario"
+            content-type="text" />
+          <div>
+            <button class="publish-button" @click="criarNovoComentario">
+              Adiconar Comentar
+            </button>
+          </div>
+        </div>
+
         <div v-for="comment in interacoesMapeadas" :key="comment.id" class="comment">
           <div class="d-flex ma-1 align-center">
             <v-avatar>
@@ -45,21 +58,20 @@
 </template>
   
 <script>
+import AvatarUsuario from '@/modules/avatarUsuario/view/AvatarUsuario.vue';
 import { useInteracaoPublicacaoStore } from '../store'
 import { ref, onMounted, computed } from 'vue'
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 
 export default {
   components: {
-    SnackValidatorCalisto
+    SnackValidatorCalisto,
+    AvatarUsuario
   },
   props: {
     postId: Number,
 
-  },
-  methods: {
-
-  },
+  }, 
   data() {
     return {
       dialog: false,
@@ -71,18 +83,19 @@ export default {
     const interacoesMapeadas = computed(() => {
       return store.interacao[props.postId] || [];
     });
-    const type = ref(''); // Variáveis reativas
+    const type = ref('');
     const mensagem = ref('');
     const alertaValidacao = ref(false);
+    const postComentario = ref('');
+    const totalLoves = ref('');
+    const totalLikes = ref('');
+    const totalComentarios = ref('');
+
 
     const loadComments = async () => {
-      if (!store.interacao[props.postId]) {
-        await store.buscarInteracoes(props.postId);
-      }
-    };
-    const totalComentarios = () => {
+      await store.buscarInteracoes(props.postId);
 
-    };
+    };    
     const toggleComments = () => {
       showComments.value = !showComments.value;
 
@@ -92,16 +105,55 @@ export default {
         store.limparDados(props.postId);
       }
     };
-    const excluir = (commentId) => {
+    const totalInteracoes = async () =>{
+      const response = await store.buscaTotalInteracoes(props.postId);
+      if (response.data) {
+          totalLoves.value = response.data.totalLove;
+          totalLikes.value = response.data.totalLike;
+          totalComentarios.value = response.data.totalComentario;
+        }
+    };
+    const criarNovoComentario = async () => {
+      try {
+        const comentario = postComentario.value;
+        const idPost = props.postId;
 
+        if (!comentario) {
+          return;
+        }
+        const parametros = {
+          IdPublicacoes: idPost,
+          comentario: comentario
+        }
+        const response = await store.criarComentario(parametros);
+        if (response) {
+          const quillEditor = document.querySelector('.ql-editor');
+          if (quillEditor) {
+            quillEditor.innerHTML = '';
+          }
+          totalComentarios.value = totalComentarios.value +1;
+          postComentario.value = '';
+          type.value = "success";
+          mensagem.value = "Comentário adicionado com sucesso!.";
+          alertaValidacao.value = true;
+          loadComments();
+        }
+        console.log('Novo comentário criado com sucesso!', response);
+      } catch (error) {
+        type.value = "error";
+        mensagem.value = error.response.data.mensagem;
+        alertaValidacao.value = true;
+      }
+    };
+    const excluir = (commentId) => {
       store.excluir(commentId,
         (response) => {
           const index = store.interacao[props.postId].findIndex(comment => comment.id === commentId);
-
           if (index !== -1) {
             store.interacao[props.postId].splice(index, 1);
           }
           if (response) {
+            totalComentarios.value = totalComentarios.value - 1;
             type.value = "success";
             mensagem.value = "Comentário excluído com sucesso!.";
             alertaValidacao.value = true;
@@ -117,8 +169,8 @@ export default {
 
     }
 
-    onMounted(() => {
-      totalComentarios();
+    onMounted(async () => {
+      await totalInteracoes(); 
     });
 
     return {
@@ -129,7 +181,12 @@ export default {
       type,
       mensagem,
       alertaValidacao,
-
+      criarNovoComentario,
+      postComentario,
+      totalInteracoes,
+      totalLoves,
+      totalLikes,
+      totalComentarios
     };
   },
 }
@@ -183,6 +240,30 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.publish-button {
+  background-color: #1877f2;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.publish-button:hover {
+  background-color: #1465c0;
+}
+
+.publicar-comentario {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 </style>
   
