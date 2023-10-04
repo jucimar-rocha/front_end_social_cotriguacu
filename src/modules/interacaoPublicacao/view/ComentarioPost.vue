@@ -48,7 +48,13 @@
           <div class="ml-11 mt-n6 pa-3">
             <span class="comment-text" :title="comment.comentario">{{ comment.comentario }}</span>
           </div>
-          <v-btn @click="excluir(comment.id)">Excluir</v-btn>
+          <v-btn >Excluir
+            <ConfirmationDialog 
+              v-if="!apenasVisualizar"
+              :titulo="'Excluir'" 
+              :mensagem="'Deseja realmente excluir o comentario?'" 
+              @confirmar="excluir(comment.id)"/>
+          </v-btn>
         </div>
         <SnackValidatorCalisto v-model="alertaValidacao" titulo="Comentario" :mensagem="mensagem" :type="type" />
       </v-card-text>
@@ -62,11 +68,14 @@ import AvatarUsuario from '@/modules/avatarUsuario/view/AvatarUsuario.vue';
 import { useInteracaoPublicacaoStore } from '../store'
 import { ref, onMounted, computed } from 'vue'
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
+
 
 export default {
   components: {
     SnackValidatorCalisto,
-    AvatarUsuario
+    AvatarUsuario,
+    ConfirmationDialog,
   },
   props: {
     postId: Number,

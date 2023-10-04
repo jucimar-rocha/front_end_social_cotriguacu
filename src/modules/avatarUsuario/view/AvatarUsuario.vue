@@ -8,9 +8,8 @@
             <v-dialog v-model="avatarDialog" max-width="400px" persistent>
                 <v-card style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
                     <div class="d-flex">
-                        <v-card-title>Adicionar Avatar</v-card-title>
-                        <v-btn class="ml-auto" variant="text" icon="mdi-close-circle-outline"
-                            @click="cancelAvatar"></v-btn>
+                        <v-card-title>Adicionar Avatar</v-card-title>                        
+                            <v-btn class="ml-auto"  density="compact" variant="text" icon="mdi-close-thick" @click="cancelAvatar"></v-btn>
                     </div>
                     <v-card-text>
                         <v-file-input label="Adicione seu avatar!" variant="outlined" ref="file" v-model="files"
