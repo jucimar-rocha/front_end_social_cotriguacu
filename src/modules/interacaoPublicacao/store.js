@@ -35,7 +35,7 @@ export const useInteracaoPublicacaoStore = defineStore('interacaoPublicacao', {
     },
     async adicionaInteracao(interacoes){
       const request = new requestHelper();
-        const response = await request.post('/Curtidas/AdicionarInteracao', interacoes);
+        const response = await request.post('/Comentarios/AdicionarInteracao', interacoes);
         if (response.status === 200) {
           return response;
         }      

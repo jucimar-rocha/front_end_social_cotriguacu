@@ -32,5 +32,9 @@ export const usePostUsuario = defineStore({
         }));
         console.log(this.postagemUsuario);
       },
+      excluir(id, retorno, retornoErro) {
+        const request = new requestHelper();
+        return request.delete(`/Publicacoes/Deletar${id}`, {}, retorno, retornoErro);
+      }
   },
 });

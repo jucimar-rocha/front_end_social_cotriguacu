@@ -7,9 +7,19 @@
         <v-avatar>
           <img :src="postagem.avatarUsuario" alt="User Avatar" />
         </v-avatar>
-        <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>
+        <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>      
         <div class="ml-auto mt-n8">
             <span style="font-size: 10px;" :title="postagem.dataCriacao">{{postagem.dataCriacao}}</span>
+          </div>
+          <div class="mt-n8 mr-n8">
+            <v-btn  variant="text">
+              <ConfirmationDialog 
+              v-if="!apenasVisualizar"
+              :titulo="'Excluir'" 
+              :mensagem="'Deseja realmente excluir esta publicação?'" 
+              @confirmar="excluirPublicacao(postagem.id)"/>
+              <v-icon left>mdi-delete-empty</v-icon>
+            </v-btn>   
           </div>
       </div>      
       <v-card-text class="ma-2" style="font-family: 'Arial', sans-serif; font-size: 16px;">
@@ -24,9 +34,14 @@
         <template v-else-if="postagem.urlImagem">
           <img :src="postagem.urlImagem" alt="Post" />
         </template>
-      </v-card-media>
-      <comentario-post :postId="postagem.id"/>
+      </v-card-media>      
+      <comentario-post :postId="postagem.id"/>    
     </v-card>
+    <SnackValidatorCalisto 
+              v-model="alertaValidacao"  
+              titulo="Publicação" 
+              :mensagem="mensagem"
+              :type="type"/>
     <div v-if="postagensMapeadas.length > 0"  class="d-flex justify-center post-pagination">
       <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="3" size="14" rounded="circle"
         prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina"></v-pagination>
@@ -39,18 +54,24 @@ import PostForm from '@/components/PostForm.vue';
 import ComentarioPost from '@/modules/interacaoPublicacao/view/ComentarioPost.vue';
 import { usePostUsuario } from '../store';
 import { computed, onMounted, ref } from 'vue';
+import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 export default {
   components: {
     PostForm,
-    ComentarioPost
+    ComentarioPost,
+    SnackValidatorCalisto,
+    ConfirmationDialog
   },
 
   setup() {
     const store = usePostUsuario();
-
     const page = ref(1);
     const postagensPorPagina = 10;
+    const type = ref('');
+    const mensagem = ref('');
+    const alertaValidacao = ref(false);
 
     const params = {
       numeroPagina: 1,
@@ -90,17 +111,36 @@ export default {
         dataCriacao: item.dataCriacao
       }))
     );
+    const excluirPublicacao = (id) => {
+      store.excluir(id,
+        (response) => {
+
+          if (response) {          
+            type.value = "success";
+            mensagem.value = "Publicação excluída com sucesso!.";
+            alertaValidacao.value = true; 
+            atualizarPagina();          
+          }
+        },
+        (error) => {
+          type.value = "error";
+          mensagem.value = error.response.data.mensagem;
+          alertaValidacao.value = true;
+        }
+      );
+    }
 
     return {
       page,
       postagensPorPagina,
       postagensMapeadas,
-      atualizarPagina
+      atualizarPagina,
+      excluirPublicacao,
+      type,
+      mensagem,
+      alertaValidacao,
     };
-  },
-  methods: {
-
-  },
+  }, 
 };
 </script>
 
