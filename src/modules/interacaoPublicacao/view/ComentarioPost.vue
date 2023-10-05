@@ -13,7 +13,7 @@
       </div>
       <div class=" coment-hover ml-2" @click="toggleComments">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
-          <v-icon >mdi-comment</v-icon>
+          <v-icon>mdi-comment</v-icon>
         </v-badge>
       </div>
     </v-card-actions>
@@ -48,12 +48,9 @@
           <div class="ml-11 mt-n6 pa-3">
             <span class="comment-text" :title="comment.comentario">{{ comment.comentario }}</span>
           </div>
-          <v-btn >Excluir
-            <ConfirmationDialog 
-              v-if="!apenasVisualizar"
-              :titulo="'Excluir'" 
-              :mensagem="'Deseja realmente excluir o comentario?'" 
-              @confirmar="excluir(comment.id)"/>
+          <v-btn>Excluir
+            <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
+              :mensagem="'Deseja realmente excluir o comentario?'" @confirmar="excluir(comment.id)" />
           </v-btn>
         </div>
         <SnackValidatorCalisto v-model="alertaValidacao" titulo="Comentario" :mensagem="mensagem" :type="type" />
@@ -138,7 +135,7 @@ export default {
           if (totalLikes.value === 0) {
             totalLikes.value = totalLikes.value + 1;
           }
-          else{
+          else {
             totalLikes.value = totalLikes.value + 1
           }
         }
@@ -154,7 +151,7 @@ export default {
           if (totalLoves.value === 0) {
             totalLoves.value = totalLoves.value + 1;
           }
-          else{
+          else {
             totalLoves.value = totalLoves.value + 1
           }
 
