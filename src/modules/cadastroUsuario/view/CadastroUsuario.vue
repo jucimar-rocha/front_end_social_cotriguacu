@@ -75,8 +75,9 @@
                     </v-col>
                     <v-col cols="12" md="6">
                       <v-text-field
+                        ref="campoContraSenha"
                         v-model="usuario.contraSenha"                       
-                        :rules="[rules.obrigatorio]"
+                        :rules="[v => validarSenhaIgual(usuario.contraSenha) || !!v || 'As senhas não coincidem']"
                         :append-inner-icon="visibleConf ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visibleConf ? 'text' : 'password'"
                         label="Confirmar Senha"
@@ -144,16 +145,26 @@ export default {
         rules: {
             obrigatorio: v => !!v || 'Esse campo é obrigatório.',
             email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Email inválido',
-            validarCpf: v => validarCpf(v) || 'CPF inválido'  
+            validarCpf: v => validarCpf(v) || 'CPF inválido'
         },
        
         
     }),
     methods:{
-      async salvarNovoUsuario() {   
-        
+      validarSenhaIgual() {
+        return this.usuario.contraSenha === this.usuario.senha;
+      },
+      async salvarNovoUsuario() {        
         const { valid } = await this.$refs.form.validate();
-        if(!valid) return;       
+        if(!valid) return;
+        
+        if (!this.validarSenhaIgual()) {
+          this.type = "error";
+          this.mensagem = "As senhas não correspondem. Por favor, verifique se você digitou a mesma senha nos campos e contra senha.";
+          this.alertaValidacao = true;
+          this.$refs.campoContraSenha.focus();
+          return;
+        }
         
         else{        
           this.usuario.cpf = removerMascaras(this.usuario.cpf);

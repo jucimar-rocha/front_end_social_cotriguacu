@@ -129,8 +129,15 @@ export default {
             this.alertaValidacao = true;
           }          
         } catch (error) {
-          this.mensagem = error.response.data.mensagem;
-          this.alertaValidacao = true;
+          if(error.message){
+            this.mensagem = "Desculpe, parece que estamos enfrentando problemas técnicos no momento e o nosso sistema de login não está disponível. Por favor, tente novamente mais tarde. Estamos trabalhando para resolver o problema o mais rápido possível. Agradecemos a sua paciência.";
+            this.alertaValidacao = true;
+          }
+          else{
+            this.mensagem = error.mensagem;
+            this.alertaValidacao = true;
+          }
+         
         }
       },
 
