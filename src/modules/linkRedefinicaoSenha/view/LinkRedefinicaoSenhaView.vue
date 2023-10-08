@@ -105,10 +105,7 @@
           async redefinirSenha(){
             const { valid } = await this.$refs.form.validate();
             if(!valid) return;
-    
-            else{             
-              this.loadingDialog = true;
-            
+
               try{
                 const request = new requestHelper(); 
                 const response = await request.post('/usuario/LinkRedefinirSenha/',{
@@ -118,30 +115,32 @@
     
                 if(response) {           
                   this.type = "success";
-                  this.mensagem = "Senha atualizada, você sera redirecionado a tela do login.";
+                  this.mensagem = "Senha atualizada com sucesso, você sera redirecionado a tela do login.";
                   this.alertaValidacao = true;
                   this.usuario = {};
-                  setTimeout(() => {
-                    router.push("/login");
-                  }, 5000);
+                  this.loadingDialog = false;
+
+                  await new Promise(resolve => setTimeout(resolve, 5000));
+                  
+                  router.push("/login");                  
                 }
               } catch (error) {
                 this.type = "error";
                 this.mensagem = error.response.data.mensagem;
                 this.alertaValidacao = true;  
+                this.loadingDialog = false;
               }
-              this.loadingDialog = false;
-          }        
-          
         },
         verificarRequisitosSenha() {
             const senha = this.usuario.senha;
 
-            this.senhaRequisitos[0].atendido = senha.length >= 8;
-            this.senhaRequisitos[1].atendido = /[A-Z]/.test(senha);
-            this.senhaRequisitos[2].atendido = /[a-z]/.test(senha);
-            this.senhaRequisitos[3].atendido = /\d/.test(senha);
-            this.senhaRequisitos[4].atendido = /[!@#$%^&*]/.test(senha);
+            if (senha) { // Verifique se senha não é nula ou indefinida
+              this.senhaRequisitos[0].atendido = senha.length >= 8;
+              this.senhaRequisitos[1].atendido = /[A-Z]/.test(senha);
+              this.senhaRequisitos[2].atendido = /[a-z]/.test(senha);
+              this.senhaRequisitos[3].atendido = /\d/.test(senha);
+              this.senhaRequisitos[4].atendido = /[!@#$%^&*]/.test(senha);
+            }
           },
       },
       watch: {

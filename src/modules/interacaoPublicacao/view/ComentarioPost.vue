@@ -158,7 +158,7 @@ export default {
         }
       }
 
-      const idUsuarioStr = localStorage.getItem("idUsuario");
+      const idUsuarioStr = sessionStorage.getItem("idUsuario");
       const idUsuario = parseInt(idUsuarioStr);
 
       const parametros = {
