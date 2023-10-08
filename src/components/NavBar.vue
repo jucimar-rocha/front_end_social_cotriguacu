@@ -1,11 +1,16 @@
 <template>
-  <app-bar @update="changeDrawer" />
-  <v-navigation-drawer v-model="drawer" flat color="blue-grey-lighten-5" elevation="1">
-    <v-divider></v-divider>
-    <v-list>
-      <v-list>
-        <avatar-usuario :openModal="true"/>
-      </v-list>
+  <div>
+    <app-bar @update="toggleRail" />
+    <v-navigation-drawer
+      v-model="drawer"
+      :rail="isMobile ? false : rail"
+      :permanent="isMobile ? false : true"
+      :flat="isMobile ? false : true"
+      color="blue-grey-lighten-5"
+      elevation="1"
+    >
+    <v-list class="mt-3">
+      <avatar-usuario :showUsername="isMobile ? true : !rail" :openModal="true"/> 
     </v-list>
     <v-list>
       <v-list-item>
@@ -44,8 +49,8 @@
 
 
     </v-list>
-
-  </v-navigation-drawer>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -58,25 +63,35 @@ export default {
     AvatarUsuario
   },
   data: () => ({
+    nomeAvatar: false,
     drawer: true,
     username: '',
-    textoFiltro: '', 
-    main: [
-
-    ],
-    parametros: [
-    ]
+    textoFiltro: '',
+    rail: true, // Comece com o rail recolhido
+    main: [],
+    parametros: [],
+    isMobile: false, // Variável para verificar se a tela é móvel
   }),
+  mounted() {
+    // Use window.innerWidth para verificar a largura da tela
+    this.isMobile = window.innerWidth <= 600; // Por exemplo, considere 768 como a largura de tela para dispositivos móveis
+  },
   methods: {
     filterItemMenu(menuName) {
-
       menuName = menuName.toLowerCase();
       const filtro = this.textoFiltro.toLowerCase();
       return menuName && menuName.includes(filtro);
     },
     changeDrawer(draweUpdated) {
       this.drawer = draweUpdated;
-    },   
-  }  
-}
+    },
+    toggleRail() {
+      if (this.isMobile) {
+        this.drawer = !this.drawer; // Alternar o drawer em telas menores
+      } else {
+        this.rail = !this.rail; // Alternar o rail em telas maiores
+      }
+    },
+  },
+};
 </script>
