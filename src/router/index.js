@@ -34,6 +34,8 @@ router.beforeEach(async (to, from, next) => {
     }
   } else if (to.name !== 'Login' && !store.isAuthenticate()) {
     next({ name: 'Login' });
+  } else if(to.name ==='Login' && store.isAuthenticate()){
+    next({ name: 'PostUsuario' });
   } else {
     next();
   }
