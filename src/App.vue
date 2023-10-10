@@ -9,6 +9,7 @@
       <v-main>
         <router-view />
       </v-main>
+      <footer-bar/>
     </div>
   </v-app>
 </template>
@@ -16,11 +17,13 @@
 <script >
  import NavBar from './components/NavBar.vue';
  import { useAuthStore } from './modules/login/store';
+ import FooterBar from './components/FooterBar.vue';
 
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    FooterBar
   },
   data() {
     return {

@@ -22,31 +22,3 @@
 *::-webkit-scrollbar-thumb:active {
     background-color: #919191;
 }
-
-.bh-table-responsive {
-    height: 100% !important;
-    overflow: hidden;
-}
-
-.bh-filter-menu {
-    display: none;
-}
-
-.bh-table-responsive table.bh-table-compact tbody tr td, .bh-table-responsive table.bh-table-compact thead tr th {
-    padding: 0.5rem 0.2rem;
-}
-
-.bh-table-responsive table tfoot tr, .bh-table-responsive table thead tr {
-    background-color: transparent;
-    border-bottom: solid 2px #e9e9e9;
-}
-
-.bh-pagination .bh-page-item.bh-active {
-    background-color: #68913F;
-    border-color: #48711F;
-}
-
-.bh-pagination .bh-page-item:hover {
-    background-color: #48711F;
-    border-color: #68913F;
-}

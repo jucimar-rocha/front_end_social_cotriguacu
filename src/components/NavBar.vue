@@ -1,12 +1,12 @@
 <template>
   <div>
-    <app-bar @update="toggleRail" />
+   
     <v-navigation-drawer
+      class="rounded-be-lg"
       v-model="drawer"
       :rail="isMobile ? false : rail"
       :permanent="isMobile ? false : true"
-      :flat="isMobile ? false : true"
-      color="blue-grey-lighten-5"
+      :flat="isMobile ? false : true"      
       elevation="1"
     >
     <v-list class="mt-3">
@@ -46,10 +46,9 @@
           <v-list-item-title>{{ text }}</v-list-item-title>
         </v-list-item>
       </v-list-group>
-
-
     </v-list>
     </v-navigation-drawer>
+    <app-bar @update="toggleRail" />
   </div>
 </template>
 

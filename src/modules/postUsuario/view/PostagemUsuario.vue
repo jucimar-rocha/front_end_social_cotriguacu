@@ -7,24 +7,22 @@
         <v-avatar>
           <img :src="postagem.avatarUsuario" alt="User Avatar" />
         </v-avatar>
-        <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>      
+        <span class="ml-3" :title="postagem.usuario">{{ postagem.usuario }}</span>
         <div class="ml-auto mt-n8">
-            <span style="font-size: 10px;" :title="postagem.dataCriacao">{{postagem.dataCriacao}}</span>
-          </div>
-          <div class="mt-n8 mr-n8">
-            <v-btn  variant="text">
-              <ConfirmationDialog 
-              v-if="!apenasVisualizar"
-              :titulo="'Excluir'" 
-              :mensagem="'Deseja realmente excluir esta publicação?'" 
-              @confirmar="excluirPublicacao(postagem.id)"/>
-              <v-icon left>mdi-delete-empty</v-icon>
-            </v-btn>   
-          </div>
-      </div>      
+          <span style="font-size: 10px;" :title="postagem.dataCriacao">{{ postagem.dataCriacao }}</span>
+        </div>
+        <div class="mt-n8 mr-n8">
+          <v-btn variant="text">
+            <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
+              :mensagem="'Deseja realmente excluir esta publicação?'" @confirmar="excluirPublicacao(postagem.id)" />
+            <v-icon left>mdi-delete-empty</v-icon>
+            <v-tooltip activator="parent" location="top">Excluir</v-tooltip>
+          </v-btn>
+        </div>
+      </div>
       <v-card-text class="ma-2" style="font-family: 'Arial', sans-serif; font-size: 16px;">
         {{ postagem.mensagem }}
-      </v-card-text>  
+      </v-card-text>
       <v-card-media class="post-media">
         <template v-if="postagem.urlVideo">
           <video class="d-flex post-video" controls :src="postagem.urlVideo" muted loop alt="Post">
@@ -34,15 +32,11 @@
         <template v-else-if="postagem.urlImagem">
           <img :src="postagem.urlImagem" alt="Post" />
         </template>
-      </v-card-media>      
-      <comentario-post :postId="postagem.id"/>    
+      </v-card-media>
+      <comentario-post :postId="postagem.id" />
     </v-card>
-    <SnackValidatorCalisto 
-              v-model="alertaValidacao"  
-              titulo="Publicação" 
-              :mensagem="mensagem"
-              :type="type"/>
-    <div v-if="postagensMapeadas.length > 0"  class="d-flex justify-center post-pagination">
+    <SnackValidatorCalisto v-model="alertaValidacao" titulo="Publicação" :mensagem="mensagem" :type="type" />
+    <div v-if="postagensMapeadas.length > 0" class="d-flex justify-center post-pagination">
       <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="3" size="14" rounded="circle"
         prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina"></v-pagination>
     </div>
@@ -115,11 +109,11 @@ export default {
       store.excluir(id,
         (response) => {
 
-          if (response) {          
+          if (response) {
             type.value = "success";
             mensagem.value = "Publicação excluída com sucesso!.";
-            alertaValidacao.value = true; 
-            atualizarPagina();          
+            alertaValidacao.value = true;
+            atualizarPagina();
           }
         },
         (error) => {
@@ -140,7 +134,7 @@ export default {
       mensagem,
       alertaValidacao,
     };
-  }, 
+  },
 };
 </script>
 
@@ -148,7 +142,8 @@ export default {
 .post-video {
   width: 100%;
 }
-.post-pagination{
+
+.post-pagination {
   max-width: 60%;
   padding: 16px;
 }
@@ -191,7 +186,8 @@ img {
   .post-card {
     max-width: 100%;
   }
-  .post-pagination{
+
+  .post-pagination {
     max-width: 100%;
   }
 }

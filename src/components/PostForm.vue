@@ -34,8 +34,8 @@
                 <v-card-title>
                   Adicionar Foto/Vídeo
                 </v-card-title>
-                <v-btn class="ma-2 pa-2" variant="text" icon="mdi-close-circle-outline"
-                  @click="closeUploadDialog"></v-btn>
+                  <v-btn class="ml-auto"
+                    density="compact" variant="text" icon="mdi-close-thick" @click="closeUploadDialog"></v-btn> 
               </div>
               <v-card-text>
                 <v-file-input label="Adicione aqui!" variant="outlined" ref="file" v-model="files"

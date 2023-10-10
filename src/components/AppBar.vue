@@ -1,11 +1,12 @@
 <template>
-   <v-app-bar class="flex-grow-0" flat color="#FFFFFF" elevation="1">
+   <v-app-bar class="flex-grow-0 rounded-lg" flat  elevation="1">
 
     <v-app-bar-nav-icon color="primary" @click="toogleBarraLateral"></v-app-bar-nav-icon>
 
       <v-app-bar-title class="title-appbar">Media Social</v-app-bar-title>
 
       <v-spacer></v-spacer>
+      <div class="ml-auto">
       <v-btn class="text-none" stacked>
           <v-badge content="2" color="error">
             <v-icon color="primary">mdi-bell-outline</v-icon>
@@ -26,7 +27,7 @@
               </v-list-item>
             </v-list>
           </v-menu>
-
+        </div>
     </v-app-bar>
 </template>
 
