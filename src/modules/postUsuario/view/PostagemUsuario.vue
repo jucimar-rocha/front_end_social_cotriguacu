@@ -11,8 +11,8 @@
         <div class="ml-auto mt-n8">
           <span style="font-size: 10px;" :title="postagem.dataCriacao">{{ postagem.dataCriacao }}</span>
         </div>
-        <div class="mt-n8 mr-n8">
-          <v-btn variant="text">
+        <div class="mt-n8" :class="{ 'mr-n8': postagem.usuario === usuarioLogado }">
+          <v-btn variant="text" v-if="postagem.usuario === usuarioLogado">
             <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
               :mensagem="'Deseja realmente excluir esta publicação?'" @confirmar="excluirPublicacao(postagem.id)" />
             <v-icon left>mdi-delete-empty</v-icon>
@@ -61,11 +61,13 @@ export default {
 
   setup() {
     const store = usePostUsuario();
+    const usuarioLogado = sessionStorage.getItem('user');
     const page = ref(1);
     const postagensPorPagina = 10;
     const type = ref('');
     const mensagem = ref('');
     const alertaValidacao = ref(false);
+
 
     const params = {
       numeroPagina: 1,
@@ -133,6 +135,7 @@ export default {
       type,
       mensagem,
       alertaValidacao,
+      usuarioLogado
     };
   },
 };

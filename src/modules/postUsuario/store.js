@@ -28,7 +28,7 @@ export const usePostUsuario = defineStore({
           mensagem: item.mensagem,
           urlImagem: item.urlImagem || null,
           urlVideo: item.urlVideo || null,
-          dataCriacao: new Date(item.dataCriacao).toLocaleDateString()          
+          dataCriacao: new Date(item.dataCriacao).toLocaleString()          
         }));
         console.log(this.postagemUsuario);
       },

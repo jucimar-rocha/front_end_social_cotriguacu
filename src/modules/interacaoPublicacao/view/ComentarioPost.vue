@@ -11,16 +11,21 @@
           <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
-      <div class=" coment-hover ml-2" @click="toggleComments">
+      <div class=" coment-hover ml-2" @click="totalComentarios > 0 ? toggleComments() : null">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
           <v-icon>mdi-comment</v-icon>
         </v-badge>
+      </div>
+      <div class="ml-auto mt-n2">
+        <v-btn prepend-icon="mdi-comment-plus-outline" @click="showAdicionarComentario" variant="text">
+          Comentar
+        </v-btn>
       </div>
     </v-card-actions>
 
     <transition name="fade">
       <v-card-text v-if="showComments" style="padding:0;">
-        <div class="publicar-comentario">
+        <div class="publicar-comentario" v-show="interacoesMapeadas === null || visualizarComentario">
           <div class="ml-n4">
             <avatar-usuario :openModal="false" />
           </div>
@@ -28,7 +33,7 @@
             content-type="text" />
           <div>
             <button class="publish-button" @click="criarNovoComentario">
-              Adiconar Comentar
+              Adiconar Comentario
             </button>
           </div>
         </div>
@@ -98,6 +103,7 @@ export default {
     const totalComentarios = ref('');
     const usuarioCurtiu = ref(false);
     const usuarioAmou = ref(false);
+    const visualizarComentario = ref(false);
 
 
     const loadComments = async () => {
@@ -111,6 +117,7 @@ export default {
         loadComments();
       } else {
         store.limparDados(props.postId);
+        visualizarComentario.value = false;
       }
     };
     const totalInteracoes = async () => {
@@ -224,8 +231,13 @@ export default {
           alertaValidacao.value = true;
         }
       );
-
-    }
+    };
+    const showAdicionarComentario = () =>{
+      if(showComments.value === true){
+        visualizarComentario.value = !visualizarComentario.value;
+      }
+      
+    };
 
     onMounted(async () => {
       await totalInteracoes();
@@ -247,7 +259,9 @@ export default {
       totalComentarios,
       adicionaInteracao,
       usuarioCurtiu,
-      usuarioAmou
+      usuarioAmou,
+      visualizarComentario,
+      showAdicionarComentario
     };
   },
 }
