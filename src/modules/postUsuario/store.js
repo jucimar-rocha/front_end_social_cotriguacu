@@ -6,6 +6,7 @@ export const usePostUsuario = defineStore({
   id: 'postagemUsuario',
   state: () => ({
     postagemUsuario: [],
+    total: 0,
   }),
   actions: {
     async buscarListaPublicacao(parametros) {
@@ -13,6 +14,7 @@ export const usePostUsuario = defineStore({
         const request = new requestHelper();
         const response = await request.post('/Publicacoes/BuscaListaPaginada', parametros);
         this.definirListaPublicacao(response.data.value.itens);
+        this.total = response.data.value.total;
         return response;
       } catch (error) {
         console.error(error);
@@ -28,7 +30,7 @@ export const usePostUsuario = defineStore({
           mensagem: item.mensagem,
           urlImagem: item.urlImagem || null,
           urlVideo: item.urlVideo || null,
-          dataCriacao: new Date(item.dataCriacao).toLocaleString()          
+          dataCriacao: new Date(item.dataCriacao).toLocaleString()        
         }));
         console.log(this.postagemUsuario);
       },

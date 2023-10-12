@@ -1,5 +1,5 @@
 <template>
-  <post-form @PostFormPostagemUsuario="atualizarPagina" />
+  <post-form @PostFormPostagemUsuario="atualizarPagina(page)" />
   <div class="post-list">
     <v-card v-for="postagem in postagensMapeadas" :key="postagem.id" class="post-card ma-5 elevation-2"
       color="light-grey">
@@ -14,7 +14,7 @@
         <div class="mt-n8" :class="{ 'mr-n8': postagem.usuario === usuarioLogado }">
           <v-btn variant="text" v-if="postagem.usuario === usuarioLogado">
             <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
-              :mensagem="'Deseja realmente excluir esta publicação?'" @confirmar="excluirPublicacao(postagem.id)" />
+              :mensagem="'Deseja realmente excluir esta publicação?'" @confirmar="excluirPublicacao(postagem.id, page)" />
             <v-icon left>mdi-delete-empty</v-icon>
             <v-tooltip activator="parent" location="top">Excluir</v-tooltip>
           </v-btn>
@@ -37,8 +37,8 @@
     </v-card>
     <SnackValidatorCalisto v-model="alertaValidacao" titulo="Publicação" :mensagem="mensagem" :type="type" />
     <div v-if="postagensMapeadas.length > 0" class="d-flex justify-center post-pagination">
-      <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="3" size="14" rounded="circle"
-        prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina"></v-pagination>
+      <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="totalPages" size="14" rounded="circle"
+        prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina(page)"></v-pagination>
     </div>
   </div>
 </template>
@@ -67,10 +67,12 @@ export default {
     const type = ref('');
     const mensagem = ref('');
     const alertaValidacao = ref(false);
+    const totalPostagens = computed(() => store.total);
+    const totalPages = computed(() => Math.ceil(totalPostagens.value / postagensPorPagina));
 
 
     const params = {
-      numeroPagina: 1,
+      numeroPagina: page.value,
       tamanhoPagina: postagensPorPagina,
       campoOrdem: {
         campo: "Id",
@@ -88,8 +90,10 @@ export default {
       params.numeroPagina = page.value;
       await store.buscarListaPublicacao(params);
     };
-    const atualizarPagina = () => {
-      buscarListaPublicacao();
+    const atualizarPagina = (novaPagina) => {      
+        page.value = novaPagina;
+        buscarListaPublicacao();
+      
     };
     onMounted(() => {
       store.buscarListaPublicacao(params);
@@ -107,7 +111,7 @@ export default {
         dataCriacao: item.dataCriacao
       }))
     );
-    const excluirPublicacao = (id) => {
+    const excluirPublicacao = (id, paginaAtual) => {
       store.excluir(id,
         (response) => {
 
@@ -115,7 +119,7 @@ export default {
             type.value = "success";
             mensagem.value = "Publicação excluída com sucesso!.";
             alertaValidacao.value = true;
-            atualizarPagina();
+            atualizarPagina(paginaAtual);
           }
         },
         (error) => {
@@ -135,7 +139,8 @@ export default {
       type,
       mensagem,
       alertaValidacao,
-      usuarioLogado
+      usuarioLogado,
+      totalPages
     };
   },
 };
