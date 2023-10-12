@@ -11,7 +11,7 @@
           <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
-      <div class=" coment-hover ml-2" @click="totalComentarios > 0 ? toggleComments() : null">
+      <div class=" coment-hover ml-2" @click="toggleComments">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
           <v-icon>mdi-comment</v-icon>
         </v-badge>
@@ -112,6 +112,10 @@ export default {
     };
     const toggleComments = () => {
       showComments.value = !showComments.value;
+
+      if(interacoesMapeadas.value.lenght){
+        visualizarComentario.value = true;
+      }
 
       if (showComments.value) {
         loadComments();
@@ -233,7 +237,11 @@ export default {
       );
     };
     const showAdicionarComentario = () =>{
-      if(showComments.value === true){
+      if(totalComentarios.value === 0){
+        showComments.value = true;
+        visualizarComentario.value = !visualizarComentario.value;
+      }
+      if(totalComentarios.value > 0 && showComments.value === true){
         visualizarComentario.value = !visualizarComentario.value;
       }
       
