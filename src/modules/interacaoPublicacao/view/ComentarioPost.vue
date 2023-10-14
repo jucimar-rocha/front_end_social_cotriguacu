@@ -53,7 +53,7 @@
           <div class="ml-11 mt-n6 pa-3">
             <span class="comment-text" :title="comment.comentario">{{ comment.comentario }}</span>
           </div>
-          <v-btn>Excluir
+          <v-btn v-if="comment.usuario === usuarioLogado">Excluir
             <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
               :mensagem="'Deseja realmente excluir o comentario?'" @confirmar="excluir(comment.id)" />
           </v-btn>
@@ -90,6 +90,7 @@ export default {
   },
   setup(props) {
     const store = useInteracaoPublicacaoStore();
+    const usuarioLogado = sessionStorage.getItem('user');
     const showComments = ref(false);
     const interacoesMapeadas = computed(() => {
       return store.interacao[props.postId] || [];
@@ -269,7 +270,8 @@ export default {
       usuarioCurtiu,
       usuarioAmou,
       visualizarComentario,
-      showAdicionarComentario
+      showAdicionarComentario,
+      usuarioLogado
     };
   },
 }
@@ -280,7 +282,6 @@ export default {
   margin-bottom: 10px;
   padding: 5px;
   border: 1px solid #ddd;
-  background-color: #f9f9f9;
   border-radius: 10px;
 }
 
@@ -308,7 +309,6 @@ export default {
 .comment-card {
   margin: 1px;
   max-width: 100%;
-  background-color: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
@@ -341,7 +341,6 @@ export default {
 }
 
 .publicar-comentario {
-  background-color: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;

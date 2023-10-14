@@ -40,6 +40,7 @@
       <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="totalPages" size="14" rounded="circle"
         prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina(page)"></v-pagination>
     </div>
+    <LoadingDialog :dialog="loadingDialog" />
   </div>
 </template>
 
@@ -50,15 +51,16 @@ import { usePostUsuario } from '../store';
 import { computed, onMounted, ref } from 'vue';
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
+import LoadingDialog from '@/components/LoadingDialog.vue'
 
 export default {
   components: {
     PostForm,
     ComentarioPost,
     SnackValidatorCalisto,
-    ConfirmationDialog
+    ConfirmationDialog,
+    LoadingDialog
   },
-
   setup() {
     const store = usePostUsuario();
     const usuarioLogado = sessionStorage.getItem('user');
@@ -69,7 +71,7 @@ export default {
     const alertaValidacao = ref(false);
     const totalPostagens = computed(() => store.total);
     const totalPages = computed(() => Math.ceil(totalPostagens.value / postagensPorPagina));
-
+    const loadingDialog =  ref(false);
 
     const params = {
       numeroPagina: page.value,
@@ -90,10 +92,10 @@ export default {
       params.numeroPagina = page.value;
       await store.buscarListaPublicacao(params);
     };
-    const atualizarPagina = (novaPagina) => {      
-        page.value = novaPagina;
-        buscarListaPublicacao();
-      
+    const atualizarPagina = (novaPagina) => {
+      page.value = novaPagina;
+      buscarListaPublicacao();
+
     };
     onMounted(() => {
       store.buscarListaPublicacao(params);
@@ -140,7 +142,8 @@ export default {
       mensagem,
       alertaValidacao,
       usuarioLogado,
-      totalPages
+      totalPages,
+      loadingDialog
     };
   },
 };
@@ -158,9 +161,7 @@ export default {
 
 .post-card {
   max-width: 60%;
-  max-height: auto;
-  background-color: white;
-  border: 1px solid #ddd;
+  max-height: auto; 
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);

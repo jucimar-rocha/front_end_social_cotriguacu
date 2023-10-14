@@ -1,5 +1,5 @@
 <template>
-   <v-app-bar class="flex-grow-0 rounded-lg" flat  elevation="1">
+   <v-app-bar class="flex-grow-0 rounded-lg" flat elevation="1">
 
     <v-app-bar-nav-icon color="primary" @click="toogleBarraLateral"></v-app-bar-nav-icon>
 

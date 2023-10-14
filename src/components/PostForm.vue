@@ -11,7 +11,7 @@
       </v-card>      
     </template>
     <div class="d-flex justify-center">
-      <div class="post-form ma-5">
+      <v-card  class="post-form ma-5">
         <div class="d-flex">
           <avatar-usuario :openModal="false" class="ml-n4"/>
           <v-btn class="ml-auto mt-n3 mr-n3"  density="compact" variant="text" icon="mdi-close-thick" @click="closeDialog"></v-btn>          
@@ -29,7 +29,7 @@
 
         <div class="action-buttons">
           <v-dialog v-model="uploadDialog" max-width="600px" persistent>
-            <v-card style=" box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+            <v-card>
               <div class="d-flex justify-space-between">
                 <v-card-title>
                   Adicionar Foto/Vídeo
@@ -59,14 +59,14 @@
 
         <button class="publish-button" @click="publicarPost">
           Publicar
-        </button>
-      </div>
+        </button>      
       <SnackValidatorCalisto 
               v-model="alertaValidacao"  
               titulo="Publicação" 
               :mensagem="mensagem"
               :type="type"/>
-    </div>
+    </v-card>
+  </div>
     <LoadingDialog :dialog="loadingDialog" />
   </v-dialog>
 </template>
@@ -241,7 +241,7 @@ export default {
 
 <style scoped>
 .templete-span{
-  background-color: rgb(219, 223, 223); 
+  background-color: #b3b8bd; 
   padding: 10px; 
   border-radius: 15px; 
   width: 95%;  
@@ -250,8 +250,6 @@ export default {
   width: 50%;
   max-height: 80vh;
   align-content: center;
-  background-color: white;
-  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -259,9 +257,7 @@ export default {
 }
 .templet-post{
   max-width: 60%;
-  max-height: auto;
-  background-color: white;
-  border: 1px solid #ddd;
+  max-height: auto; 
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -305,7 +301,6 @@ export default {
 textarea {
   width: 100%;
   height: 100px;
-  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 8px;
   margin-bottom: 16px;
@@ -319,8 +314,6 @@ textarea {
 }
 
 .action-button {
-  background-color: #f5f6f7;
-  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
@@ -333,7 +326,6 @@ textarea {
 }
 
 .publish-button {
-  background-color: #1877f2;
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
