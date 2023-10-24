@@ -36,7 +36,11 @@ export default defineConfig({
     ],
   },
   server: {
+    fs: {
+      allow: ['..'],
+      strict: false,
+    },
     host: true,
     port: 8888
-  },
+  }
 })
