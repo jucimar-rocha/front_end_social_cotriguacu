@@ -1,4 +1,4 @@
-import PostUser from './View/PostagemUsuario.vue'
+import PostUser from './view/PostagemUsuario.vue'
 
 export default [
     { 
