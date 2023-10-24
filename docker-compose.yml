@@ -10,9 +10,9 @@ services:
     ports:
       - 8888:8888
     networks:
-      - tip-cotrigucu
+      - social-cotriguacu
     command: ['npm', 'run', 'dev']
 
 networks:
-  tip-cotrigucu:
+  social-cotriguacu:
     driver: bridge
