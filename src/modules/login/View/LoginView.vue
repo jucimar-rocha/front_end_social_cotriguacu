@@ -85,12 +85,15 @@ import { router } from '@/router'
 import { validarCpf, removerMascaras } from '/validacao-global'
 import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
 import requestHelper from '@/helpers/request'
+import LoadingDialog from '@/components/LoadingDialog.vue'
 
 export default {
     components: {
-      SnackValidatorCalisto
+      SnackValidatorCalisto,
+      LoadingDialog,
     },
     data: () => ({      
+        loadingDialog: false, 
         alertaValidacao: false,
         mensagem: '',
         loginOK: false,
@@ -106,7 +109,8 @@ export default {
 
         const { valid } = await this.$refs.form.validate();
         if(!valid) return;       
-
+        this.loadingDialog = true; 
+        
         try {
           this.usuario.cpf = removerMascaras(this.usuario.cpf);
           const request = new requestHelper();
@@ -120,6 +124,7 @@ export default {
             const { usuario, idUsuario, token } = response.data; 
             const authStore = useAuthStore();
             authStore.autenticarUsuario(usuario, idUsuario, token);
+            this.loadingDialog = false, 
             this.senha = '';
             router.push('/postUsuario');
 
@@ -130,12 +135,14 @@ export default {
           }          
         } catch (error) {
           if(error.message){
-            this.mensagem = error.response.data.mensagem;
+            error.message === 'Network Error' ? this.mensagem = "Api esta offline, tente novamente mais tarde" : this.mensagem = error.response.data.mensagem;
             this.alertaValidacao = true;
+            this.loadingDialog = false;
           }
           else{
             this.mensagem = "Desculpe, parece que estamos enfrentando problemas técnicos no momento e o nosso sistema de login não está disponível. Por favor, tente novamente mais tarde. Estamos trabalhando para resolver o problema o mais rápido possível. Agradecemos a sua paciência.";            
             this.alertaValidacao = true;
+            this.loadingDialog = false;
           }
          
         }

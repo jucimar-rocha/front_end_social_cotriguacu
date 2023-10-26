@@ -147,8 +147,7 @@ export default {
         } else {
           totalCurtidas = totalCurtidas + 1;
         }
-      }
-      
+      }      
       return atualizaEstadoVariaveisInteracao(id, usuarioCurtiuPost, totalCurtidas);
     }
 
@@ -163,10 +162,8 @@ export default {
     } 
 
     const adicionaInteracao = async (id) => {
-
      id === 1 ? defineInteracao(id, usuarioCurtiu.value, totalLikes.value) : defineInteracao(id, usuarioAmou.value, totalLoves.value);
       
-
       const idUsuarioStr = sessionStorage.getItem("idUsuario");
       const idUsuario = parseInt(idUsuarioStr);
 
