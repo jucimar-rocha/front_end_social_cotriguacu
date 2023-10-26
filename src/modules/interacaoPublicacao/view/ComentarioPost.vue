@@ -135,40 +135,37 @@ export default {
         usuarioAmou.value = response.data.usuarioLogadoLove;
       }
     };
+    
+    const defineInteracao = (id, usuarioCurtiuPost, totalCurtidas) =>{
+      if (usuarioCurtiuPost === true) {
+        usuarioCurtiuPost = false;
+        totalCurtidas = totalCurtidas === 0 ? 0 : totalCurtidas - 1;
+      } else {
+        usuarioCurtiuPost = true;
+        if (totalCurtidas === 0) {
+          totalCurtidas = totalCurtidas + 1;
+        } else {
+          totalCurtidas = totalCurtidas + 1;
+        }
+      }
+      
+      return atualizaEstadoVariaveisInteracao(id, usuarioCurtiuPost, totalCurtidas);
+    }
+
+    const atualizaEstadoVariaveisInteracao = (id, usuarioCurtiuPost, totalCurtidas) =>{
+      if(id ===1){
+            usuarioCurtiu.value = usuarioCurtiuPost;
+            totalLikes.value = totalCurtidas;
+      } else{
+            usuarioAmou.value = usuarioCurtiuPost;
+            totalLoves.value = totalCurtidas;
+      }
+    } 
+
     const adicionaInteracao = async (id) => {
 
-      if (id === 1) {
-        if (usuarioCurtiu.value === true) {
-          usuarioCurtiu.value = false;
-          totalLikes.value = totalLikes.value === 0 ? 0 : totalLikes.value - 1;
-        }
-        else {
-          usuarioCurtiu.value = true;
-          if (totalLikes.value === 0) {
-            totalLikes.value = totalLikes.value + 1;
-          }
-          else {
-            totalLikes.value = totalLikes.value + 1
-          }
-        }
-      }
-
-      if (id === 2) {
-        if (usuarioAmou.value === true) {
-          usuarioAmou.value = false;
-          totalLoves.value = totalLoves.value === 0 ? 0 : totalLoves.value - 1;
-        }
-        else {
-          usuarioAmou.value = true;
-          if (totalLoves.value === 0) {
-            totalLoves.value = totalLoves.value + 1;
-          }
-          else {
-            totalLoves.value = totalLoves.value + 1
-          }
-
-        }
-      }
+     id === 1 ? defineInteracao(id, usuarioCurtiu.value, totalLikes.value) : defineInteracao(id, usuarioAmou.value, totalLoves.value);
+      
 
       const idUsuarioStr = sessionStorage.getItem("idUsuario");
       const idUsuario = parseInt(idUsuarioStr);
