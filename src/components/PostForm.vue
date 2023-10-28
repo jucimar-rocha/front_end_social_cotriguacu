@@ -4,7 +4,7 @@
       <v-card class="templet-post ma-5 elevation-2" v-bind="props">
         <div class="d-flex align-center">
         <avatar-usuario :showUsername="false" :openModal="false" class="ml-n5 mt-1"/>
-          <span class="templete-span" :class="{'dark-mode': $vuetify.theme.dark}">
+          <span class="templete-span">
               No que você esta pensando ?
             </span>
         </div>
@@ -241,7 +241,6 @@ export default {
 
 <style scoped>
 .templete-span{
-  background-color: #b3b8bd; 
   padding: 10px; 
   border-radius: 15px; 
   width: 95%;  

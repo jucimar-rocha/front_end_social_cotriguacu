@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useAuthStore } from '@/modules/login/store';
 
 axios.interceptors.request.use(
   (config) => {
@@ -15,7 +14,7 @@ axios.interceptors.request.use(
 );
 
 export default class HttpRequest {
-  URL_BASE = 'https://localhost:7084/api';
+  URL_BASE = import.meta.env.VITE_BASE_URL;
 
   get(url, parametros, retorno, retornoErro, retornoFinally) {
     this.request(url, axios.get, parametros, retorno, retornoErro, retornoFinally)
