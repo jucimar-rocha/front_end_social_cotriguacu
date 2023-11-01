@@ -4,6 +4,7 @@ export default [
     { 
         path: '/cadastroUsuario', 
         name: 'CadastroUsuario',
-        component: CadastroUsuario 
+        component: CadastroUsuario,
+        meta: { requiresAuth: false }
     }
 ]

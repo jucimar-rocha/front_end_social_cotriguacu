@@ -4,6 +4,7 @@ export default [
     { 
         path: '/redefinirSenha', 
         name: 'RedefinirSenha',
-        component: RedefinirSenha 
+        component: RedefinirSenha,
+        meta: { requiresAuth: false } 
     }
 ]

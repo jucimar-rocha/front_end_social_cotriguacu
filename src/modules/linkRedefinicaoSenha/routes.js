@@ -4,7 +4,8 @@ export default [
     { 
         path: '/linkRedefinicaoSenha/:token',  
         name: 'LinkRedefinicaoSenha',     
-        component: LinkRedefinicaoSenha
+        component: LinkRedefinicaoSenha,
+        meta: { requiresAuth: false }
        
     }
 ]

@@ -22,10 +22,10 @@
         </v-btn>
       </div>
     </v-card-actions>
-
-    <transition name="fade">
+    <transition name="slide-fade">
       <v-card-text v-if="showComments" style="padding:0;">
-        <div class="publicar-comentario" v-show="interacoesMapeadas === null || visualizarComentario">
+        <transition :duration="1000" name="slide-fade">
+        <div class="publicar-comentario transition-element" v-show="interacoesMapeadas === null || visualizarComentario">
           <div class="ml-n4">
             <avatar-usuario :openModal="false" />
           </div>
@@ -37,7 +37,7 @@
             </button>
           </div>
         </div>
-
+     </transition>
         <div v-for="comment in interacoesMapeadas" :key="comment.id" class="comment">
           <div class="d-flex ma-1 align-center">
             <v-avatar>
@@ -59,9 +59,8 @@
           </v-btn>
         </div>
         <SnackValidatorCalisto v-model="alertaValidacao" titulo="Comentario" :mensagem="mensagem" :type="type" />
-      </v-card-text>
+      </v-card-text>  
     </transition>
-
   </v-card>
 </template>
   
@@ -271,7 +270,19 @@ export default {
 }
 </script>
   
-<style>
+<style scoped>
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
 .comment {
   margin-bottom: 10px;
   padding: 5px;
@@ -294,7 +305,7 @@ export default {
 }
 
 .love-hover:hover {
-  background-color: rgb(129, 61, 61);
+  background-color: rgb(250, 121, 121);
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   z-index: 2;
@@ -307,16 +318,6 @@ export default {
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 
 .publish-button {
@@ -340,6 +341,7 @@ export default {
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  transition: all 5.5s;
 }
 </style>
   

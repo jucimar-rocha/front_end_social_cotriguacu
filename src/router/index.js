@@ -22,24 +22,15 @@ export const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const store = useAuthStore();
   
-  if (to.name === 'CadastroUsuario') {
-    next();
-  } else if (to.name === 'LinkRedefinicaoSenha') { // Primeira letra em maiúscula
-    next();
-  } else if (to.name === 'RedefinirSenha') {
-    if (!store.isAuthenticate()) {
-      next();
-    } else {
-      next({ name: 'Login' });
-    }
-  } else if (to.name !== 'Login' && !store.isAuthenticate()) {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !store.isAuthenticate()) {
     next({ name: 'Login' });
-  } else if(to.name ==='Login' && store.isAuthenticate()){
+  } else if (!requiresAuth && store.isAuthenticate()) {
     next({ name: 'PostUsuario' });
   } else {
     next();
   }
 });
-
 
 export default router

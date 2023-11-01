@@ -4,6 +4,7 @@ export default [
     { 
         path: '/postUsuario', 
         name: 'PostUsuario',
-        component: PostUser 
+        component: PostUser,
+        meta: { requiresAuth: true }
     }
 ]
