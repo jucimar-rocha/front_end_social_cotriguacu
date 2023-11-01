@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent>
     <template v-slot:activator="{ props }">
-      <v-card class="templet-post ma-5 elevation-2" v-bind="props">
+      <v-card class="templet-post ma-5" v-bind="props">
         <div class="d-flex align-center">
         <avatar-usuario :showUsername="false" :openModal="false" class="ml-n5 mt-1"/>
           <span class="templete-span">

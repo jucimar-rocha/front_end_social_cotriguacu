@@ -1,8 +1,8 @@
 <template>
   <post-form @PostFormPostagemUsuario="atualizarPagina(page)" />
-  <div class="post-list">
-    <v-card v-for="postagem in postagensMapeadas" :key="postagem.id" class="post-card ma-5 elevation-2"
-      color="light-grey">
+  <div>
+    <v-card v-for="postagem in postagensMapeadas"  :key="postagem.id" class="post-card ma-5"
+      >
       <div class="d-flex ma-1 align-center">
         <v-avatar>
           <img :src="postagem.avatarUsuario" alt="User Avatar" />
@@ -165,6 +165,12 @@ export default {
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.post-card:hover{
+    transform: scale(1.01);
 }
 
 .user-name {
@@ -193,7 +199,7 @@ img {
 
 @media (max-width: 600px) {
   .post-card {
-    max-width: 100%;
+    max-width: 100%;    
   }
 
   .post-pagination {
