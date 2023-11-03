@@ -1,7 +1,7 @@
 <template>
    <v-app-bar class="flex-grow-0 rounded-lg" flat elevation="1">
 
-    <v-app-bar-nav-icon color="primary" @click="toogleBarraLateral"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon color="green" @click="toogleBarraLateral"></v-app-bar-nav-icon>
 
       <v-app-bar-title class="title-appbar">Media Social</v-app-bar-title>
 
@@ -9,13 +9,13 @@
       <div class="ml-auto">
       <v-btn class="text-none" stacked>
           <v-badge content="2" color="error">
-            <v-icon color="primary">mdi-bell-outline</v-icon>
+            <v-icon color="green">mdi-bell-outline</v-icon>
           </v-badge>
         </v-btn>
     
       <v-menu>        
             <template v-slot:activator="{ props }">
-              <v-btn class="v-btn--icon" color="primary" icon="mdi-logout" v-bind="props"></v-btn>
+              <v-btn class="v-btn--icon" color="green" icon="mdi-logout" v-bind="props"></v-btn>
             </template>
 
             <v-list>

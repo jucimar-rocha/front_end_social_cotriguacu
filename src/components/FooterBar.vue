@@ -9,7 +9,7 @@
           class="mx-4"
           :icon="icon"
           variant="text"
-          color="rgb(104, 146, 61)"
+          
         ></v-btn>
       </div>
   

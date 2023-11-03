@@ -243,7 +243,8 @@ export default {
 .templete-span{
   padding: 10px; 
   border-radius: 15px; 
-  width: 95%;  
+  width: 95%;
+  background-color: #e2e1e1;
 }
 
 .dark-mode-dark{
@@ -336,8 +337,9 @@ textarea {
   border-radius: 8px;
   padding: 12px 24px;
   font-size: 16px;
-  color: white;
+  color: rgb(255, 251, 251);
   cursor: pointer;
+  background-color: #047ef8;
 }
 
 .publish-button:hover {

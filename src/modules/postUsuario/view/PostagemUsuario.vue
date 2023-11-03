@@ -165,13 +165,13 @@ export default {
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s;
+  transition: all 0.3s;
   cursor: pointer;
 }
 
-.post-card:hover{
-    transform: scale(1.01);
-}
+/*.post-card:hover{
+    transform: scale(1.001);
+}*/
 
 .user-name {
   margin-left: 10px;
