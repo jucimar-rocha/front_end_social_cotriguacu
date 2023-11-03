@@ -40,8 +40,9 @@ const customLightTheme = {
       warning: '#f8b92b',
       info: '#4985A5',
       blue: '#355262',
-      background: '#FFFFFF',
+      background: '#efebeb',
       surface: '#FFFFFF',
+      green: '#355262',
       //transparent: 'transparent',
       'edit-button': '#f8b92b',     
     },
@@ -63,7 +64,7 @@ const defaults = {
 export default createVuetify({ 
   ssr: true, 
   theme: {
-    defaultTheme: "light",
+    defaultTheme: "customLightTheme",
     themes: {
       customDarkTheme,
       customLightTheme,
