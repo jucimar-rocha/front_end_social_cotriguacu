@@ -108,7 +108,7 @@
 
               try{
                 const request = new requestHelper(); 
-                const response = await request.post('/usuario/LinkRedefinirSenha/',{
+                const response = await request.post('/RedefinirSenha/LinkRedefinirSenha/',{
                 senha: this.usuario.senha,
                 token: this.$route.params.token,           
               });

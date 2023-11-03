@@ -110,7 +110,7 @@ export default {
         
           try{
             const request = new requestHelper(); 
-            const response = await request.post('/usuario/RedefinirSenha/',{
+            const response = await request.post('/RedefinirSenha/RedefinirSenha/',{
             cpf: this.usuario.cpf,
             email: this.usuario.email,
           });

@@ -25,7 +25,6 @@ export const useAuthStore = defineStore('autenticacao', {
 
     },
     logout() {
-      this.token = '';
       sessionStorage.removeItem('idUsuario');
       sessionStorage.removeItem('user');
       sessionStorage.removeItem('token');
@@ -41,6 +40,7 @@ export const useAuthStore = defineStore('autenticacao', {
       this.token = '';
       this.user = '';
       this.idUsuario = '';
+      
     },
 
   },

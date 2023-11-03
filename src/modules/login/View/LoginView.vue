@@ -114,7 +114,7 @@ export default {
         try {
           this.usuario.cpf = removerMascaras(this.usuario.cpf);
           const request = new requestHelper();
-          const response = await request.post("/Usuario/ValidarLoginSenha/", {
+          const response = await request.post("/Login/ValidarLoginSenha/", {
             cpf: this.usuario.cpf,
             senha: this.usuario.senha,
           });
