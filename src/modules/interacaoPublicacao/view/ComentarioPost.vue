@@ -3,12 +3,12 @@
     <v-card-actions class="ml-n2">
       <div class="love-hover" @click="adicionaInteracao(2)">
         <v-badge :content="totalLoves" color="grey-lighten-2">
-          <v-icon @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
+          <v-icon @mouseover="retornaListaUsuarioInteracao(2)" @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
         </v-badge>
       </div>
       <div class="like-hover ml-2" @click="adicionaInteracao(1)">
         <v-badge :content="totalLikes" color="grey-lighten-2">
-          <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
+          <v-icon @mouseover="retornaListaUsuarioInteracao(1)" @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
       <div class=" coment-hover ml-2" @click="toggleComments">
@@ -61,6 +61,19 @@
         <SnackValidatorCalisto v-model="alertaValidacao" titulo="Comentario" :mensagem="mensagem" :type="type" />
       </v-card-text>  
     </transition>
+    <!-- Caixa para mostrar nomes de usuários -->
+  <v-card  :value="showPopup">
+    <v-card-text>
+      <div>
+        <p>Users who liked/loved/commented:</p>
+        <ul>         
+          <li v-for="user in usersToShow.value && usersToShow.value._value" :key="user.usuario">{{ user.usuario }}</li>
+
+
+        </ul>
+      </div>
+    </v-card-text>
+  </v-card>
   </v-card>
 </template>
   
@@ -97,6 +110,7 @@ export default {
     const type = ref('');
     const mensagem = ref('');
     const alertaValidacao = ref(false);
+    const showPopup = ref(false);
     const postComentario = ref('');
     const totalLoves = ref('');
     const totalLikes = ref('');
@@ -104,6 +118,7 @@ export default {
     const usuarioCurtiu = ref(false);
     const usuarioAmou = ref(false);
     const visualizarComentario = ref(false);
+    const usersToShow = ref([]);
 
 
     const loadComments = async () => {
@@ -132,6 +147,20 @@ export default {
         totalComentarios.value = response.data.totalComentario;
         usuarioCurtiu.value = response.data.usuarioLogadoLike;
         usuarioAmou.value = response.data.usuarioLogadoLove;
+      }
+    };
+
+    const retornaListaUsuarioInteracao = async (id) => {
+      try {
+        const response = await store.bucarUsuarioInteracao(props.postId, id);
+
+        if (response) {
+          usersToShow.value = response;
+          showPopup.value = true;
+          console.log(usersToShow)
+        }
+      } catch (error) {
+        console.error("Erro ao buscar usuários de interação:", error);
       }
     };
     
@@ -176,6 +205,7 @@ export default {
       console.log(response);
 
     };
+
     const criarNovoComentario = async () => {
       try {
         const comentario = postComentario.value;
@@ -264,7 +294,10 @@ export default {
       usuarioAmou,
       visualizarComentario,
       showAdicionarComentario,
-      usuarioLogado
+      usuarioLogado,
+      showPopup,
+      usersToShow,
+      retornaListaUsuarioInteracao
     };
   },
 }

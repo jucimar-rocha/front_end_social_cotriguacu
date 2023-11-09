@@ -40,6 +40,19 @@ export const useInteracaoPublicacaoStore = defineStore('interacaoPublicacao', {
           return response;
         }      
     },
+    async bucarUsuarioInteracao(idPublicacao, idInteracao) {
+      const request = new requestHelper();
+    
+      return new Promise((resolve, reject) => {
+        request.get(`/Curtidas/BuscarUsuarioInteracoes/${idPublicacao}/${idInteracao}`, {}, (response) => {
+          if (response && response.data) {
+            resolve(response.data);
+          } else {
+            reject(new Error("Falha ao obter dados de interação"));
+          }
+        });
+      });
+    },
     criaInteracaoPublicacao(id, lista) {
       this.interacao[id] = lista.map(item => ({
         id: item.id,

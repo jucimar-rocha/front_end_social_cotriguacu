@@ -43,7 +43,7 @@ const customLightTheme = {
       background: '#efebeb',
       surface: '#FFFFFF',
       green: '#355262',
-      //transparent: 'transparent',
+      transparent: 'transparent',
       'edit-button': '#f8b92b',     
     },
   },
