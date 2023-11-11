@@ -348,7 +348,7 @@ export default {
   }
 }
 .v_card_principal{
-  position: relative; /* Certifique-se de que o pai tem posição relativa */
+  position: relative;
   overflow: visible;
 }
 .btn-flutante{
@@ -428,7 +428,6 @@ export default {
 }
 
 .comment-card {
-  
   margin: 1px;
   max-width: 100%;
   border: 1px solid #ddd;
