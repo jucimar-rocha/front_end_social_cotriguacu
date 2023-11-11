@@ -1,46 +1,54 @@
 <template>
-  <v-card elevation="0">
-    <v-card-actions class="ml-n2 mt-n1">
-      <div class="love-hover"  @mouseover="retornaListaUsuarioInteracao(2)" @mouseout="limpaListaUsuarioInteracao()" @click="adicionaInteracao(2)">
+  <v-card class="v_card_principal" elevation="0">
+    <v-card-actions style="justify-content: flex-end" class="ml-n2 mt-n1">
+      <div class="love-hover" @mouseover="retornaListaUsuarioInteracao(2)" @mouseout="limpaListaUsuarioInteracao()">
         <v-badge :content="totalLoves" color="grey-lighten-2">
-          <v-icon @click="toggleLove"
-            :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
-        </v-badge>        
+          <v-icon @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
+        </v-badge>
       </div>
-      <div class="like-hover ml-2" @mouseover="retornaListaUsuarioInteracao(1)" @mouseout="limpaListaUsuarioInteracao()" @click="adicionaInteracao(1)">
+      <div class="like-hover ml-2" @mouseover="retornaListaUsuarioInteracao(1)" @mouseout="limpaListaUsuarioInteracao()">
         <v-badge :content="totalLikes" color="grey-lighten-2">
-          <v-icon @click="toggleLike"
-            :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
+          <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
       <div class=" coment-hover ml-2">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
-          <v-icon>mdi-comment</v-icon>
+          <v-icon color="blue-accent-2">mdi-comment</v-icon>
         </v-badge>
       </div>
     </v-card-actions>
-    <v-card v-show="showPopup && usersToShow.length > 0" class="floating-card">        
-        <v-card-text>
-            <v-row v-for="user in usersToShow" :key="user.usuario" cols="6">
-              <v-row class="pa-3">{{ user.usuario }}</v-row>
-            </v-row>
-        </v-card-text>
-      </v-card>
-      <v-divider></v-divider>
-        <v-card-actions style="justify-content: space-around; align-items: center; margin: -10px;">       
-          <v-btn icon @click="toggleMenuInteracao" >
-            <v-icon color="grey pr-2">mdi-thumb-up-outline</v-icon>
-            Curtir
-          </v-btn>          
-          <v-btn icon @click="toggleComments">
-            <v-icon color="grey pr-2">mdi-comment-outline</v-icon>
-            Comentar
-          </v-btn>
-        </v-card-actions>
-    
+    <v-card v-show="showPopup && usersToShow.length > 0" class="floating-card">
+      <v-card-text>
+        <v-row v-for="user in usersToShow" :key="user.usuario" cols="6">
+          <v-row class="pa-3">{{ user.usuario }}</v-row>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-divider></v-divider>
+    <div class="botao-flutuante-interacao">
+      <v-btn class="btn-flutante" elevation="0" v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(1)">
+        <v-icon size="30" color="blue-accent-2">mdi-thumb-up</v-icon>
+      </v-btn>
+
+      <v-btn class="btn-flutante" elevation="0"  v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(2)">
+        <v-icon size="30" color="red lighten-2">mdi-heart</v-icon>
+      </v-btn> 
+    </div>
+    <v-card-actions style="justify-content: space-around; align-items: center; margin: -10px;">
+
+      <v-btn icon @click="toggleMenuFlutuante">
+        <v-icon color="grey pr-2">mdi-thumb-up-outline</v-icon>
+        Curtir
+      </v-btn>
+      <v-btn icon @click="toggleComments">
+        <v-icon color="grey pr-2">mdi-comment-outline</v-icon>
+        Comentar
+      </v-btn>
+    </v-card-actions>
+
     <v-divider class="mb-3"></v-divider>
     <transition name="slide-fade">
-      <v-card-text v-if="showComments" style="padding:0;">        
+      <v-card-text v-if="showComments" style="padding:0;">
         <div v-for="comment in interacoesMapeadas" :key="comment.id" class="comment">
           <div class="d-flex ma-1 align-center">
             <v-avatar>
@@ -54,22 +62,21 @@
                 <span style="font-size: 10px;" :title="comment.dataCriacao">{{ comment.dataCriacao }}</span>
               </div>
               <div style=" background-color: white;">
-              <v-btn v-if="comment.usuario === usuarioLogado" elevation="0" size="20" class="ma-0 pa-0 pl-4">
-                <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
-                :mensagem="'Deseja realmente excluir o comentario?'" @confirmar="excluir(comment.id)" />
-                <v-icon left>mdi-delete-empty</v-icon>
-                <v-tooltip activator="parent" location="top">Excluir</v-tooltip>
-              </v-btn>
+                <v-btn v-if="comment.usuario === usuarioLogado" elevation="0" size="20" class="ma-0 pa-0 pl-4">
+                  <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
+                    :mensagem="'Deseja realmente excluir o comentario?'" @confirmar="excluir(comment.id)" />
+                  <v-icon left>mdi-delete-empty</v-icon>
+                  <v-tooltip activator="parent" location="top">Excluir</v-tooltip>
+                </v-btn>
               </div>
             </div>
           </div>
           <div class="ml-11 mt-n6 pa-3">
             <span class="comment-text" :title="comment.comentario">{{ comment.comentario }}</span>
-          </div>          
+          </div>
         </div>
         <transition :duration="1000" name="slide-fade">
-          <div class="publicar-comentario transition-element"
-            v-show="true">
+          <div class="publicar-comentario transition-element" v-show="true">
             <div class="ml-n4">
               <avatar-usuario :openModal="false" />
             </div>
@@ -84,7 +91,7 @@
         </transition>
         <SnackValidatorCalisto v-model="alertaValidacao" titulo="Comentario" :mensagem="mensagem" :type="type" />
       </v-card-text>
-    </transition>    
+    </transition>
   </v-card>
 </template>
   
@@ -122,6 +129,7 @@ export default {
     const mensagem = ref('');
     const alertaValidacao = ref(false);
     const showPopup = ref(false);
+    const mostrarBotoesFlutuantes = ref(false);
     const postComentario = ref('');
     const totalLoves = ref('');
     const totalLikes = ref('');
@@ -171,7 +179,7 @@ export default {
       }
     };
 
-    const limpaListaUsuarioInteracao = () =>{
+    const limpaListaUsuarioInteracao = () => {
       showPopup.value = false;
     }
 
@@ -282,7 +290,11 @@ export default {
 
     };
     const toggleMenuInteracao = () => {
-     menu.value = !menu.value;
+      menu.value = !menu.value;
+    };
+
+    const toggleMenuFlutuante = () => {
+      mostrarBotoesFlutuantes.value = !mostrarBotoesFlutuantes.value;
     };
 
     onMounted(async () => {
@@ -314,25 +326,62 @@ export default {
       retornaListaUsuarioInteracao,
       limpaListaUsuarioInteracao,
       menu,
-      toggleMenuInteracao
+      toggleMenuInteracao,
+      toggleMenuFlutuante,
+      mostrarBotoesFlutuantes
     };
   },
 }
 </script>
   
 <style scoped>
-.floating-card {
-  padding: 5px;
-  padding-left: 15px;
-  top: 20px;
-  left: 25%;
-  width: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999; /* Certifique-se de que este valor seja maior do que outros elementos se necessário */
-  background-color: white; /* Ajuste conforme necessário */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 8px; /* Ajuste conforme necessário */
+
+@media(max-width: 980px){
+  .botao-flutuante-interacao{
+    width: 30%;
+  }
 }
+@media(min-width: 981px){
+  .botao-flutuante-interacao{
+    width: 20%;
+    margin-left: 15%;
+  }
+}
+.v_card_principal{
+  position: relative; /* Certifique-se de que o pai tem posição relativa */
+  overflow: visible;
+}
+.btn-flutante{
+  will-change: transform;
+  transition: transform 450ms;
+}
+.btn-flutante:hover{
+  transition: transform 125ms;
+  transform: translateY(-10px);
+}
+.botao-flutuante-interacao{
+  justify-content: space-around;
+  position: absolute;
+  top:-1%;
+  display: flex; 
+  z-index: 1000;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+.floating-card {
+  justify-content: space-around;
+  position: absolute;
+  left: auto;
+  right: 0;
+  display: flex; 
+  z-index: 1000;
+  color:white;
+  background-color: rgb(50, 46, 46);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
@@ -379,6 +428,7 @@ export default {
 }
 
 .comment-card {
+  
   margin: 1px;
   max-width: 100%;
   border: 1px solid #ddd;

@@ -167,6 +167,8 @@ export default {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
   cursor: pointer;
+  position: relative; /* Certifique-se de que o pai tem posição relativa */
+  overflow: visible;
 }
 
 /*.post-card:hover{
