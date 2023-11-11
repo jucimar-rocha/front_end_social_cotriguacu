@@ -55,7 +55,7 @@ export default {
 </script>
 <style scoped>
 .btn_sair:hover{
-  background-color: rgb(97, 131, 83);
+  background-color: rgb(143, 232, 108);
   border-radius: 10px;
 }
 

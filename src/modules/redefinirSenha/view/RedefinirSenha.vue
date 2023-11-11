@@ -3,7 +3,7 @@
   <v-container>
     <v-row class="mt-16" justify="center"  style="height: 50vh; align: center">
       <v-col>
-        <v-card class="mx-auto px-6 pt-5 pb-8 my-custom-card" max-width="344"  style="background-color: #ECEFF1;">      
+        <v-card class="mx-auto px-6 pt-5 pb-8 my-custom-card" max-width="344"  style="background-color: #ffffff;;">      
           <v-row class="mt-5" justify="space-around">
             <v-avatar size="80" color="#0e77a8" class="my-styles-avatar">
                 <v-img
