@@ -5,7 +5,7 @@
         <div class="d-flex align-center">
         <avatar-usuario :showUsername="false" :openModal="false" class="ml-n5 mt-1"/>
           <span class="templete-span">
-              No que você esta pensando ?
+              Quer adicionar um nova publicação?
             </span>
         </div>
       </v-card>      
@@ -249,7 +249,7 @@ export default {
   padding: 10px; 
   border-radius: 15px; 
   width: 95%;
-  background-color: #e2e1e1;
+  background-color: #e7e9e8;
 }
 
 .dark-mode-dark{

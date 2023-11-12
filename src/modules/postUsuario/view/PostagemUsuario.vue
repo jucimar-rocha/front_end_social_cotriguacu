@@ -37,7 +37,7 @@
     </v-card>
     <SnackValidatorCalisto v-model="alertaValidacao" titulo="Publicação" :mensagem="mensagem" :type="type" />
     <div v-if="postagensMapeadas.length > 0" class="d-flex justify-center post-pagination">
-      <v-pagination color="rgb(104, 146, 61) !important" v-model="page" :length="totalPages" size="14" rounded="circle"
+      <v-pagination color="rgb(1, 42, 64) !important" v-model="page" :length="totalPages" size="14" rounded="circle"
         prev-icon="mdi-menu-left" next-icon="mdi-menu-right" @click="atualizarPagina(page)"></v-pagination>
     </div>
     <LoadingDialog :dialog="loadingDialog" />

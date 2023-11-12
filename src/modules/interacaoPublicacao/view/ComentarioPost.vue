@@ -26,22 +26,22 @@
     </v-card>
     <v-divider></v-divider>
     <div class="botao-flutuante-interacao">
-      <v-btn class="btn-flutante" elevation="0" v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(1)">
+      <v-btn class="btn-flutante icon_color" elevation="0" v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(1)">
         <v-icon size="30" color="blue-accent-2">mdi-thumb-up</v-icon>
       </v-btn>
 
-      <v-btn class="btn-flutante" elevation="0"  v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(2)">
+      <v-btn class="btn-flutante icon_color" elevation="0"  v-if="mostrarBotoesFlutuantes" icon  @click="adicionaInteracao(2)">
         <v-icon size="30" color="red lighten-2">mdi-heart</v-icon>
       </v-btn> 
     </div>
     <v-card-actions style="justify-content: space-around; align-items: center; margin: -10px;">
 
       <v-btn icon @click="toggleMenuFlutuante">
-        <v-icon color="grey pr-2">mdi-thumb-up-outline</v-icon>
+        <v-icon color="#001F2B">mdi-thumb-up-outline</v-icon>
         Curtir
       </v-btn>
       <v-btn icon @click="toggleComments">
-        <v-icon color="grey pr-2">mdi-comment-outline</v-icon>
+        <v-icon color="#001F2B">mdi-comment-outline</v-icon>
         Comentar
       </v-btn>
     </v-card-actions>
@@ -341,11 +341,20 @@ export default {
     width: 30%;
   }
 }
-@media(min-width: 981px){
+@media(min-width: 981px) and (max-width: 1500px){
   .botao-flutuante-interacao{
     width: 20%;
     margin-left: 15%;
   }
+}
+@media(min-width: 1510px) and (max-width:2000px){
+  .botao-flutuante-interacao{
+    width: 10%;
+    margin-left: 20%;
+  }
+}
+.icon_color:hover{
+  background-color: rgb(255, 255, 255);
 }
 .v_card_principal{
   position: relative;
