@@ -13,7 +13,7 @@
       </div>
       <div class=" coment-hover ml-2">
         <v-badge :content="totalComentarios" color="grey-lighten-2">
-          <v-icon color="blue-accent-2">mdi-comment</v-icon>
+          <v-icon :color="totalComentarios > 0 ? 'teal-lighten-1' : 'grey'">mdi-comment</v-icon>
         </v-badge>
       </div>
     </v-card-actions>

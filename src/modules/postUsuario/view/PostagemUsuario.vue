@@ -30,7 +30,7 @@
           </video>
         </template>
         <template v-else-if="postagem.urlImagem">
-          <img :src="postagem.urlImagem" alt="Post" />
+          <img style="border-radius: 10px;" :src="postagem.urlImagem" alt="Post" />
         </template>
       </v-card-media>
       <comentario-post :postId="postagem.id" />
@@ -152,6 +152,7 @@ export default {
 <style scoped>
 .post-video {
   width: 100%;
+  border-radius: 10px;
 }
 
 .post-pagination {
