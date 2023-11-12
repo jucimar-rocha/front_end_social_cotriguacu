@@ -11,8 +11,8 @@
         <div class="ml-auto mt-n8">
           <span style="font-size: 10px;" :title="postagem.dataCriacao">{{ postagem.dataCriacao }}</span>
         </div>
-        <div class="mt-n8" :class="{ 'mr-n8': postagem.usuario === usuarioLogado }">
-          <v-btn variant="text" v-if="postagem.usuario === usuarioLogado">
+        <div class="mt-n8">
+          <v-btn size="20" class="ma-0 pa-0 pl-4"  variant="text" v-if="postagem.usuario === usuarioLogado">
             <ConfirmationDialog v-if="!apenasVisualizar" :titulo="'Excluir'"
               :mensagem="'Deseja realmente excluir esta publicação?'" @confirmar="excluirPublicacao(postagem.id, page)" />
             <v-icon left>mdi-delete-empty</v-icon>

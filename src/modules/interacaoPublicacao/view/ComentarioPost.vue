@@ -1,13 +1,13 @@
 <template>
   <v-card class="v_card_principal" elevation="0">
     <v-card-actions style="justify-content: flex-end" class="ml-n2 mt-n1">
-      <div class="love-hover" @mouseover="retornaListaUsuarioInteracao(2)" @mouseout="limpaListaUsuarioInteracao()">
-        <v-badge :content="totalLoves" color="grey-lighten-2">
+      <div class="love-hover">
+        <v-badge :content="totalLoves" color="grey-lighten-2"  @mouseover="retornaListaUsuarioInteracao(2)" @mouseleave="limpaListaUsuarioInteracao()">
           <v-icon @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
         </v-badge>
       </div>
-      <div class="like-hover ml-2" @mouseover="retornaListaUsuarioInteracao(1)" @mouseout="limpaListaUsuarioInteracao()">
-        <v-badge :content="totalLikes" color="grey-lighten-2">
+      <div class="like-hover ml-2" >
+        <v-badge :content="totalLikes" color="grey-lighten-2" @mouseover="retornaListaUsuarioInteracao(1)" @mouseleave="limpaListaUsuarioInteracao()">
           <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
@@ -19,7 +19,7 @@
     </v-card-actions>
     <v-card v-show="showPopup && usersToShow.length > 0" class="floating-card">
       <v-card-text>
-        <v-row v-for="user in usersToShow" :key="user.usuario" cols="6">
+        <v-row class="pl-2 pr-2" v-for="user in usersToShow" :key="user.usuario" cols="6">
           <v-row class="pa-3">{{ user.usuario }}</v-row>
         </v-row>
       </v-card-text>
@@ -80,7 +80,7 @@
             <div class="ml-n4">
               <avatar-usuario :openModal="false" />
             </div>
-            <QuillEditor placeholder="Adicione seu comentario!" theme="snow" v-model:content="postComentario"
+            <QuillEditor  placeholder="Adicione seu comentario!" theme="snow" v-model:content="postComentario"
               content-type="text" />
             <div>
               <button class="publish-button" @click="criarNovoComentario">

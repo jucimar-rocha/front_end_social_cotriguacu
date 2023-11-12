@@ -1,8 +1,7 @@
 <template>
   <v-app>
-    <v-row class="mt-16" justify="center"  style="height: 100vh; align: center">
-      <v-col>
-        <v-card class="mx-auto px-6 pt-5 pb-8 my-custom-card" max-width="344"  style="background-color: #ffffff;;">
+    <v-card class="mt-10" justify="center"  style="height: 100vh; align: center; background-color: #5d6768;">
+        <v-card class="mx-auto mt-10 px-6 pt-5 pb-8 my-custom-card" max-width="344"  style="background-color: #ffffff;;">
           
           <v-row class="mt-5" justify="space-around">
             <v-avatar size="80" color="#0e77a8" class="my-styles-avatar">
@@ -72,8 +71,7 @@
         :mensagem="mensagem"/>
 
       </v-card>
-      </v-col>
-    </v-row>
+    </v-card>
     <LoadingDialog :dialog="loadingDialog" />
   </v-app>
 </template>

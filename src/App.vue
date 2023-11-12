@@ -8,8 +8,9 @@
       <nav-bar />
       <v-main>
         <router-view />
+        <footer-bar />
       </v-main>
-      <footer-bar/>
+    
     </div>
   </v-app>
 </template>

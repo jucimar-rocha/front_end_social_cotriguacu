@@ -65,12 +65,13 @@ export default {
     }),
     mounted() {
         const idUsuario = sessionStorage.getItem('idUsuario');
-        this.avaterUsuario(idUsuario);
+        const idUsuarioInteiro = +idUsuario;
+        this.avaterUsuario(idUsuarioInteiro);
+
     },
     computed:{
         avatarUrl() {
-        const avatarStore = useAvatarStore();
-        return avatarStore.getAvatarUrl();
+            return useAvatarStore().getAvatarUrl();
         },
     },
     methods: {
@@ -78,9 +79,9 @@ export default {
             const request = new requestHelper();
             const avatarStore = useAvatarStore();
 
-            request.get(`/Usuario/BuscarPorId${idUsuario}`,{},
+            request.get(`/Usuario/BuscarPathAvatar${idUsuario}`,{},
                 function (response) {
-                    avatarStore.setAvatarUrl(response.data.pathAvatar);
+                    avatarStore.setAvatarUrl(response.data);
                 }
             );
         },

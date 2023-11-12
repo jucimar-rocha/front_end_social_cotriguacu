@@ -73,11 +73,12 @@
 
 <script>
 import { useAuthStore } from '@/modules/login/store';
-import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue'
-import LoadingDialog from '@/components/LoadingDialog.vue'
-import requestHelper from '@/helpers/request'
+import SnackValidatorCalisto from '@/components/SnackValidatorCalisto.vue';
+import LoadingDialog from '@/components/LoadingDialog.vue';
+import requestHelper from '@/helpers/request';
 import axios from 'axios';
 import AvatarUsuario from '../modules/avatarUsuario/view/AvatarUsuario.vue';
+import { useAvatarStore } from '@/modules/avatarUsuario/store';
 
 export default {
   components: {    
@@ -99,7 +100,11 @@ export default {
       loadingDialog: false,  
     };
   },
-
+  computed: {
+    avatarUrl() {
+      return useAvatarStore().getAvatarUrl();
+    },
+  },
   methods: {
     openUploadDialog() {
       this.uploadDialog = true;

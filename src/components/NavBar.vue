@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" :rail="isMobile ? false : rail"
-      :permanent="isMobile ? false : true" :flat="isMobile ? false : true" elevation="0">
+    <v-navigation-drawer class="rounded-be-lg" v-model="drawer" :rail="isMobile ? false : rail"
+      :permanent="isMobile ? false : true" :flat="isMobile ? false : true" elevation="1">
       <v-list class="mt-3">
         <avatar-usuario :showUsername="isMobile ? true : !rail" :openModal="true" />
       </v-list>
