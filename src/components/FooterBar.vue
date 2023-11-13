@@ -1,6 +1,7 @@
 <template>
     <v-footer
-      class="deep-purple-lighten-5 text-center d-flex flex-column" elevation="2"
+    style="height: 10px;"
+      class="d-flex flex-column" elevation="0"
     >
       <div>
         <v-btn
@@ -9,6 +10,7 @@
           class="mx-4"
           :icon="icon"
           variant="text"
+          color="rgb(1, 42, 6)"
           
         ></v-btn>
       </div>

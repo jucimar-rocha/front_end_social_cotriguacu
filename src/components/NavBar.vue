@@ -158,9 +158,13 @@ export default {
     isMobile: false,
   }),
   mounted() {
-    this.isMobile = window.innerWidth <= 600;
+    this.verificaMudancaTamanhoTela();
+    window.addEventListener('resize', this.verificaMudancaTamanhoTela);
   },
   methods: {
+    verificaMudancaTamanhoTela() {
+      this.isMobile = window.innerWidth <= 600;
+    },
     filterItemMenu(menuName) {
       menuName = menuName.toLowerCase();
       const filtro = this.textoFiltro.toLowerCase();

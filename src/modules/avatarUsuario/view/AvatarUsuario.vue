@@ -65,8 +65,11 @@ export default {
     }),
     mounted() {
         const idUsuario = sessionStorage.getItem('idUsuario');
+        
+        if (idUsuario) {
         const idUsuarioInteiro = +idUsuario;
         this.avaterUsuario(idUsuarioInteiro);
+    }
 
     },
     computed:{

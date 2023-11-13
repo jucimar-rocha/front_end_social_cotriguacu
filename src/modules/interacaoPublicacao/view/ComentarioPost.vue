@@ -139,6 +139,7 @@ export default {
     const visualizarComentario = ref(false);
     const usersToShow = ref([]);
     const menu = ref(false);
+    const hideListTimeout = ref(null);
 
     const loadComments = async () => {
       await store.buscarInteracoes(props.postId);
@@ -175,13 +176,15 @@ export default {
 
       if (response) {
         usersToShow.value = response
-        showPopup.value = true;
+        showPopup.value = true;        
       }
     };
 
     const limpaListaUsuarioInteracao = () => {
       showPopup.value = false;
+      usersToShow.value = null;
     }
+    
 
     const defineInteracao = (id, usuarioCurtiuPost, totalCurtidas) => {
       if (usuarioCurtiuPost === true) {
@@ -328,7 +331,8 @@ export default {
       menu,
       toggleMenuInteracao,
       toggleMenuFlutuante,
-      mostrarBotoesFlutuantes
+      mostrarBotoesFlutuantes,
+      hideListTimeout
     };
   },
 }
