@@ -5,7 +5,7 @@
         <div class="d-flex align-center">
         <avatar-usuario :showUsername="false" :openModal="false" class="ml-n5 mt-1"/>
           <span class="templete-span">
-              Quer adicionar um nova publicação?
+              Nova publicação
             </span>
         </div>
       </v-card>      

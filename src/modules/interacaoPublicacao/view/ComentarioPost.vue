@@ -2,12 +2,12 @@
   <v-card class="v_card_principal" elevation="0">
     <v-card-actions style="justify-content: flex-end" class="ml-n2 mt-n1">
       <div class="love-hover">
-        <v-badge :content="totalLoves" color="grey-lighten-2"  @mouseover="retornaListaUsuarioInteracao(2)" @mouseleave="limpaListaUsuarioInteracao()">
+        <v-badge :content="totalLoves" color="grey-lighten-2"  @mouseover="totalLoves > 0 ? retornaListaUsuarioInteracao(2) : null" @mouseleave="limpaListaUsuarioInteracao()">
           <v-icon @click="toggleLove" :color="usuarioAmou ? 'red lighten-2' : 'grey'">mdi-heart</v-icon>
         </v-badge>
       </div>
       <div class="like-hover ml-2" >
-        <v-badge :content="totalLikes" color="grey-lighten-2" @mouseover="retornaListaUsuarioInteracao(1)" @mouseleave="limpaListaUsuarioInteracao()">
+        <v-badge :content="totalLikes" color="grey-lighten-2" @mouseover="totalLoves > 0 ? retornaListaUsuarioInteracao(1) : null" @mouseleave="limpaListaUsuarioInteracao()">
           <v-icon @click="toggleLike" :color="usuarioCurtiu ? 'blue-accent-2' : 'grey'">mdi-thumb-up</v-icon>
         </v-badge>
       </div>
@@ -343,7 +343,7 @@ export default {
 }
 @media(min-width: 981px) and (max-width: 1500px){
   .botao-flutuante-interacao{
-    width: 20%;
+    width: 15%;
     margin-left: 15%;
   }
 }
@@ -376,7 +376,7 @@ export default {
   z-index: 1000;
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  border-radius: 20px;
 }
 .floating-card {
   justify-content: space-around;
@@ -413,27 +413,6 @@ export default {
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 10px;
-}
-
-.coment-hover:hover {
-  background-color: aqua;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  z-index: 2;
-}
-
-.like-hover:hover {
-  background-color: rgb(93, 148, 230);
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  z-index: 2;
-}
-
-.love-hover:hover {
-  background-color: rgb(250, 121, 121);
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  z-index: 2;
 }
 
 .comment-card {

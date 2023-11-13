@@ -98,7 +98,7 @@ export default {
 
     };
     onMounted(() => {
-      store.buscarListaPublicacao(params);
+      store.buscarListaPublicacao(params);      
     });
 
     const postagensMapeadas = computed(() =>

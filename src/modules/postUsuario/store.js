@@ -13,9 +13,13 @@ export const usePostUsuario = defineStore({
       try {
         const request = new requestHelper();
         const response = await request.post('/Publicacoes/BuscaListaPaginada', parametros);
-        this.definirListaPublicacao(response.data.value.itens);
-        this.total = response.data.value.total;
-        return response;
+        
+        if(response){
+          this.definirListaPublicacao(response.data.value.itens);
+          this.total = response.data.value.total;
+          return response;
+        }
+       
       } catch (error) {
         console.error(error);
         throw error;

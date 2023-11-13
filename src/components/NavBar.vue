@@ -12,10 +12,17 @@
       </v-list>
       <v-list>
         <v-list-item>
-          <v-text-field variant="underlined" class="condensed" v-model="textoFiltro" prepend-inner-icon="mdi-magnify" />
+          <v-text-field 
+          variant="underlined" 
+          class="condensed" 
+          v-model="textoFiltro" 
+          prepend-inner-icon="mdi-magnify" />
         </v-list-item>
-        <v-list-item v-for="[icon, text, href] in main" :key="icon" :to="href" v-show="filterItemMenu(text)"
-          class="list-item">
+        <v-list-item 
+        v-for="[icon, text, href] in main" 
+        :key="icon" :to="href" 
+        v-show="filterItemMenu(text)"
+        class="list-item">
           <template v-slot:prepend>
             <v-icon>{{ icon }}</v-icon>
           </template>
@@ -128,25 +135,25 @@ export default {
       ['mdi-home-outline', 'Inicio', '/postUsuario'],
     ],
     colaborador: [
-      ['', 'Holerite', '/postUsuario'],
-      ['', 'Férias', '/postUsuario'],
-      ['', 'Patrimônios', '/postUsuario'],
-      ['', 'OTRS', '/postUsuario'],
-      ['', 'Qualificações', '/postUsuario'],
+      ['', 'Holerite', ''],
+      ['', 'Férias', ''],
+      ['', 'Patrimônios', ''],
+      ['', 'OTRS', ''],
+      ['', 'Qualificações', ''],
     ],
     solicitacoes: [
-      ['', 'Viagem', '/postUsuario'],
-      ['', 'Reserva Veículo', '/postUsuario'],
-      ['', 'Reserva Sala', '/postUsuario'],
+      ['', 'Viagem', ''],
+      ['', 'Reserva Veículo', ''],
+      ['', 'Reserva Sala', ''],
     ],
     refeicao: [
-      ['mdi-food-fork-drink', 'Refeicão', '/postUsuario'],
+      ['mdi-food-fork-drink', 'Refeicão', ''],
     ],
     geral: [
-      ['', 'Ramais', '/postUsuario'],
-      ['', 'Padrões Cotriguaçu', '/postUsuario'],
-      ['', 'Normas', '/postUsuario'],
-      ['', 'Relatório Anual', '/postUsuario'],
+      ['', 'Ramais', ''],
+      ['', 'Padrões Cotriguaçu', ''],
+      ['', 'Normas', ''],
+      ['', 'Relatório Anual', ''],
     ],
     isMobile: false,
   }),
