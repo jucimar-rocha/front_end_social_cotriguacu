@@ -20,9 +20,11 @@
         </v-list-item>
         <v-list-item 
         v-for="[icon, text, href] in main" 
-        :key="icon" :to="href" 
+        :key="icon" 
+        :to="href" 
         v-show="filterItemMenu(text)"
-        class="list-item">
+        class="list-item"
+        >
           <template v-slot:prepend>
             <v-icon>{{ icon }}</v-icon>
           </template>
@@ -104,9 +106,9 @@
           </v-list-item>
         </v-list-group>
       </v-list>
-      <v-switch class="align-end" inset color="info" v-model="darkMode" @change="toggleTheme()"
+      <!--   <v-switch class="align-end" inset color="info" v-model="darkMode" @change="toggleTheme()"
         :label="`Tema ${darkMode ? 'Escuro' : 'Claro'}!`">
-      </v-switch>
+      </v-switch> -->
     </v-navigation-drawer>
     <app-bar @update="toggleRail" />
   </div>

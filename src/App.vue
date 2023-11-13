@@ -7,12 +7,11 @@
     <div v-show="isAuthenticated">
       <nav-bar />
       <v-main>
-        <div style="min-height: calc(100vh - 64px);"> <!-- 64px é uma estimativa da altura do nav-bar -->
+        <div style="min-height: calc(100vh - 64px);">
           <router-view />
         </div>
         <footer-bar />      
       </v-main>
-     
     </div>
   </v-app>
 </template>
