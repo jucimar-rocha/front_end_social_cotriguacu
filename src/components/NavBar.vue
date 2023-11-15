@@ -155,7 +155,7 @@ export default {
       ['', 'Ramais', ''],
       ['', 'Padrões Cotriguaçu', ''],
       ['', 'Normas', ''],
-      ['', 'Relatório Anual', ''],
+      ['', 'Relatório Anual', '/listaRelatorioAnual'],
     ],
     isMobile: false,
   }),

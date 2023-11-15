@@ -9,6 +9,7 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@bhplugin/vue3-datatable": "^1.1.3",
     "@devindex/vue-mask": "^2.0.3",
     "@mdi/font": "7.0.96",
     "@vueup/vue-quill": "^1.2.0",

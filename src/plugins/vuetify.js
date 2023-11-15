@@ -58,7 +58,7 @@ const defaults = {
     density: "compact"
   },
   VSelect: { variant: 'outlined', density: "compact" },
-  VForm: { VCol: { class: 'px-2 py-1'}}
+  VForm: { VCol: { class: 'px-n3 py-1'}}
 };
 
 export default createVuetify({ 
