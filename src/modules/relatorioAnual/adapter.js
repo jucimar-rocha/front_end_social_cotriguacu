@@ -1,3 +1,5 @@
+import {AppUtils} from "@/helpers/utils";
+
 export default class RelatorioAnualAdapter {
     adapter(dadosRetorno) {
         console.log(dadosRetorno)
@@ -10,8 +12,8 @@ export default class RelatorioAnualAdapter {
                     usuario: dado.usuario,
                     ano: dado.ano,
                     nomeDocumento: dado.nomeDocumento,
-                    dataCriacao: dado.dataCriacao,                  
-                    dataAlteracao: dado.dataAlteracao
+                    dataCriacao: AppUtils.FormatarDataHora(dado.dataCriacao),                  
+                    dataAlteracao: dado.dataAlteracao === null ? "" : AppUtils.FormatarDataHora(dado.dataAlteracao)
                     //status: dado.status,
                 });
             });

@@ -89,6 +89,10 @@ export default {
             this.disabledForm = false;
             this.dialog = false;
         },
+        abrirTelaCadastro(desabilitarFormulario) {
+      this.dialog = true;
+      this.disabledForm = desabilitarFormulario;
+    },
     },
 }
 </script>

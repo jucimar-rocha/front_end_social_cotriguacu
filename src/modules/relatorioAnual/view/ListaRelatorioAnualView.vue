@@ -7,7 +7,7 @@
             </v-col>
         </v-row>
         <v-row class="d-flex justify-end mr-4">
-            <CadastroRelatorioAnual :dialog="dialog"/>
+            <CadastroRelatorioAnual :valorEditar="relatorioAnual" ref="telaCadastro" :dialog="dialog" @salvar="recarregarTabela"/>
         </v-row>
         <v-row>
         <v-col cols="12">
@@ -17,7 +17,8 @@
               :url="'/RelatorioAnual/BuscaListaPaginada'"
               :isServerMode="true"          
               :adapter="adapterMethod"
-              @visualizar="visualizar"   
+              @visualizar="visualizar"
+              @excluir="excluir"   
               @alterar="alterar"/>
         </v-col>
       </v-row>
@@ -50,18 +51,22 @@ export default {
           { field: 'dataAlteracao', title: 'Data Alteração', type: 'string' }
           //{ field: 'Ativo', title: 'Status', type: 'bool', headerClass: 'd-block text-center pr-0', cellClass: 'text-center', filter: false, sort: false },
         ],        
+        relatorioAnual: {},
+        loadingDialog: false,
+        alertaValidacao: false,
+        mensagem: 'Não foi possível realizar esta operação.',
+        type: 'error',
       }
     },  
     methods:{
-        adapterMethod(dadosRetorno) {
-            console.log('Adapter Method chamado com dadosRetorno:', dadosRetorno);
+        adapterMethod(dadosRetorno) {            
         return new RelatorioAnualAdapter().adapter(dadosRetorno);
         },
         excluir(item) {
         var request = new requestHelper(),
             context = this;
         
-        request.delete('/Transportadora/' + item.id, { }, () => {
+        request.delete('/RelatorioAnual/' + item.id, { }, () => {
             context.$refs.dataTable.carregarDadosTabela();
         }, (error) => {
             context.exibirMensagemErro(error);
@@ -71,33 +76,33 @@ export default {
         this.$refs.dataTable.carregarDadosTabela();
         },
         visualizar(itemSelecionado) {
-      if(itemSelecionado) {
-        const contexto = this;
-        const store = new useRelatorioAnualStore();
+        if(itemSelecionado) {
+          const contexto = this;
+          const store = new useRelatorioAnualStore();
 
-        store.buscarTransportadora(itemSelecionado.id, (response) => {
-          store.definirDadosTransportadora(response.data);
-          contexto.$refs.telaCadastro.abrirTelaCadastro(true);
-        });
-
-      } else {
-        this.$refs.telaCadastro.limparValores();
-      }
-    },
-    alterar(transportadoraEditar) {
-      if(transportadoraEditar) {
-        const contexto = this;
-        const store = new useRelatorioAnualStore();
-
-        store.buscarTransportadora(transportadoraEditar.id, (response) => {
-            store.definirDadosTransportadora(response.data);
-            contexto.$refs.telaCadastro.abrirTelaCadastro(false);
+          store.buscarRelatorioAnual(itemSelecionado.id, (response) => {
+            store.definirDadosRelatorioAnual(response.data);
+            contexto.$refs.telaCadastro.abrirTelaCadastro(true);
           });
-        
-      } else {
-        this.$refs.telaCadastro.limparValores();
+
+        } else {
+          this.$refs.telaCadastro.limparValores();
+        }
+      },
+      alterar(transportadoraEditar) {
+        if(transportadoraEditar) {
+          const contexto = this;
+          const store = new useRelatorioAnualStore();
+
+          store.buscarRelatorioAnual(transportadoraEditar.id, (response) => {
+              store.definirDadosRelatorioAnual(response.data);
+              contexto.$refs.telaCadastro.abrirTelaCadastro(false);
+            });
+          
+        } else {
+          this.$refs.telaCadastro.limparValores();
+        }
       }
-    }
     }
     
 }

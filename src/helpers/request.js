@@ -19,11 +19,10 @@ export default class HttpRequest {
   get(url, parametros, retorno, retornoErro, retornoFinally) {
     this.request(url, axios.get, parametros, retorno, retornoErro, retornoFinally)
   }
-
+  
   post(url, parametros) {
     return axios.post(this.URL_BASE + url, parametros, this.getHeaderConfig());
   }
-
 
   put(url, parametros, retorno, retornoErro, retornoFinally) {
     this.request(url, axios.put, parametros, retorno, retornoErro, retornoFinally)

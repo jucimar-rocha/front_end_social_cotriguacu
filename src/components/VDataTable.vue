@@ -51,7 +51,7 @@
       </template>
 
       <template #actions="data">
-        <v-row class="d-inline-flex center">
+        <v-row class="d-inline-flex center flex-nowrap">
           <v-col v-show="showVisualizar" cols="auto">
             <v-tooltip
                 location="top"

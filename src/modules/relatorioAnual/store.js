@@ -21,9 +21,9 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
     limparDados() {
       this.$reset();
     },
-    buscarTransportadora(id, returnFunction) {
+    buscarRelatorioAnual(id, returnFunction) {
       const request = new requestHelper();
-      request.get('/RelatorioAnual/' + id, {}, (response) => {
+      request.get('/RelatorioAnual/BuscarPorId' + id, {}, (response) => {
         returnFunction(response);
       });
     },
@@ -87,6 +87,13 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
       };
       return relatorioAnual;
     },
+    definirDadosRelatorioAnual(dadosRelatorioAnual) {
+      this.id = dadosRelatorioAnual.id;
+      this.ano = dadosRelatorioAnual.ano;
+      this.NomeDocumento = dadosRelatorioAnual.NomeDocumento;
+      this.dataCriacao = dadosRelatorioAnual.dataCriacao;
+      this.dataAlteracao = dadosRelatorioAnual.dataAlteracao;
+  },
 
   }
 })
