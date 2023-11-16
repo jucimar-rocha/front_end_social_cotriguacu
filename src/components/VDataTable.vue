@@ -361,28 +361,23 @@ export default {
 
     buscaPaginada(urlUtilizada) {
       var requestHelper = new request(),
-          context = this;
+        context = this;
 
-      requestHelper.post(urlUtilizada, this.params,
-        (response) => {
+      requestHelper.post(urlUtilizada, this.params).then((response) => {
 
-          if(context.adapter) {
-            context.dadosTable = context.adapter(response.data.value);
-          } else {
-            context.dadosTable = response ? response.data.value : [];
-          }
-
-          context.totalRows = response?.data?.total;
-        },
-        function(error) {
-          console.error(error);
-          console.log('Nao foi possivel carregar os dados');
-        },
-        function() {
-          context.dialog = false;
+        if (context.adapter) {
+          context.dadosTable = context.adapter(response.data.value);
+        } else {
+          context.dadosTable = response ? response.data.value : [];
         }
-      );
-    },
+        context.totalRows = response?.data?.total;
+      }).catch((error) => {
+        console.log('Nao foi possivel carregar os dados', error);
+      }).finally(()=>{
+        context.dialog = false;
+      });
+
+  },
 
     buscaEstatica(urlUtilizada) {
       var requestHelper = new request(),

@@ -18,14 +18,5 @@ export default class RelatorioAnualAdapter {
             return  novaLista;
         }
     }
-    toValueObject(item) {
-        return {
-            id: item.id,
-            usuario: item.usuario,
-            ano: item.ano,
-            nomeDocumento: item.nomeDocumento,
-            dataCriacao: item.dataCriacao,
-            dataAlteracao: item.dataAlteracao
-        }
-    }
+    
 }

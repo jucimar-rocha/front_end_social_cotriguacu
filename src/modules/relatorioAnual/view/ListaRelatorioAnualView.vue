@@ -45,7 +45,7 @@ export default {
           { field: 'id', width: "50px", title: 'Id', cellClass: 'text-right', type: 'number', positiveNumber: true },
           { field: 'usuario', title: 'Usuario', type: 'string' },
           { field: 'ano', title: 'Ano', type: 'number'},
-          { field: 'nome', title: 'Nome Documento', type: 'string' },
+          { field: 'nomeDocumento', title: 'Nome Documento', type: 'string' },
           { field: 'dataCriacao', title: 'Data Cadastro', type: 'string' },
           { field: 'dataAlteracao', title: 'Data Alteração', type: 'string' }
           //{ field: 'Ativo', title: 'Status', type: 'bool', headerClass: 'd-block text-center pr-0', cellClass: 'text-center', filter: false, sort: false },
