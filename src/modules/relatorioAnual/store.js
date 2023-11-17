@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios';
 import requestHelper from '@/helpers/request'
 import { useAuthStore } from '@/modules/login/store';
+import {AppUtils} from "@/helpers/utils";
 
 
 export const useRelatorioAnualStore = defineStore('relatorioAnual', {
@@ -88,11 +89,12 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
       return relatorioAnual;
     },
     definirDadosRelatorioAnual(dadosRelatorioAnual) {
-      this.id = dadosRelatorioAnual.id;
-      this.ano = dadosRelatorioAnual.ano;
-      this.NomeDocumento = dadosRelatorioAnual.NomeDocumento;
-      this.dataCriacao = dadosRelatorioAnual.dataCriacao;
-      this.dataAlteracao = dadosRelatorioAnual.dataAlteracao;
+      this.Id = dadosRelatorioAnual.id;
+      this.Ano = dadosRelatorioAnual.ano;
+      this.NomeDocumento = dadosRelatorioAnual.nomeDocumento;
+      this.file = dadosRelatorioAnual.documentoBase64;
+      this.DataCriacao = AppUtils.FormatarDataHora(dadosRelatorioAnual.dataCriacao);
+      this.DataAlteracao = dadosRelatorioAnual.dataAlteracao === null ? "" : AppUtils.FormatarDataHora(dadosRelatorioAnual.dataAlteracao);
   },
 
   }

@@ -22,10 +22,10 @@
         </v-row>
         <v-row v-if="relatorioAnual.Id !== null">
             <v-col cols="12" md="6" sm="12" xs="12">
-                <v-text-field type="date" label="Data Cadastro" v-model="relatorioAnual.DataCriacao" readonly />
+                <v-text-field  label="Data Cadastro" v-model="relatorioAnual.DataCriacao" readonly />
             </v-col>
             <v-col cols="12" md="6" sm="12" xs="12">
-                <v-text-field type="date" label="Data Alteração" v-model="relatorioAnual.DataAlteracao" readonly />
+                <v-text-field  label="Data Alteração" v-model="relatorioAnual.DataAlteracao" readonly />
             </v-col>
         </v-row>
 

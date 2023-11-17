@@ -7,7 +7,7 @@
     <div v-show="isAuthenticated">
       <nav-bar />
       <v-main>
-        <div style="min-height: calc(100vh - 64px);">
+        <div style="min-height: calc(89vh - 64px);">
           <router-view />
         </div>
         <footer-bar />      

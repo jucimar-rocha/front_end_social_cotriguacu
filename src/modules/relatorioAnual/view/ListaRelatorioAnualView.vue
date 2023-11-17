@@ -15,11 +15,14 @@
               ref="dataTable"
               :colunas="columns"
               :url="'/RelatorioAnual/BuscaListaPaginada'"
-              :isServerMode="true"          
+              :isServerMode="true"
+              :show-editar="false"
+              :show-visualizar="false"       
               :adapter="adapterMethod"
               @visualizar="visualizar"
+              @alterar="alterar"
               @excluir="excluir"   
-              @alterar="alterar"/>
+              />
         </v-col>
       </v-row>
     </v-container>
@@ -43,13 +46,13 @@ export default {
     return {
           dialog: false,
           columns: [
-          { field: 'id', width: "50px", title: 'Id', cellClass: 'text-right', type: 'number', positiveNumber: true },
+          { field: 'id', width: "50px", title: 'Id', type: 'number', positiveNumber: true },
           { field: 'usuario', title: 'Usuario', type: 'string' },
           { field: 'ano', title: 'Ano', type: 'number'},
           { field: 'nomeDocumento', title: 'Nome Documento', type: 'string' },
-          { field: 'dataCriacao', title: 'Data Cadastro', type: 'string' },
-          { field: 'dataAlteracao', title: 'Data Alteração', type: 'string' }
-          //{ field: 'Ativo', title: 'Status', type: 'bool', headerClass: 'd-block text-center pr-0', cellClass: 'text-center', filter: false, sort: false },
+          { field: 'dataCriacao', title: 'Data Cadastro', type: 'date' },
+          //{ field: 'dataAlteracao', title: 'Data Alteração', type: 'string' }
+          { field: 'Ativo', title: 'Status', type: 'bool', headerClass: 'd-block text-center pr-0', cellClass: 'text-center', filter: false, sort: false },
         ],        
         relatorioAnual: {},
         loadingDialog: false,

@@ -13,7 +13,7 @@ export default class RelatorioAnualAdapter {
                     ano: dado.ano,
                     nomeDocumento: dado.nomeDocumento,
                     dataCriacao: AppUtils.FormatarDataHora(dado.dataCriacao),                  
-                    dataAlteracao: dado.dataAlteracao === null ? "" : AppUtils.FormatarDataHora(dado.dataAlteracao)
+                    //dataAlteracao: dado.dataAlteracao === null ? "" : AppUtils.FormatarDataHora(dado.dataAlteracao)
                     //status: dado.status,
                 });
             });
