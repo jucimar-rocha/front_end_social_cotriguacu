@@ -156,6 +156,7 @@ export default {
       ['', 'Padrões Cotriguaçu', ''],
       ['', 'Normas', ''],
       ['', 'Relatório Anual', '/listaRelatorioAnual'],
+      ['', 'Relatório Anual', '/RelatorioAnualUsuario'],
     ],
     isMobile: false,
   }),

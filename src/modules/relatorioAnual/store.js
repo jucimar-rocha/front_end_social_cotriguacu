@@ -8,7 +8,6 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
   state: () => {
     return {
       Id: null,
-      IdUsuario: null,
       Ano: null,
       NomeDocumento: '',
       file: [],
@@ -23,7 +22,7 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
     },
     buscarRelatorioAnual(id, returnFunction) {
       const request = new requestHelper();
-      request.get('/RelatorioAnual/BuscarPorId' + id, {}, (response) => {
+      request.get('/RelatorioAnual/BuscarRelatorioAnualPorId' + id, {}, (response) => {
         returnFunction(response);
       });
     },
@@ -88,11 +87,12 @@ export const useRelatorioAnualStore = defineStore('relatorioAnual', {
       return relatorioAnual;
     },
     definirDadosRelatorioAnual(dadosRelatorioAnual) {
-      this.id = dadosRelatorioAnual.id;
-      this.ano = dadosRelatorioAnual.ano;
-      this.NomeDocumento = dadosRelatorioAnual.NomeDocumento;
-      this.dataCriacao = dadosRelatorioAnual.dataCriacao;
-      this.dataAlteracao = dadosRelatorioAnual.dataAlteracao;
+      this.Id = dadosRelatorioAnual.id;
+      this.Ano = dadosRelatorioAnual.ano;
+      this.NomeDocumento = dadosRelatorioAnual.nomeDocumento;
+      this.file = dadosRelatorioAnual.
+      this.DataCriacao = dadosRelatorioAnual.dataCriacao;
+      this.DataAlteracao = dadosRelatorioAnual.dataAlteracao;
   },
 
   }

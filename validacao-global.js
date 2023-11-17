@@ -1,4 +1,3 @@
-// Função para validar CPF
 export function validarCpf(cpf) {
     // Remove caracteres não numéricos do CPF
     cpf = removerMascaras(cpf);
@@ -53,4 +52,5 @@ export function validarCpf(cpf) {
   export function removerMascaras(texto) {
     return texto.replace(/\D/g, '');
   }
+  
   

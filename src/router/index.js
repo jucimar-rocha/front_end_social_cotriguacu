@@ -5,6 +5,7 @@ import CadastroUsuarioRouter from '@/modules/cadastroUsuario/routes';
 import RedefinirSenhaRouter from '@/modules/redefinirSenha/routes';
 import PostUsuarioRouter from '@/modules/postUsuario/routes';
 import LinkRedefinicaoSenhaRouter from '@/modules/linkRedefinicaoSenha/routes';
+import RelatorioAnualUsuarioRouter from '@/modules/relatorioAnualUsuario/routes'
 import ListaRelatorioAnualRouter from '../modules/relatorioAnual/routes';
 
 export const router = createRouter({
@@ -16,7 +17,8 @@ export const router = createRouter({
     ...RedefinirSenhaRouter,
     ...PostUsuarioRouter,
     ...LinkRedefinicaoSenhaRouter,
-    ...ListaRelatorioAnualRouter
+    ...ListaRelatorioAnualRouter,
+    ...RelatorioAnualUsuarioRouter
 
   ]
 });
